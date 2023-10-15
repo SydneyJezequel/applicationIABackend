@@ -6,11 +6,26 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+
+
+
+
+
+/**
+ * Repository pour manipuler les Entités Personnes en Base de données.
+ *
+ */
 @Repository
 public interface PersonneRepository extends JpaRepository <Personne,Long> {
 
 
 
+
+    /**
+     * Requête qui renvoie la liste de toutes les Entités Personnes.
+     * @param liste <Personne>
+     * @return
+     */
     @Query("SELECT p FROM Personne p WHERE p.no_personne = :id")
     Personne findPersonneById(@Param("id") Long id);
 
@@ -18,3 +33,4 @@ public interface PersonneRepository extends JpaRepository <Personne,Long> {
 
 
 }
+

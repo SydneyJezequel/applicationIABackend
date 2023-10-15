@@ -7,8 +7,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 
+
+
+/**
+ * Classe de configuration Cors.
+ * Cette classe définit les requêtes acceptées (origines, type, etc.)
+ */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
+
+
 
 
     @Override
@@ -20,4 +28,7 @@ public class CorsConfig implements WebMvcConfigurer {
     }
 
 
+
+
 }
+

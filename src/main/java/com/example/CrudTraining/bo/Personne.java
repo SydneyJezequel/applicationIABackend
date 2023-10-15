@@ -4,6 +4,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 
+
+
+
+
+/**
+ * Entité Personne
+ */
 @Entity
 @Table(name="Personne")
 public class Personne {
@@ -33,6 +40,7 @@ public class Personne {
 
 
 
+
     // *************** Constructeur ***************
 
     public Personne() {}
@@ -55,8 +63,9 @@ public class Personne {
 
 
 
-    // *************** Getter / Setter ***************
 
+
+    // *************** Getter / Setter ***************
 
     public Long getNo_personne() {
         return no_personne;
@@ -102,3 +111,4 @@ public class Personne {
 
 
 }
+
