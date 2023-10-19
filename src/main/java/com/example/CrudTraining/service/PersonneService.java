@@ -1,6 +1,7 @@
 package com.example.CrudTraining.service;
 
 import com.example.CrudTraining.bo.Personne;
+import java.io.File;
 import java.util.List;
 
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 
 /**
- * Service pour manipuler les personnes.
+ * Service pour manipuler les entités Personnes.
  */
 public interface PersonneService {
 
@@ -55,6 +56,15 @@ public interface PersonneService {
      * @param id de la personne à supprimer.
      */
     public void delete (Long id);
+
+
+
+    /**
+     * Méthode qui intègre en base de données un fichier Excel contenant une liste de personne.
+     * @param file Excel qui contient la liste des personnes.
+     */
+    public List<Personne> importExcelPersonsFile(File file);
+
 
 
 

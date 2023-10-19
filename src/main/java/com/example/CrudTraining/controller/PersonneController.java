@@ -4,6 +4,7 @@ import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.service.PersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.io.File;
 import java.util.List;
 
 
@@ -16,8 +17,9 @@ import java.util.List;
  *
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/personne")
 public class PersonneController {
+
 
 
 
@@ -26,6 +28,7 @@ public class PersonneController {
 
     // ********************* Attributs *********************
     private final PersonneService personneService;
+
 
 
 
@@ -43,8 +46,8 @@ public class PersonneController {
 
 
 
-    // ********************* Méthodes *********************
 
+    // ********************* Méthodes *********************
 
 
     /**
@@ -61,8 +64,9 @@ public class PersonneController {
     /**
      * Méthode qui renvoie une Personne en fonction de son Id.
      * @return
+     *
      */
-    @GetMapping("/personne/{id}")
+    @GetMapping("/{id}")
     public Personne getById(@PathVariable("id") Long id){
         return personneService.getById(id);
     }
@@ -73,8 +77,9 @@ public class PersonneController {
      * Méthode qui enregistre une personne.
      * @param personne enregistrée
      * @return
+     *
      */
-    @PostMapping("/add_personne/")
+    @PostMapping("/add-personne/")
     public Personne createPersonne(@RequestBody Personne personne){
         return personneService.create(personne);
     }
@@ -82,26 +87,28 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui modifie une personne.
-     * @param personne enregistrée
-     * @return
-     */
-    @PutMapping("/edit_personne")
-    public Personne editPersonne(@RequestBody Personne personne){
-        return personneService.update(personne);
-    }
-
-
-
-    /**
      * Méthode qui supprime une Personne en fonction de son Id.
-     * @param Id de la personne à supprimer.
+     * @param id de la personne à supprimer.
+     *
      */
     @DeleteMapping("/delete/{id}")
     public void deletePersonne(@PathVariable("id") Long id)
     {
         personneService.delete(id);
     }
+
+
+
+    /**
+     * Méthode qui intègre en base de données un fichier Excel contenant une liste de personne.
+     * @param file qui contient la liste des personnes à intégrer.
+     *
+     */
+    @PostMapping("/import/excel")
+    public List<Personne> importExcelPersonsFile(@RequestParam("file") File file) {
+        return personneService.importExcelPersonsFile(file);
+    }
+
 
 
 

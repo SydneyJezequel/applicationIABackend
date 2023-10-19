@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface PersonneRepository extends JpaRepository <Personne,Long> {
+public interface PersonneRepository extends JpaRepository <Personne, Long> {
 
 
 
@@ -28,6 +28,8 @@ public interface PersonneRepository extends JpaRepository <Personne,Long> {
      */
     @Query("SELECT p FROM Personne p WHERE p.no_personne = :id")
     Personne findPersonneById(@Param("id") Long id);
+
+
 
 
 
