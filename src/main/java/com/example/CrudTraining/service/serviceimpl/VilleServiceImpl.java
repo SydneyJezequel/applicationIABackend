@@ -6,9 +6,11 @@ import com.example.CrudTraining.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
-
+import java.util.stream.Collectors;
 
 
 
@@ -78,23 +80,20 @@ public class VilleServiceImpl implements VilleService {
     public Ville[] getVilles(){
         // Chargement des villes de l'Api dans l'Array :
         Ville[] villes = getVillesromExternalApi();
+        List<Ville> villesTrie = new ArrayList<>();
         int nbVilleEnBdd = 0;
-        // Enregistrement de chaque ville dans la BDD :
+        // Tri et Enregistrement de chaque ville dans la BDD :
         try {
-            for(Ville ville : villes)
-            {
-                if(ville.getPopulation()>=90000L){
-                    Ville databaseVille = new Ville();
-                    databaseVille.setNom(ville.getNom());
-                    databaseVille.setCodeDepartement(ville.getCodeDepartement());
-                    databaseVille.setSiren(ville.getSiren());
-                    databaseVille.setCodeRegion(ville.getCodeRegion());
-                    databaseVille.setCodesPostaux(ville.getCodesPostaux());
-                    databaseVille.setPopulation(ville.getPopulation());
-                    villeRepository.save(databaseVille);
-                    nbVilleEnBdd++;
-                }
+            villesTrie = Arrays.stream(villes) // Création d'un flux
+                    .filter(ville -> ville.getPopulation() >= 90000L) // Filtre en fonction du nombre d'habitant.
+                    .sorted((ville1, ville2) -> ville1.getNom().compareTo(ville2.getNom())) // Tri par ordre alphabétique.
+                    .collect(Collectors.toList()); // Stockage dans une liste.
+
+            // Enregistrement de chaque élément de la liste dans la BDD (sens inverse pour conserver ordre alphabétique.
+            for(int i = villesTrie.size()-1 ; i>0; i--){
+                villeRepository.save(villesTrie.get(i));
             }
+            nbVilleEnBdd = villesTrie.size();
             // TRANSFORMER SYSTEM.OUT EN LOGGER :
             System.out.println("Nombre de villes enregistrées en BDD : "+ nbVilleEnBdd);
         } catch (Exception e){ // Gestion des Erreurs :

@@ -1,11 +1,9 @@
 package com.example.CrudTraining.controller;
 
-import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.bo.Ville;
 import com.example.CrudTraining.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 

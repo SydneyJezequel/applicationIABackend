@@ -1,7 +1,8 @@
 package com.example.CrudTraining.bo;
 
 import com.example.CrudTraining.bo.convertisseur.StringArrayConverter;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.CrudTraining.bo.convertisseur.StringArrayDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 
@@ -41,9 +42,16 @@ public class Ville {
     @Column(nullable = true, name ="code_region")
     private String codeRegion;
 
+
+
+    // ******************* TERMINER LES CORRECTIONS SUR LA DESERIALISATION DU JSON  ******************* //
+    @JsonDeserialize(using = StringArrayDeserializer.class)
     @Convert(converter = StringArrayConverter.class) // Convertit un tableau de chaînes en une seule chaîne pour le stockage en base de données et inversement.
     @Column(nullable = true, name ="code_codes")
     private String[] codesPostaux;
+    // ******************* TERMINER LES CORRECTIONS SUR LA DESERIALISATION DU JSON  ******************* //
+
+
 
     @Column(nullable = true, name ="population")
     private long population;
@@ -60,7 +68,6 @@ public class Ville {
 
     public Ville(){}
 
-
     public Ville(String nom, String codeDepartement, String siren, String codeRegion, String[] codesPostaux, long population) {
         this.nom = nom;
         this.codeDepartement = codeDepartement;
@@ -69,7 +76,6 @@ public class Ville {
         this.codesPostaux = codesPostaux;
         this.population = population;
     }
-
 
     public Ville(Long no_ville, String nom, String codeDepartement, String siren, String codeRegion, String[] codesPostaux, long population) {
         this.no_ville = no_ville;

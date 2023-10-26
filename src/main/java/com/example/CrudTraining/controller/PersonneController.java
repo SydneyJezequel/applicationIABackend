@@ -4,7 +4,10 @@ import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.service.PersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -104,10 +107,84 @@ public class PersonneController {
      * @param file qui contient la liste des personnes à intégrer.
      *
      */
-    @PostMapping("/import/excel")
-    public List<Personne> importExcelPersonsFile(@RequestParam("file") File file) {
+    @PostMapping("/import/excel/")
+    public List<Personne> importExcelPersonsFile(@RequestParam("file") MultipartFile file) throws IOException {
         return personneService.importExcelPersonsFile(file);
     }
+
+
+
+
+
+
+
+
+    // **********************************  TEST ********************************  //
+    // **********************************  TEST ********************************  //
+    // **********************************  TEST ********************************  //
+
+
+
+
+    // ********* CONTROLLER ********* //
+    @PostMapping("/upload")
+    public void uploadFile(@RequestBody String base64String) {
+        System.out.println("Fichier reçu en Base64 : " + base64String);
+        byte[] photoAStockerEnBdd = decodeBase64(base64String);
+        System.out.println(photoAStockerEnBdd);
+
+
+    }
+
+
+
+
+    // ********* ENCODEUR JAVA ********* //
+    public String convertToBase64(InputStream inputStream) throws IOException {
+
+        // Ouvre un flux d'entrée à partir d'un fichier
+        InputStream fis = inputStream;
+
+        // Lit le contenu du fichier dans un tableau d'octets
+        byte[] bytes = new byte[fis.available()];
+        fis.read(bytes);
+
+        // Encode le tableau d'octets en base64
+        String base64 = Base64.getEncoder().encodeToString(bytes);
+
+        // Ferme le flux d'entrée
+        fis.close();
+
+        // Retourne la chaîne base64
+        return base64;
+    }
+
+
+
+    // ********* DECODEUR JAVA ********* //
+    public byte[] decodeBase64(String base64Polygraphie) {
+        // Supprime les caractères "\\" de la chaîne
+        base64Polygraphie = base64Polygraphie.replace("\\", "");
+
+        // Supprime les caractères "\"" de la chaîne
+        base64Polygraphie = base64Polygraphie.replace("\"", "");
+
+        // Décode la chaîne en un tableau d'octets à l'aide de l'encodeur Base64
+        byte[] decoder = Base64.getDecoder().decode(base64Polygraphie);
+
+        // Retourne le tableau d'octets décodé
+        return decoder;
+    }
+
+
+
+
+
+    // **********************************  TEST ********************************  //
+    // **********************************  TEST ********************************  //
+    // **********************************  TEST ********************************  //
+
+
 
 
 

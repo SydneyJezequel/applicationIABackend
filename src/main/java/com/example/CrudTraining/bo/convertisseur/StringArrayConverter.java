@@ -7,6 +7,15 @@ import javax.persistence.Converter;
 
 
 
+
+
+
+
+
+/**
+ *  Classe qui convertit un String[] en String et une String en String[].
+ *
+ */
 @Converter
 public class StringArrayConverter implements AttributeConverter<String[], String> {
 
