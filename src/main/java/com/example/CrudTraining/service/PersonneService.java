@@ -2,10 +2,8 @@ package com.example.CrudTraining.service;
 
 import com.example.CrudTraining.bo.Personne;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -67,7 +65,81 @@ public interface PersonneService {
      * Méthode qui intègre en base de données un fichier Excel contenant une liste de personne.
      * @param file Excel qui contient la liste des personnes.
      */
-    public List<Personne> importExcelPersonsFile(MultipartFile file) throws IOException;
+    public boolean importExcelPersonsFile(MultipartFile file) throws IOException;
+
+
+
+    /**
+     * Méthode qui génère un fichier Excel.
+     *
+     */
+    public boolean generateExcel() throws IOException;
+
+
+
+    /**
+     * Méthode qui enregistre une photo sous forme de Byte Array en BDD.
+     * @param image convertie en base64.
+     * @return boolean : Succès de l'opération.
+     *
+     */
+    public boolean uploadPicture(String base64String);
+
+
+
+    /**
+     * Méthode pour convertir une String en Byte Array.
+     * @param image convertie en base64.
+     * @return byte[]
+     * @throws IOException
+     *
+     */
+    public byte[] decodeBase64(String base64String);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+
+    /**
+     * Méthode pour convertir
+     * @param inputStream
+     * @return String
+     * @throws IOException
+     */
+    public String convertToBase64(InputStream inputStream) throws IOException;
+
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+
+
+
+
+
+
+
+
+
 
 
 

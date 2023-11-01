@@ -3,8 +3,6 @@ package com.example.CrudTraining.service.serviceimpl;
 import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.repository.PersonneRepository;
 import com.example.CrudTraining.service.PersonneService;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -13,15 +11,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
+
 
 
 
@@ -37,6 +34,9 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
+
+
+
     // ********************* Lien avec le Repository *********************
     @Autowired
     PersonneRepository personneRepository;
@@ -45,9 +45,20 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
+
+
+
+    // ********************* Implémentation des logs *********************
+    private static final Logger logger = Logger.getLogger(PersonneServiceImpl.class.getName());
+
+
+
+
+
+
+
+
     // ********************* Méthodes *********************
-
-
     @Override
     public List<Personne> getAll(){
         return personneRepository.findAll();
@@ -84,7 +95,7 @@ public class PersonneServiceImpl implements PersonneService {
 
 
     @Override
-    public List<Personne> importExcelPersonsFile(MultipartFile file) throws IOException {
+    public boolean importExcelPersonsFile(MultipartFile file) throws IOException {
         // Liste de Personnes à intégrer :
         List<Personne> personnes = new ArrayList<>();
         try {
@@ -111,11 +122,95 @@ public class PersonneServiceImpl implements PersonneService {
             }
             // Enregistrement de la liste des personnes en BDD :
             personneRepository.saveAll(personnes);
+            logger.info("Méthode importExcelPersonsFile() exécutée avec succès.");
+            return true;
         }
-        catch (IOException e){ // Gestion des erreurs :
-            System.out.println("Erreur à l'insertion des données : " + e);
+        catch (IOException e) { // Gestion des erreurs :
+            logger.warning("Méthode importExcelPersonsFile() en erreur : " + e);
+            return false;
         }
-        return personneRepository.findAll(); // Renvoie de la liste des personnes.
+    }
+
+
+
+    @Override
+    public boolean generateExcel() throws IOException {
+        try {
+            // Récupération des données :
+            List<Personne> personnes = personneRepository.findAll();
+
+            // Création du fichier Excel et la feuille qui contient les données :
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Personnes");
+
+            // Création ligne d'en-tête du fichier Excel :
+            Row headerRow = sheet.createRow(0); // La nouvelle ligne fait partie de la feuille du fichier Excel.
+            headerRow.createCell(0).setCellValue("ID Personne");
+            headerRow.createCell(1).setCellValue("Nom");
+            headerRow.createCell(2).setCellValue("Prénom");
+            headerRow.createCell(3).setCellValue("Date de Naissance");
+            headerRow.createCell(4).setCellValue("Numéro de Sécurité Sociale");
+
+            // Remplir chaque ligne du fichier Excel avec une Personne :
+            int rowNum = 1;
+            for (Personne personne : personnes) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(personne.getNo_personne());
+                row.createCell(1).setCellValue(personne.getNom());
+                row.createCell(2).setCellValue(personne.getPrenom());
+                row.createCell(3).setCellValue(personne.getDate_naissance().toString()); // Assurez-vous de formater correctement la date
+                row.createCell(4).setCellValue(personne.getNo_securite_sociale());
+            }
+
+            // Fichier Excel ou sont chargées les données :
+            String filePath = "/Users/sjezequel/Desktop/Liste_personnes";
+            // Écriture des données dans le fichier Excel :
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+            }
+
+            workbook.close();
+            return true;
+        } catch (RuntimeException e)
+        {
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public boolean uploadPicture(String base64String)
+    {
+        try {
+            byte[] picture = decodeBase64(base64String);
+            /*
+            for(int i = 0; i<picture.length; i++){
+                System.out.print(picture[i]);
+            }
+            */
+            // TERMINER L'IMPLEMENTATION EN BDD.
+            // TERMINER L'IMPLEMENTATION EN BDD.
+            // TERMINER L'IMPLEMENTATION EN BDD.
+            // TERMINER L'IMPLEMENTATION EN BDD.
+            return true;
+        }catch (RuntimeException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public byte[] decodeBase64(String base64String) {
+        // Supprimer les caractères "\\" de la chaîne :
+        base64String = base64String.replace("\\", "");
+        // Supprimer les caractères "\"" de la chaîne :
+        base64String = base64String.replace("\"","");
+        // Retourner le tableau d'octets :
+        return Base64.getMimeDecoder().decode(base64String);
     }
 
 
@@ -125,5 +220,110 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+
+
+    // ********* ENCODEUR JAVA ********* //
+    public String convertToBase64(InputStream inputStream) throws IOException {
+        // Ouvre un flux d'entrée à partir d'un fichier
+        InputStream fis = inputStream;
+        // Lit le contenu du fichier dans un tableau d'octets
+        byte[] bytes = new byte[fis.available()];
+        fis.read(bytes);
+        // Encode le tableau d'octets en base64
+        String base64 = Base64.getEncoder().encodeToString(bytes);
+        // Ferme le flux d'entrée
+        fis.close();
+        // Retourne la chaîne base64
+        return base64;
+    }
+
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+    /*
+    public byte[] decodeBase64(String base64Polygraphie) {
+        // ************ TEST ********* //
+        System.out.println(base64Polygraphie);
+        // ************ TEST ********* //
+        // Supprime les caractères "\\" de la chaîne :
+        base64Polygraphie = base64Polygraphie.replace("\\", "");
+        // Supprime les caractères "\"" de la chaîne :
+        base64Polygraphie = base64Polygraphie.replace("\"","");
+        // Supprime les caractères "==}" de la chaîne :
+        // base64Polygraphie = base64Polygraphie.replace("==}", "");
+        // Ajout de la fin de String corrigée :
+        // base64Polygraphie = base64Polygraphie.concat("g==}");
+        // ************ TEST ********* //
+        System.out.println(base64Polygraphie);
+        // ************ TEST ********* //
+        byte[] decoder = Base64.getMimeDecoder().decode(base64Polygraphie);
+        // ************ TEST ********* //
+        System.out.println(base64Polygraphie);
+        // ************ TEST ********* //
+        // Retourne le tableau d'octets décodé
+        return decoder;
+    }
+    */
+    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+
+
+
+
+
+
+
+
+
+
 

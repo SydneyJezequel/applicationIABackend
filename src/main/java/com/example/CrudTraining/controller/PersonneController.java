@@ -108,81 +108,44 @@ public class PersonneController {
      *
      */
     @PostMapping("/import/excel/")
-    public List<Personne> importExcelPersonsFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public boolean importExcelFile(@RequestParam("file") MultipartFile file) throws IOException {
         return personneService.importExcelPersonsFile(file);
     }
 
 
 
+    /**
+     * Controller qui génère un fichier Excel.
+     * @return String
+     *
+     */
+    @GetMapping("/generateExcel")
+    public boolean generateExcelFile() {
+        // Récupérez la liste de personnes à partir de votre source de données (base de données, service, etc.)
+        try {
+            // Appelez le service pour générer le fichier Excel
+            return personneService.generateExcel();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 
-
-
-    // **********************************  TEST ********************************  //
-    // **********************************  TEST ********************************  //
-    // **********************************  TEST ********************************  //
-
-
-
-
-    // ********* CONTROLLER ********* //
+    /**
+     * Controller qui enregistre une photo en Base de données.
+     * @param base64String
+     * @return String
+     *
+     */
     @PostMapping("/upload")
-    public void uploadFile(@RequestBody String base64String) {
-        System.out.println("Fichier reçu en Base64 : " + base64String);
-        byte[] photoAStockerEnBdd = decodeBase64(base64String);
-        System.out.println(photoAStockerEnBdd);
-
-
+    public void uploadPicture(@RequestBody String base64String) {
+        personneService.uploadPicture(base64String);
     }
 
 
 
-
-    // ********* ENCODEUR JAVA ********* //
-    public String convertToBase64(InputStream inputStream) throws IOException {
-
-        // Ouvre un flux d'entrée à partir d'un fichier
-        InputStream fis = inputStream;
-
-        // Lit le contenu du fichier dans un tableau d'octets
-        byte[] bytes = new byte[fis.available()];
-        fis.read(bytes);
-
-        // Encode le tableau d'octets en base64
-        String base64 = Base64.getEncoder().encodeToString(bytes);
-
-        // Ferme le flux d'entrée
-        fis.close();
-
-        // Retourne la chaîne base64
-        return base64;
-    }
-
-
-
-    // ********* DECODEUR JAVA ********* //
-    public byte[] decodeBase64(String base64Polygraphie) {
-        // Supprime les caractères "\\" de la chaîne
-        base64Polygraphie = base64Polygraphie.replace("\\", "");
-
-        // Supprime les caractères "\"" de la chaîne
-        base64Polygraphie = base64Polygraphie.replace("\"", "");
-
-        // Décode la chaîne en un tableau d'octets à l'aide de l'encodeur Base64
-        byte[] decoder = Base64.getDecoder().decode(base64Polygraphie);
-
-        // Retourne le tableau d'octets décodé
-        return decoder;
-    }
-
-
-
-
-
-    // **********************************  TEST ********************************  //
-    // **********************************  TEST ********************************  //
-    // **********************************  TEST ********************************  //
 
 
 
@@ -191,4 +154,56 @@ public class PersonneController {
 
 
 }
+
+
+
+
+
+
+
+
+
+// **********************************  VERSION DE TEST ********************************  //
+// **********************************  VERSION DE TEST ********************************  //
+// **********************************  VERSION DE TEST ********************************  //
+    /*
+    public byte[] decodeBase64(String base64Polygraphie) {
+        // Supprime les caractères "\\" de la chaîne
+        base64Polygraphie = base64Polygraphie.replace("\\", "");
+
+        // Supprime les caractères "\"" de la chaîne
+        base64Polygraphie = base64Polygraphie.replace("\"","");
+        base64Polygraphie = base64Polygraphie.replace("{", "");
+        base64Polygraphie = base64Polygraphie.replace("}", "");
+        base64Polygraphie = base64Polygraphie.replace("==", "");
+        String base64Polygraphie2 = "{".concat(base64Polygraphie).concat("g==").concat("}");
+        // String base64Polygraphie2 = (base64Polygraphie).concat("}");
+        // System.out.println(base64Polygraphie2);
+        System.out.println(base64Polygraphie2);
+
+        // ******************** TEST *****************
+        // base64Polygraphie = base64Polygraphie.replace("7b", "");
+
+
+        // ******************** TEST *****************
+
+
+
+
+        // Décode la chaîne en un tableau d'octets à l'aide de l'encodeur Base64
+        // byte[] decoder = Base64.getDecoder().decode(base64Polygraphie);
+        // byte[] decoder = Base64.getUrlDecoder().decode(base64Polygraphie);
+        // byte[] decoder = Base64.getDecoder().decode(base64Polygraphie);
+        byte[] decoder = Base64.getMimeDecoder().decode(base64Polygraphie2);
+
+
+        // Retourne le tableau d'octets décodé
+        return decoder;
+    }
+
+    */
+// **********************************  VERSION DE TEST ********************************  //
+// **********************************  VERSION DE TEST ********************************  //
+// **********************************  VERSION DE TEST ********************************  //
+
 
