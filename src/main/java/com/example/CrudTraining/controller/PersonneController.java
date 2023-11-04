@@ -121,11 +121,38 @@ public class PersonneController {
      */
     @GetMapping("/generateExcel")
     public boolean generateExcelFile() {
-        // Récupérez la liste de personnes à partir de votre source de données (base de données, service, etc.)
         try {
-            // Appelez le service pour générer le fichier Excel
             return personneService.generateExcel();
         } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    /**
+     * Méthode qui intègre en base de données un fichier Csv contenant une liste de personne.
+     * @param file qui contient la liste des personnes à intégrer.
+     *
+     */
+    @PostMapping("/import/csv/")
+    public boolean importCsvFile(@RequestParam("file") MultipartFile file) throws IOException {
+        return personneService.importCsvPersonsFile(file);
+    }
+
+
+
+    /**
+     * Controller qui génère un fichier Excel.
+     * @return String
+     *
+     */
+    @GetMapping("/generateCsv")
+    public boolean generateCsvFile() {
+        try {
+            return personneService.generateCsv();
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return false;
         }

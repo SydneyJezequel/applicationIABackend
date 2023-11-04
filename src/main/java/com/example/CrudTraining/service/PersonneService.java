@@ -78,6 +78,22 @@ public interface PersonneService {
 
 
     /**
+     * Méthode qui génère un fichier Csv.
+     *
+     */
+    public boolean generateCsv();
+
+
+
+    /**
+     * Méthode qui intègre les données d'un fichier Csv en Base de données.
+     *
+     */
+    public boolean importCsvPersonsFile(MultipartFile file);
+
+
+
+    /**
      * Méthode qui enregistre une photo sous forme de Byte Array en BDD.
      * @param image convertie en base64.
      * @return boolean : Succès de l'opération.
@@ -122,11 +138,11 @@ public interface PersonneService {
 
     /**
      * Méthode pour convertir
-     * @param inputStream
      * @return String
      * @throws IOException
+     *
      */
-    public String convertToBase64(InputStream inputStream) throws IOException;
+    public String convertToBase64() throws IOException;
 
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //

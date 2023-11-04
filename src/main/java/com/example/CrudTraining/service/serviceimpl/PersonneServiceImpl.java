@@ -3,6 +3,9 @@ package com.example.CrudTraining.service.serviceimpl;
 import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.repository.PersonneRepository;
 import com.example.CrudTraining.service.PersonneService;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
+import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -158,7 +163,7 @@ public class PersonneServiceImpl implements PersonneService {
                 row.createCell(0).setCellValue(personne.getNo_personne());
                 row.createCell(1).setCellValue(personne.getNom());
                 row.createCell(2).setCellValue(personne.getPrenom());
-                row.createCell(3).setCellValue(personne.getDate_naissance().toString()); // Assurez-vous de formater correctement la date
+                row.createCell(3).setCellValue(personne.getDate_naissance().toString());
                 row.createCell(4).setCellValue(personne.getNo_securite_sociale());
             }
 
@@ -180,15 +185,89 @@ public class PersonneServiceImpl implements PersonneService {
 
 
     @Override
+    public boolean importCsvPersonsFile(MultipartFile file) {
+        try {
+            // Lecture des données du fichier et stockage en mémoire tampon :
+            BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            // Objet pour lire les données csv du Buffer :
+            CSVReader csvReader = new CSVReader(reader);
+            // Ligne du fichier CSV :
+            String[] ligne;
+            // Liste des personnes à sauvegarder en BDD :
+            List<Personne> personnes = new ArrayList<>();
+            // Instance pour formater la date :
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            // Lecture du fichier ligne par ligne :
+            while ((ligne = csvReader.readNext()) != null) { // S'il y a une ligne dans le fichier, on l'affecte à ligne.
+                // Création d'un objet Personne :
+                Personne personne = new Personne();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = dateFormat.parse(ligne[0]);
+                personne.setDate_naissance(parsedDate);
+                personne.setNo_securite_sociale(Long.parseLong(ligne[1]));
+                personne.setNom(ligne[2]);
+                personne.setPrenom(ligne[3]);
+                // Ajout de l'objet Personne à la liste :
+                personnes.add(personne);
+            }
+            // Enregistrement de la liste en BDD :
+            personneRepository.saveAll(personnes);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (CsvValidationException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    @Override
+    public boolean generateCsv() {
+        try {
+            // Récupération des données :
+            List<Personne> personnes = personneRepository.findAll();
+            // Path du fichier CSV ou sont chargées les données :
+            String filePath = "/Users/sjezequel/Desktop/Liste_personnes_csv";
+            // Création du fichier Csv :
+            CSVWriter writer = new CSVWriter(new FileWriter(filePath));
+            // Injection de l'en-tête dans le fichier CSV :
+            String[] entete = {"no personne", "date naissance", "no securite sociale", "nom", "prenom"};
+            writer.writeNext(entete);
+            // Injection des données dans le fichier CSV :
+            for(Personne personne : personnes){
+                String no_securite_sociale = String.valueOf(personne.getNo_securite_sociale());
+                String[] ligne = { personne.getNo_personne().toString(), personne.getDate_naissance().toString(), no_securite_sociale, personne.getNom(), personne.getPrenom() };
+                writer.writeNext(ligne);
+            }
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
+    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
+    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
+
+    @Override
     public boolean uploadPicture(String base64String)
     {
         try {
             byte[] picture = decodeBase64(base64String);
-            /*
-            for(int i = 0; i<picture.length; i++){
-                System.out.print(picture[i]);
-            }
-            */
+            Personne personne = new Personne();
+            personne.setPrenom("test prénom");
+            personne.setNom("test nom");
+            personne.setPhoto(picture);
+            personne.setNo_securite_sociale(1111111L);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            personne.setDate_naissance(new Date());
+            personneRepository.save(personne);
             // TERMINER L'IMPLEMENTATION EN BDD.
             // TERMINER L'IMPLEMENTATION EN BDD.
             // TERMINER L'IMPLEMENTATION EN BDD.
@@ -200,6 +279,10 @@ public class PersonneServiceImpl implements PersonneService {
             return false;
         }
     }
+    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
+    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
+    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
+
 
 
 
@@ -237,6 +320,22 @@ public class PersonneServiceImpl implements PersonneService {
 
 
     // ********* ENCODEUR JAVA ********* //
+    public String convertToBase64() throws IOException {
+        // Récupèration de la photo :
+        Personne personne = personneRepository.findPersonneById(101L);
+        byte[] bytes = personne.getPhoto();
+        // Encoder le tableau d'octets en base64 :
+        String base64 = Base64.getEncoder().encodeToString(bytes);
+        // Retourner la chaîne base64 :
+        return base64;
+    }
+    // ********* ENCODEUR JAVA ********* //
+
+
+    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
+    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
+    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
+    /*
     public String convertToBase64(InputStream inputStream) throws IOException {
         // Ouvre un flux d'entrée à partir d'un fichier
         InputStream fis = inputStream;
@@ -250,10 +349,17 @@ public class PersonneServiceImpl implements PersonneService {
         // Retourne la chaîne base64
         return base64;
     }
+    */
+    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
+    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
+    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
+
 
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+
+
 
 
 
