@@ -86,6 +86,14 @@ public class PersonneController {
     public Personne createPersonne(@RequestBody Personne personne){
         return personneService.create(personne);
     }
+    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
+    /*
+    @PostMapping("/add-personne/")
+    public Personne createPersonne(@RequestBody Personne personne, @RequestBody String photoBase64String){
+        return personneService.create(personne, photoBase64String);
+    }
+    */
+    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
 
 
 
@@ -180,57 +188,33 @@ public class PersonneController {
 
 
 
-}
+
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
 
 
 
-
-
-
-
-
-
-// **********************************  VERSION DE TEST ********************************  //
-// **********************************  VERSION DE TEST ********************************  //
-// **********************************  VERSION DE TEST ********************************  //
-    /*
-    public byte[] decodeBase64(String base64Polygraphie) {
-        // Supprime les caractères "\\" de la chaîne
-        base64Polygraphie = base64Polygraphie.replace("\\", "");
-
-        // Supprime les caractères "\"" de la chaîne
-        base64Polygraphie = base64Polygraphie.replace("\"","");
-        base64Polygraphie = base64Polygraphie.replace("{", "");
-        base64Polygraphie = base64Polygraphie.replace("}", "");
-        base64Polygraphie = base64Polygraphie.replace("==", "");
-        String base64Polygraphie2 = "{".concat(base64Polygraphie).concat("g==").concat("}");
-        // String base64Polygraphie2 = (base64Polygraphie).concat("}");
-        // System.out.println(base64Polygraphie2);
-        System.out.println(base64Polygraphie2);
-
-        // ******************** TEST *****************
-        // base64Polygraphie = base64Polygraphie.replace("7b", "");
-
-
-        // ******************** TEST *****************
-
-
-
-
-        // Décode la chaîne en un tableau d'octets à l'aide de l'encodeur Base64
-        // byte[] decoder = Base64.getDecoder().decode(base64Polygraphie);
-        // byte[] decoder = Base64.getUrlDecoder().decode(base64Polygraphie);
-        // byte[] decoder = Base64.getDecoder().decode(base64Polygraphie);
-        byte[] decoder = Base64.getMimeDecoder().decode(base64Polygraphie2);
-
-
-        // Retourne le tableau d'octets décodé
-        return decoder;
+    // ********* ENCODEUR JAVA ********* //
+    // ********* ENCODEUR JAVA ********* //
+    // ********* ENCODEUR JAVA ********* //
+    @GetMapping("/image-base64")
+    public String getImagebase64() throws IOException {
+        return personneService.convertToBase64();
     }
-
-    */
-// **********************************  VERSION DE TEST ********************************  //
-// **********************************  VERSION DE TEST ********************************  //
-// **********************************  VERSION DE TEST ********************************  //
+    // ********* ENCODEUR JAVA ********* //
+    // ********* ENCODEUR JAVA ********* //
+    // ********* ENCODEUR JAVA ********* //
 
 
+
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
+
+
+
+
+
+
+}

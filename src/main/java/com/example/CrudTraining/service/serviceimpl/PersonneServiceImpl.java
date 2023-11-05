@@ -82,6 +82,17 @@ public class PersonneServiceImpl implements PersonneService {
     public Personne create(Personne personne){
         return personneRepository.save(personne);
     }
+    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
+    /*
+    @Override
+    public Personne create(Personne personne, String photoBase64String){
+        // Ajout de la photo sur l'objet Personne :
+        personne.setPhoto(decodeBase64(photoBase64String));
+        // Sauvegarde en BDD :
+        return personneRepository.save(personne);
+    }
+    */
+    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
 
 
 
@@ -332,41 +343,9 @@ public class PersonneServiceImpl implements PersonneService {
     // ********* ENCODEUR JAVA ********* //
 
 
-    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
-    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
-    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
-    /*
-    public String convertToBase64(InputStream inputStream) throws IOException {
-        // Ouvre un flux d'entrée à partir d'un fichier
-        InputStream fis = inputStream;
-        // Lit le contenu du fichier dans un tableau d'octets
-        byte[] bytes = new byte[fis.available()];
-        fis.read(bytes);
-        // Encode le tableau d'octets en base64
-        String base64 = Base64.getEncoder().encodeToString(bytes);
-        // Ferme le flux d'entrée
-        fis.close();
-        // Retourne la chaîne base64
-        return base64;
-    }
-    */
-    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
-    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
-    // ********* ENCODEUR JAVA - VERSION ORIGINALE ********* //
-
-
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-
-
-
-
-
-
-
-
-
 
 
 
@@ -422,14 +401,4 @@ public class PersonneServiceImpl implements PersonneService {
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
-
-
-
-
-
-
-
-
-
-
 

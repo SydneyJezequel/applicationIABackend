@@ -41,6 +41,11 @@ public interface PersonneService {
      * @return Personne enregistré.
      */
     public Personne create(Personne personne);
+    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
+    /*
+    public Personne create(Personne personne, String photoBase64String);
+    */
+    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
 
 
 
@@ -132,6 +137,10 @@ public interface PersonneService {
 
 
 
+
+
+
+
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
@@ -147,15 +156,6 @@ public interface PersonneService {
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
     // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-
-
-
-
-
-
-
-
-
 
 
 
