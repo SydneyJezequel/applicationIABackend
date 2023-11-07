@@ -23,8 +23,9 @@ public interface PersonneRepository extends JpaRepository <Personne, Long> {
 
     /**
      * Requête qui renvoie la liste de toutes les Entités Personnes.
-     * @param liste <Personne>
+     * @param id d'une Personne.
      * @return
+     *
      */
     @Query("SELECT p FROM Personne p WHERE p.no_personne = :id")
     Personne findPersonneById(@Param("id") Long id);

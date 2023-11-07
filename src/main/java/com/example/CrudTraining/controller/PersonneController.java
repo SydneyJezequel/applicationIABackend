@@ -1,13 +1,12 @@
 package com.example.CrudTraining.controller;
 
 import com.example.CrudTraining.bo.Personne;
+import com.example.CrudTraining.controller.dto.PersonneDTO;
 import com.example.CrudTraining.service.PersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Base64;
 import java.util.List;
 
 
@@ -78,22 +77,14 @@ public class PersonneController {
 
     /**
      * Méthode qui enregistre une personne.
-     * @param personne enregistrée
+     * @param personneDTO
      * @return
      *
      */
     @PostMapping("/add-personne/")
-    public Personne createPersonne(@RequestBody Personne personne){
-        return personneService.create(personne);
+    public Personne createPersonne(@RequestBody PersonneDTO personneDTO){
+        return personneService.create(personneDTO.getPersonne(), personneDTO.getPhotoBase64String());
     }
-    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
-    /*
-    @PostMapping("/add-personne/")
-    public Personne createPersonne(@RequestBody Personne personne, @RequestBody String photoBase64String){
-        return personneService.create(personne, photoBase64String);
-    }
-    */
-    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
 
 
 
@@ -168,16 +159,6 @@ public class PersonneController {
 
 
 
-    /**
-     * Controller qui enregistre une photo en Base de données.
-     * @param base64String
-     * @return String
-     *
-     */
-    @PostMapping("/upload")
-    public void uploadPicture(@RequestBody String base64String) {
-        personneService.uploadPicture(base64String);
-    }
 
 
 
@@ -189,28 +170,19 @@ public class PersonneController {
 
 
 
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
 
 
-
-    // ********* ENCODEUR JAVA ********* //
-    // ********* ENCODEUR JAVA ********* //
-    // ********* ENCODEUR JAVA ********* //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
     @GetMapping("/image-base64")
     public String getImagebase64() throws IOException {
         return personneService.convertToBase64();
     }
-    // ********* ENCODEUR JAVA ********* //
-    // ********* ENCODEUR JAVA ********* //
-    // ********* ENCODEUR JAVA ********* //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
 
-
-
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
 
 
 
@@ -218,3 +190,4 @@ public class PersonneController {
 
 
 }
+

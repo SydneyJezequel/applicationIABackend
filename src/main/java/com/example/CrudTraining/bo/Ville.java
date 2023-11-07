@@ -3,7 +3,6 @@ package com.example.CrudTraining.bo;
 import com.example.CrudTraining.bo.convertisseur.StringArrayConverter;
 import com.example.CrudTraining.bo.convertisseur.StringArrayDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import javax.persistence.*;
 
 

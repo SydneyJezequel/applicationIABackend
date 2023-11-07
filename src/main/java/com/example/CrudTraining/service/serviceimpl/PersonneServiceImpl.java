@@ -79,20 +79,12 @@ public class PersonneServiceImpl implements PersonneService {
 
 
     @Override
-    public Personne create(Personne personne){
-        return personneRepository.save(personne);
-    }
-    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
-    /*
-    @Override
     public Personne create(Personne personne, String photoBase64String){
         // Ajout de la photo sur l'objet Personne :
         personne.setPhoto(decodeBase64(photoBase64String));
         // Sauvegarde en BDD :
         return personneRepository.save(personne);
     }
-    */
-    // *********************** NOUVELLE VERSION DE LA METHODE ********************* //
 
 
 
@@ -262,40 +254,6 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
-    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
-    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
-    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
-
-    @Override
-    public boolean uploadPicture(String base64String)
-    {
-        try {
-            byte[] picture = decodeBase64(base64String);
-            Personne personne = new Personne();
-            personne.setPrenom("test prénom");
-            personne.setNom("test nom");
-            personne.setPhoto(picture);
-            personne.setNo_securite_sociale(1111111L);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            personne.setDate_naissance(new Date());
-            personneRepository.save(personne);
-            // TERMINER L'IMPLEMENTATION EN BDD.
-            // TERMINER L'IMPLEMENTATION EN BDD.
-            // TERMINER L'IMPLEMENTATION EN BDD.
-            // TERMINER L'IMPLEMENTATION EN BDD.
-            return true;
-        }catch (RuntimeException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
-    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
-    // ********************************** TERMINER IMPLEMENTATION METHODE ********************************  //
-
-
-
 
     @Override
     public byte[] decodeBase64(String base64String) {
@@ -303,6 +261,13 @@ public class PersonneServiceImpl implements PersonneService {
         base64String = base64String.replace("\\", "");
         // Supprimer les caractères "\"" de la chaîne :
         base64String = base64String.replace("\"","");
+
+        // ************ TEST ********* //
+        // Supprime les caractères "==}" de la chaîne :
+        base64String = base64String.replace("==}", "g==}");
+        System.out.println(base64String);
+        // ************ TEST ********* //
+
         // Retourner le tableau d'octets :
         return Base64.getMimeDecoder().decode(base64String);
     }
@@ -319,51 +284,17 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
 
-
-
-
-
-
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-
-
-    // ********* ENCODEUR JAVA ********* //
-    public String convertToBase64() throws IOException {
-        // Récupèration de la photo :
-        Personne personne = personneRepository.findPersonneById(101L);
-        byte[] bytes = personne.getPhoto();
-        // Encoder le tableau d'octets en base64 :
-        String base64 = Base64.getEncoder().encodeToString(bytes);
-        // Retourner la chaîne base64 :
-        return base64;
+    public String convertToBase64() throws IOException{
+        return "A implémenter";
     }
-    // ********* ENCODEUR JAVA ********* //
 
-
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-    // **********************************  TEST ENCODAGE/DECODAGE ********************************  //
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    // *************************** TEST RECUPERER UNE IMAGE *************************** //
 
 
 
@@ -401,4 +332,10 @@ public class PersonneServiceImpl implements PersonneService {
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
+
+
+
+
+
+}
 
