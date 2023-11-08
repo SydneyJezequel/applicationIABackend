@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Entité Personne
+ *
  */
 @Entity
 @Table(name="personne")
@@ -18,7 +19,8 @@ public class Personne {
 
 
 
-    // *************** Attributs ***************
+
+    // *************************** Attributs *************************** //
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name="id_personne")
@@ -44,8 +46,7 @@ public class Personne {
 
 
 
-
-    // *************** Constructeur ***************
+    // *************************** Constructeur *************************** //
 
     public Personne() {}
 
@@ -77,8 +78,7 @@ public class Personne {
 
 
 
-
-    // *************** Getter / Setter ***************
+    // *************************** Getter / Setter *************************** //
 
     public Long getNo_personne() {
         return no_personne;
@@ -123,6 +123,7 @@ public class Personne {
     public byte[] getPhoto() { return photo; }
 
     public void setPhoto(byte[] photo) { this.photo = photo; }
+
 
 
 

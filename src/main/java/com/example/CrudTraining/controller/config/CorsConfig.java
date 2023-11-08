@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Classe de configuration Cors.
  * Cette classe définit les requêtes acceptées (origines, type, etc.)
+ *
  */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
@@ -21,7 +22,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Définissez ici le chemin de votre API
+        registry.addMapping("/api/**") // chemin de l'API
                 .allowedOrigins("http://localhost:4200")// Origine autorisée (http://localhost:8081)
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Méthodes HTTP autorisées
                 .allowedHeaders("Origin", "Content-Type", "Authorization", "Accept"); // En-têtes autorisés

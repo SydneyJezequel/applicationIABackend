@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 
 
+
 /**
  * Implémentation du service pour manipuler les personnes.
  *
@@ -39,10 +40,7 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
-
-
-
-    // ********************* Lien avec le Repository *********************
+    // ************************** Lien avec le Repository ************************** //
     @Autowired
     PersonneRepository personneRepository;
 
@@ -50,20 +48,14 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
-
-
-
-    // ********************* Implémentation des logs *********************
+    // ************************** Implémentation des logs ************************** //
     private static final Logger logger = Logger.getLogger(PersonneServiceImpl.class.getName());
 
 
 
 
 
-
-
-
-    // ********************* Méthodes *********************
+    // ************************** Méthodes ************************** //
     @Override
     public List<Personne> getAll(){
         return personneRepository.findAll();
@@ -254,7 +246,6 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
-
     @Override
     public byte[] decodeBase64(String base64String) {
         // Supprimer les caractères "\\" de la chaîne :
@@ -274,32 +265,15 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
-
-
-
-
-
-
-
-
-
-
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-
     public String convertToBase64() throws IOException{
         return "A implémenter";
     }
-
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-
-
-
-
-
 
 
     // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //

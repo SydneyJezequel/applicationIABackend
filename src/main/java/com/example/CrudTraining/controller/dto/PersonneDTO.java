@@ -18,7 +18,8 @@ public class PersonneDTO {
 
 
 
-    // *************** Attributs ***************
+    // *************************** Attributs *************************** //
+
     private Personne personne;
     private String photoBase64String;
 
@@ -26,9 +27,7 @@ public class PersonneDTO {
 
 
 
-
-    // *************** Getter / Setter ***************
-
+    // *************************** Getter / Setter *************************** //
 
     public Personne getPersonne() {
         return personne;
@@ -45,7 +44,6 @@ public class PersonneDTO {
     public void setPhotoBase64String(String photoBase64String) {
         this.photoBase64String = photoBase64String;
     }
-
 
 
 

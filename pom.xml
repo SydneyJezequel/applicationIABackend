@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 
-
 	<!-- Version de SpringBoot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -14,7 +13,6 @@
 	</parent>
 
 
-
 	<groupId>com.example</groupId>
 	<artifactId>CrudTraining</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -22,12 +20,10 @@
 	<description>CrudTraining</description>
 
 
-
 	<!-- Version de Java utilisée -->
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
 
 
 	<!-- Liste des dépendances -->
@@ -51,7 +47,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Chargement de Lombok -->
+		<!-- Dépendance de Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -65,7 +61,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Connecteur à la BDD -->
+		<!-- Connecteur à la BDD MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -129,9 +125,6 @@
 	</dependencies>
 
 
-
-
-
 <!-- Configuration pour builder le projet -->
 	<build>
 		<plugins>
@@ -149,8 +142,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 
 
 </project>

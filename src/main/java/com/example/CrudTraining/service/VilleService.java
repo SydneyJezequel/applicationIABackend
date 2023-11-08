@@ -7,16 +7,18 @@ import java.util.List;
 
 
 
+
 /**
  * Service pour manipuler les entités Ville.
+ *
  */
 public interface VilleService {
 
 
 
     /**
-     * Méthode qui récupère les villes de l'Api du site du Gouvernement.
-     * @return List<Ville>
+     * Méthode qui récupère les villes de l'Api.
+     * @return Ville[]
      *
      */
     public Ville[] getVillesromExternalApi();
@@ -24,8 +26,8 @@ public interface VilleService {
 
 
     /**
-     * Méthode qui sauvegarde les villes en BDD.
-     * @return List<Ville>
+     * Méthode qui sauvegarde les villes de l'Api en BDD.
+     * @return Ville[]
      *
      */
     public Ville[] getVilles();
@@ -34,7 +36,7 @@ public interface VilleService {
 
     /**
      * Méthode qui renvoie toutes les Villes.
-     * @return
+     * @return Liste de toutes les villes.
      *
      */
     public List<Ville> getAll();
@@ -43,7 +45,7 @@ public interface VilleService {
 
     /**
      * Méthode qui renvoie une Ville en fonction de son Id.
-     * @return
+     * @return ville
      *
      */
     public Ville getById(Long id);
@@ -52,8 +54,8 @@ public interface VilleService {
 
     /**
      * Méthode qui enregistre une Ville.
-     * @param ville enregistrée
-     * @return
+     * @param ville enregistrée.
+     * @return ville
      *
      */
     public Ville create(Ville ville);

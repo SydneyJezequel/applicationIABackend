@@ -8,10 +8,6 @@ import javax.persistence.Converter;
 
 
 
-
-
-
-
 /**
  *  Classe qui convertit un String[] en String et une String en String[].
  *
@@ -20,6 +16,10 @@ import javax.persistence.Converter;
 public class StringArrayConverter implements AttributeConverter<String[], String> {
 
 
+
+
+
+    // *************************** Méthodes *************************** //
 
     /**
      * Méthode qui convertit l'Array String de code postal
@@ -53,10 +53,11 @@ public class StringArrayConverter implements AttributeConverter<String[], String
         if (dbData == null || dbData.trim().isEmpty()) {
             return new String[0];
         }
-
         // Renvoie de l'attribut String[] :
         return dbData.split(",");
     }
+
+
 
 
 

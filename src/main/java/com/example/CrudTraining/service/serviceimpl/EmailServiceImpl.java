@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 
 
+
 /**
  * Implémentation du service pour Envoyer les Emails
  *
@@ -30,30 +31,21 @@ public class EmailServiceImpl implements EmailService {
 
 
 
-
-
-
-    // ********************* Attributs *********************
+    // ************************** Attributs ************************** //
     private JavaMailSender emailSender;
 
 
 
 
 
-
-
-
-    // ********************* Implémentation des logs *********************
+    // ************************** Implémentation des logs ************************** //
     private static final Logger logger = Logger.getLogger(EmailServiceImpl.class.getName());
 
 
 
 
 
-
-
-
-    // ********************* Méthodes *********************
+    // *************************** Méthodes ***************************
     @Override
     public String envoyerEmail(EmailRequest emailRequest) {
         try {
@@ -125,7 +117,6 @@ public class EmailServiceImpl implements EmailService {
             logger.warning("Méthode sendMessageWithAttachment() en erreur : " + e);
         }
     }
-
 
 
 

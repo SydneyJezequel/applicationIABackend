@@ -23,16 +23,14 @@ public class VilleController {
 
 
 
-
-    // ********************* Attributs *********************
+    // *************************** Attributs *************************** //
     private final VilleService villeService;
 
 
 
 
 
-
-    // ********************* Constructeur *********************
+    // *************************** Constructeur *************************** //
     @Autowired
     public VilleController (VilleService villeService) {
         this.villeService = villeService;
@@ -42,12 +40,10 @@ public class VilleController {
 
 
 
-
-
-    // ********************* Méthodes *********************
+    // *************************** Méthodes *************************** //
 
     /**
-     * Méthode qui renvoie toutes les Villes.
+     * Méthode qui charge les villes de l'Api en BD et les renvoie.
      * @return Ville[]
      *
      */
@@ -60,7 +56,7 @@ public class VilleController {
 
     /**
      * Méthode qui renvoie toutes les Villes.
-     * @return
+     * @return List<Ville>
      *
      */
     @GetMapping("/all")

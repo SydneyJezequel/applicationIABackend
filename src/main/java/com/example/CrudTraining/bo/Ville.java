@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 /**
  * Entité Personne
+ *
  */
 @Entity
 @Table(name="ville")
@@ -21,8 +22,7 @@ public class Ville {
 
 
 
-
-    // *************** Attributs ***************
+    // *************************** Attributs *************************** //
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,16 +41,10 @@ public class Ville {
     @Column(nullable = true, name ="code_region")
     private String codeRegion;
 
-
-
-    // ******************* TERMINER LES CORRECTIONS SUR LA DESERIALISATION DU JSON  ******************* //
     @JsonDeserialize(using = StringArrayDeserializer.class)
-    @Convert(converter = StringArrayConverter.class) // Convertit un tableau de chaînes en une seule chaîne pour le stockage en base de données et inversement.
+    @Convert(converter = StringArrayConverter.class) // Convertit un tableau de chaînes en une seule chaîne pour le stockage en BDD et inversement.
     @Column(nullable = true, name ="code_codes")
     private String[] codesPostaux;
-    // ******************* TERMINER LES CORRECTIONS SUR LA DESERIALISATION DU JSON  ******************* //
-
-
 
     @Column(nullable = true, name ="population")
     private long population;
@@ -59,11 +53,7 @@ public class Ville {
 
 
 
-
-
-
-
-    // *************** Constructeur ***************
+    // *************************** Constructeur *************************** //
 
     public Ville(){}
 
@@ -90,12 +80,7 @@ public class Ville {
 
 
 
-
-
-
-
-    // *************** Getter / Setter ***************
-
+    // *************************** Getter / Setter *************************** //
 
     public Long getNo_ville() {
         return no_ville;
@@ -152,7 +137,6 @@ public class Ville {
     public void setPopulation(long population) {
         this.population = population;
     }
-
 
 
 

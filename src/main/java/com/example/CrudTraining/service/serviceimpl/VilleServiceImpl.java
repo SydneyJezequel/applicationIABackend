@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 
 
+
 /**
  * Implémentation du service pour manipuler les villes.
  *
@@ -27,10 +28,7 @@ public class VilleServiceImpl implements VilleService {
 
 
 
-
-
-
-    // ********************* Attributs *********************
+    // ************************** Attributs ************************** //
     @Autowired
     private VilleRepository villeRepository;
 
@@ -38,10 +36,7 @@ public class VilleServiceImpl implements VilleService {
 
 
 
-
-
-
-    // ********************* Constructeur *********************
+    // ************************** Constructeur ************************** //
     public VilleServiceImpl(VilleRepository villeRepository) {
         this.villeRepository = villeRepository;
     }
@@ -50,20 +45,14 @@ public class VilleServiceImpl implements VilleService {
 
 
 
-
-
-
-    // ********************* Implémentation des logs *********************
+    // ************************** Implémentation des logs ************************** //
     private static final Logger logger = Logger.getLogger(VilleServiceImpl.class.getName());
 
 
 
 
 
-
-
-
-    // ********************* Méthodes *********************
+    // ************************** Méthodes ************************** //
     @Override
     public List<Ville> getAll(){
         return villeRepository.findAll();
@@ -134,8 +123,6 @@ public class VilleServiceImpl implements VilleService {
         }
         return villes;
     }
-
-
 
 
 

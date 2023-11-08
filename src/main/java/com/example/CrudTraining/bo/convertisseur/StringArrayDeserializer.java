@@ -11,10 +11,6 @@ import java.io.IOException;
 
 
 
-
-
-
-
 /**
  *  Classe qui déssérialise un String[] JSON en String.
  *
@@ -25,10 +21,7 @@ public class StringArrayDeserializer extends StdDeserializer<String[]> {
 
 
 
-
-
-
-    // ********************* Constructeur *********************
+    // *************************** Constructeur *************************** //
 
     public StringArrayDeserializer() {
         super(String[].class);
@@ -38,10 +31,7 @@ public class StringArrayDeserializer extends StdDeserializer<String[]> {
 
 
 
-
-
-
-    // ********************* Méthodes *********************
+    // *************************** Méthodes *************************** //
 
     @Override
     public String[] deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
@@ -52,13 +42,8 @@ public class StringArrayDeserializer extends StdDeserializer<String[]> {
         for (JsonNode element : node) {
             strings[index++] = node.textValue(); // Convertit chaque élément en chaîne de caractères et l'ajoute au tableau
         }
-        // ********************* TEST ********************* //
-        String test = node.textValue();
-        System.out.println(strings);
-        // ********************* TEST ********************* //
         return strings;
     }
-
 
 
 

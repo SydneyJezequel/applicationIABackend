@@ -26,18 +26,14 @@ public class PersonneController {
 
 
 
-
-
-    // ********************* Attributs *********************
+    // *************************** Attributs *************************** //
     private final PersonneService personneService;
 
 
 
 
 
-
-
-    // ********************* Constructeur *********************
+    // *************************** Constructeur *************************** //
     @Autowired
     public PersonneController (PersonneService personneService) {
         this.personneService = personneService;
@@ -47,14 +43,12 @@ public class PersonneController {
 
 
 
-
-
-    // ********************* Méthodes *********************
-
+    // *************************** Méthodes *************************** //
 
     /**
      * Méthode qui renvoie toutes les Personnes.
-     * @return
+     * @return List<Personne>
+     *
      */
     @GetMapping("/all")
     public List<Personne> getAll(){
@@ -64,8 +58,9 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui renvoie une Personne en fonction de son Id.
-     * @return
+     * Méthode qui renvoie une personne en fonction de son Id.
+     * @param id de la personne.
+     * @return personne
      *
      */
     @GetMapping("/{id}")
@@ -78,7 +73,7 @@ public class PersonneController {
     /**
      * Méthode qui enregistre une personne.
      * @param personneDTO
-     * @return
+     * @return personne
      *
      */
     @PostMapping("/add-personne/")
@@ -102,8 +97,9 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui intègre en base de données un fichier Excel contenant une liste de personne.
-     * @param file qui contient la liste des personnes à intégrer.
+     * Méthode qui intègre en BDD un fichier Excel contenant une liste de personne.
+     * @param MultipartFile qui contient la liste des personnes à intégrer.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @PostMapping("/import/excel/")
@@ -114,8 +110,8 @@ public class PersonneController {
 
 
     /**
-     * Controller qui génère un fichier Excel.
-     * @return String
+     * Controller qui génère un fichier Excel contenant la liste des personnes en BDD.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/generateExcel")
@@ -131,8 +127,9 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui intègre en base de données un fichier Csv contenant une liste de personne.
-     * @param file qui contient la liste des personnes à intégrer.
+     * Méthode qui intègre en BDD un fichier Csv contenant une liste de personne.
+     * @param MultipartFile qui contient la liste des personnes à intégrer.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @PostMapping("/import/csv/")
@@ -143,8 +140,8 @@ public class PersonneController {
 
 
     /**
-     * Controller qui génère un fichier Excel.
-     * @return String
+     * Controller qui génère un fichier Csv contenant la liste des personnes en BDD.
+     * @return boolean : succès/échec de l'exécution
      *
      */
     @GetMapping("/generateCsv")
@@ -159,22 +156,14 @@ public class PersonneController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
+    /**
+     * Controller qui génère une String à partir d'un byte[] récupéré en BDD.
+     * @return String qui contient l'image.
+     *
+     */
     @GetMapping("/image-base64")
     public String getImagebase64() throws IOException {
         return personneService.convertToBase64();
@@ -182,8 +171,6 @@ public class PersonneController {
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-
-
 
 
 

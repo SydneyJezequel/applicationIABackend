@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
 /**
  * Repository pour manipuler les Entités Villes en Base de données.
  *
@@ -18,14 +20,15 @@ public interface VilleRepository extends JpaRepository<Ville, Long> {
 
 
 
-
     /**
-     * Requête qui renvoie la liste de toutes les Entités Villes.
+     * Requête qui renvoie une Ville à partir de son Id.
      * @param id
      * @return List<Ville>
      */
     @Query("SELECT v FROM Ville v WHERE v.no_ville = :id")
     Ville findVilleById(@Param("id") java.lang.Long id);
+
+
 
 
 

@@ -1,14 +1,16 @@
 package com.example.CrudTraining.service;
 
 import com.example.CrudTraining.bo.EmailRequest;
-import org.springframework.web.bind.annotation.RequestBody;
 import javax.mail.MessagingException;
+
+
 
 
 
 
 /**
  * Service pour Envoyer les emails.
+ *
  */
 public interface EmailService {
 
