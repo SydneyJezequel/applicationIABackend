@@ -1,5 +1,14 @@
 package com.example.CrudTraining.bo;
 
+
+
+
+
+/**
+ * Requête envoyée au Modèle de machine Learning qui prédit le type d'Iris.
+ * Cette requête contient les paramètres pour calculer la prédiction.
+ *
+ */
 public class IrisModelRequest {
 
 
@@ -12,6 +21,7 @@ public class IrisModelRequest {
     private double sepal_width;
     private double petal_length;
     private double petal_width;
+
 
 
 
