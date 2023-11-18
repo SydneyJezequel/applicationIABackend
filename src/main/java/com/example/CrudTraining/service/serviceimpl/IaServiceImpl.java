@@ -124,8 +124,8 @@ public class IaServiceImpl implements IaService {
             ligneData.add(prediction.getPetalLength());
             ligneData.add(prediction.getPetalWidth());
             ligneData.add(prediction.getPrediction());
+            loadData.add(ligneData);
         }
-
         // Envoi des données dans le modèle de machine Learning Iris :
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

@@ -3,7 +3,6 @@ package com.example.CrudTraining.controller;
 import com.example.CrudTraining.bo.IrisModelResponse;
 import com.example.CrudTraining.service.IaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.CrudTraining.bo.IrisModelRequest;
@@ -89,22 +88,22 @@ public class MachineLearningController {
 
 
 
-    // *********************************** TEST *********************************** //
-    // *********************************** TEST *********************************** //
-    // *********************************** TEST *********************************** //
+    // ********************************************** TEST ********************************************** //
+    // ********************************************** TEST ********************************************** //
+    // ********************************************** TEST ********************************************** //
     /**
      * Méthode qui charge la liste des prédictions du modèle de Machine Learning Iris pour l'entrainer.
      * @return String : Message de succès.
      *
      */
-    @GetMapping("/iris/load-predict-in-model")
+    @GetMapping("/iris/load-predicts-in-model")
     public String loadUsersPredictionsInModel() {
         iaService.loadUsersPredictionsInModel();
         return "Le modèle a été entrainé avec les données";
     }
-    // *********************************** TEST *********************************** //
-    // *********************************** TEST *********************************** //
-    // *********************************** TEST *********************************** //
+    // ********************************************** TEST ********************************************** //
+    // ********************************************** TEST ********************************************** //
+    // ********************************************** TEST ********************************************** //
 
 
 
