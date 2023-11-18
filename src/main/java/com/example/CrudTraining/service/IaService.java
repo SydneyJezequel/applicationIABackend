@@ -18,6 +18,15 @@ public interface IaService {
 
 
     /**
+     * Méthode qui initialise le modèle de Machine Learning qui classe les Iris
+     * @return String : Message de succès.
+     *
+     */
+    public String initializeModelPrediction();
+
+
+
+    /**
      * Méthode qui appelle le modèle de Machine Learning qui classe les Iris
      * @return Le type d'Iris
      *

@@ -39,6 +39,18 @@ public class MachineLearningController {
     // *************************** Méthodes *************************** //
 
     /**
+     * Méthode qui initialise le modèle de Machine Learning qui classe les Iris
+     * @return String : Message de succès.
+     *
+     */
+    @GetMapping("/iris/load-predict-in-model")
+    public String initializeModelPrediction() {
+        return iaService.initializeModelPrediction();
+    }
+
+
+
+    /**
      * Méthode qui interroge le modèle de machine Learning de prédiction du type d'Iris
      * @param IrisModelRequest request : Paramètres du modèle de Machine Learning envoyé depuis le Front.
      * @return Message de succès.

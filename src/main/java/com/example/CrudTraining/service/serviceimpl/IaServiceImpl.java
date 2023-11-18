@@ -8,10 +8,7 @@ import com.example.CrudTraining.repository.IrisModelRepository;
 import com.example.CrudTraining.service.IaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
@@ -39,6 +36,9 @@ public class IaServiceImpl implements IaService {
 
     @Autowired
     private IrisModelRepository irisModelRepository;
+
+    // Url pour initialiser le modèle Iris :
+    private final String initializeModelIrisApiUrl = "http://localhost:8008/initialize-model";
 
     // Url pour exécuter le modèle Iris :
     private final String executeModelIrisApiUrl = "http://localhost:8008/predict";
@@ -71,6 +71,35 @@ public class IaServiceImpl implements IaService {
 
 
     // ************************** Méthodes ************************** //
+
+    @Override
+    public String initializeModelPrediction(){
+        // Attribut :
+        String messageSucces;
+
+        // Création de l'en-tête de la requête Http :
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Création du contenu de la requête Http :
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+
+        // Exécution de la requête vers l'API du modèle de Machine Learning :
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                initializeModelIrisApiUrl,
+                HttpMethod.GET,
+                httpEntity,
+                String.class
+        );
+
+        // Récupération et renvoie de la réponse :
+        messageSucces = responseEntity.getBody();
+        return messageSucces;
+    }
+
+
+
     @Override
     public String getIrisModelPrediction(IrisModelRequest request){
         // Attribut :
