@@ -1,20 +1,24 @@
-package com.example.CrudTraining.service.serviceimpl;
+package com.example.CrudTraining.service.serviceIaImpl;
 
 import com.example.CrudTraining.bo.IrisModelRequest;
 import com.example.CrudTraining.bo.IrisModelResponse;
-import com.example.CrudTraining.controller.dto.ChatGptRequest;
-import com.example.CrudTraining.controller.dto.ChatGptResponse;
 import com.example.CrudTraining.repository.IrisModelRepository;
-import com.example.CrudTraining.service.IaService;
+import com.example.CrudTraining.service.iaService.IrisModelService;
+import com.opencsv.CSVWriter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
-
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 
@@ -22,11 +26,11 @@ import java.util.List;
 
 
 /**
- * Implémentation pour appeler des modèles de Machines Learning
+ * Implémentation mes méthodes pour manipuler le modèle de classification des Iris.
  *
  */
 @Service
-public class IaServiceImpl implements IaService {
+public class IrisModelServiceImpl implements IrisModelService {
 
 
 
@@ -36,13 +40,10 @@ public class IaServiceImpl implements IaService {
 
     @Autowired
     private IrisModelRepository irisModelRepository;
-
     // Url pour initialiser le modèle Iris :
     private final String initializeModelIrisApiUrl = "http://localhost:8008/initialize-model";
-
     // Url pour exécuter le modèle Iris :
     private final String executeModelIrisApiUrl = "http://localhost:8008/predict";
-
     // ************** TEST ************** //
     // Url pour entrainer le modèle Iris :
     private final String loadUserPredictionsInModelIrisApiUrl = "http://localhost:8008/load-predict-in-model";
@@ -52,20 +53,8 @@ public class IaServiceImpl implements IaService {
 
 
 
-    // *************************** Attributs ChatGpt *************************** //
-
-    // Template Rest :
-    @Autowired
-    private RestTemplate restTemplate;
-
-    // Version de ChatGpt :
-    @Value("${openai.model}")
-    private String model;
-
-    // Url de l'Api ChatGpt :
-    @Value("${openai.api.url}")
-    private String apiUrl;
-
+    // ************************** Implémentation des logs ************************** //
+    private static final Logger logger = Logger.getLogger(IrisModelServiceImpl.class.getName());
 
 
 
@@ -143,7 +132,6 @@ public class IaServiceImpl implements IaService {
     public void loadUsersPredictionsInModel(){
         // Récupération des données de la BDD :
         List<IrisModelResponse> userPredictions = getAllIrisModelPrediction();
-
         // Intégration des données dans un ArrayList à 2 niveaux :
         ArrayList<ArrayList<Object>> loadData = new ArrayList<>();
         for(IrisModelResponse prediction : userPredictions){
@@ -169,10 +157,72 @@ public class IaServiceImpl implements IaService {
 
 
     @Override
-    public String chat(@RequestBody String prompt){
-        ChatGptRequest request = new ChatGptRequest(model, prompt); // Création d'une requête contenant le message.
-        ChatGptResponse chatGptResponse = restTemplate.postForObject(apiUrl, request, ChatGptResponse.class); // Récupération de la réponse générée par chatGPT.
-        return chatGptResponse.getChoices().get(0).getMessage().getContent(); // Renvoie de la réponse.
+    public boolean generateCsv() {
+        try {
+            // Récupération des données de la BDD :
+            List<IrisModelResponse> irisModelResponses = getAllIrisModelPrediction();
+            // Path du fichier CSV ou sont chargées les données :
+            String filePath = "/Users/sjezequel/Desktop/Predictions_classification_iris_csv";
+            // Création du fichier Csv :
+            CSVWriter writer = new CSVWriter(new FileWriter(filePath));
+            // Injection de l'en-tête dans le fichier CSV :
+            String[] entete = {"no_prediction", "sepal_length", "sepal_width", "petal_length", "petal_width", "prediction"};
+            writer.writeNext(entete);
+            // Injection des données dans le fichier CSV :
+            for(IrisModelResponse irisModelResponse : irisModelResponses){
+                String no_securite_sociale = String.valueOf(irisModelResponse.getNo_prediction());
+                String[] ligne = {String.valueOf(irisModelResponse.getSepalLength()), String.valueOf(irisModelResponse.getSepalWidth()), String.valueOf(irisModelResponse.getPetalLength()), String.valueOf(irisModelResponse.getPetalWidth()), irisModelResponse.getPrediction()};
+                writer.writeNext(ligne);
+            }
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public boolean generateExcel() throws IOException {
+        try {
+            // Récupération des données de la BDD :
+            List<IrisModelResponse> irisModelResponses = getAllIrisModelPrediction();
+            // Création du fichier Excel et la feuille qui contient les données :
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Predictions");
+            // Création ligne d'en-tête du fichier Excel :
+            Row headerRow = sheet.createRow(0); // La nouvelle ligne fait partie de la feuille du fichier Excel.
+            headerRow.createCell(0).setCellValue("no_prediction");
+            headerRow.createCell(1).setCellValue("sepal_length");
+            headerRow.createCell(2).setCellValue("sepal_width");
+            headerRow.createCell(3).setCellValue("petal_length");
+            headerRow.createCell(4).setCellValue("petal_width");
+            headerRow.createCell(5).setCellValue("prediction");
+            // Remplir chaque ligne du fichier Excel avec une Personne :
+            int rowNum = 1;
+            for (IrisModelResponse irisModelResponse : irisModelResponses) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(irisModelResponse.getNo_prediction());
+                row.createCell(1).setCellValue(irisModelResponse.getSepalLength());
+                row.createCell(2).setCellValue(irisModelResponse.getSepalWidth());
+                row.createCell(3).setCellValue(irisModelResponse.getPetalLength());
+                row.createCell(4).setCellValue(irisModelResponse.getPetalWidth());
+                row.createCell(5).setCellValue(irisModelResponse.getPrediction());
+            }
+            // Fichier Excel ou sont chargées les données :
+            String filePath = "/Users/sjezequel/Desktop/Predictions_classification_iris";
+            // Écriture des données dans le fichier Excel :
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+            }
+            workbook.close();
+            return true;
+        } catch (RuntimeException e)
+        {
+            return false;
+        }
     }
 
 

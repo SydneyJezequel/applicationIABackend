@@ -1,7 +1,8 @@
-package com.example.CrudTraining.service;
+package com.example.CrudTraining.service.iaService;
 
 import com.example.CrudTraining.bo.IrisModelRequest;
 import com.example.CrudTraining.bo.IrisModelResponse;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Service pour appeler des modèles de Machines Learning
  *
  */
-public interface IaService {
+public interface IrisModelService {
 
 
 
@@ -56,6 +57,10 @@ public interface IaService {
     // *********************************** TEST *********************************** //
     // *********************************** TEST *********************************** //
     // *********************************** TEST *********************************** //
+    /**
+     * Méthode qui entraine le modèle de machine learning avec les prédictions générées.
+     *
+     */
     public void loadUsersPredictionsInModel();
     // *********************************** TEST *********************************** //
     // *********************************** TEST *********************************** //
@@ -64,12 +69,21 @@ public interface IaService {
 
 
     /**
-     * Méthode qui envoie une requête à chatGpt et Récupère la réponse.
-     * @param prompt : Contenu de la requête.
-     * @return String de la réponse.
+     * Méthode qui génère un fichier Excel qui contient les prédictions du modèle de classification des Iris.
+     * @return boolean : succès/échec de l'exécution.
+     * @throws IOException
      *
      */
-    public String chat(String prompt);
+    public boolean generateExcel() throws IOException;
+
+
+
+    /**
+     * Méthode qui génère un fichier Csv qui contient les prédictions du modèle de classification des Iris.
+     * @return boolean : succès/échec de l'exécution.
+     *
+     */
+    public boolean generateCsv();
 
 
 

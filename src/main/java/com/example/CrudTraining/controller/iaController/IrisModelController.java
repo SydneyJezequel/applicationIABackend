@@ -1,11 +1,12 @@
-package com.example.CrudTraining.controller;
+package com.example.CrudTraining.controller.iaController;
 
 import com.example.CrudTraining.bo.IrisModelResponse;
-import com.example.CrudTraining.service.IaService;
+import com.example.CrudTraining.service.iaService.IrisModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.CrudTraining.bo.IrisModelRequest;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -13,16 +14,20 @@ import java.util.List;
 
 
 
+/**
+ * Controller pour manipuler le modèle de classification des Iris.
+ *
+ */
 @RestController
-@RequestMapping("/api/ia")
-public class MachineLearningController {
+@RequestMapping("/api/ia/iris")
+public class IrisModelController {
 
 
 
 
 
     // *************************** Attributs *************************** //
-    private final IaService iaService;
+    private final IrisModelService irisModelService;
 
 
 
@@ -30,7 +35,7 @@ public class MachineLearningController {
 
     // *************************** Constructeur *************************** //
     @Autowired
-    public MachineLearningController(IaService iaService) { this.iaService = iaService; }
+    public IrisModelController(IrisModelService irisModelService) { this.irisModelService = irisModelService; }
 
 
 
@@ -43,9 +48,9 @@ public class MachineLearningController {
      * @return String : Message de succès.
      *
      */
-    @GetMapping("/iris/load-predict-in-model")
+    @GetMapping("/load-predict-in-model")
     public String initializeModelPrediction() {
-        return iaService.initializeModelPrediction();
+        return irisModelService.initializeModelPrediction();
     }
 
 
@@ -56,9 +61,9 @@ public class MachineLearningController {
      * @return Message de succès.
      *
      */
-    @PostMapping("/iris/predict")
+    @PostMapping("/predict")
     public String getIrisModelPrediction(@RequestBody IrisModelRequest request) {
-        String prediction = iaService.getIrisModelPrediction(request);
+        String prediction = irisModelService.getIrisModelPrediction(request);
         return prediction;
     }
 
@@ -70,7 +75,7 @@ public class MachineLearningController {
      * @return Message de succès.
      *
      */
-    @PostMapping("/iris/save-predict")
+    @PostMapping("/save-predict")
     public IrisModelResponse saveIrisModelPrediction(@RequestBody IrisModelResponse irisModelResponse) throws JsonProcessingException {
 
         // ************************ TEST **************************** //
@@ -83,7 +88,7 @@ public class MachineLearningController {
         );
         // ************************ TEST **************************** //
 
-        return iaService.saveIrisModelPrediction(irisModelResponse);
+        return irisModelService.saveIrisModelPrediction(irisModelResponse);
     }
 
 
@@ -93,9 +98,9 @@ public class MachineLearningController {
      * @return La liste des prédictions calculées par les utilisateurs.
      *
      */
-    @GetMapping("/iris/all-predict")
+    @GetMapping("/all-predict")
     public List<IrisModelResponse> getAllIrisModelPrediction() {
-        return iaService.getAllIrisModelPrediction();
+        return irisModelService.getAllIrisModelPrediction();
     }
 
 
@@ -108,9 +113,9 @@ public class MachineLearningController {
      * @return String : Message de succès.
      *
      */
-    @GetMapping("/iris/load-predicts-in-model")
+    @GetMapping("/load-predicts-in-model")
     public String loadUsersPredictionsInModel() {
-        iaService.loadUsersPredictionsInModel();
+        irisModelService.loadUsersPredictionsInModel();
         return "Le modèle a été entrainé avec les données";
     }
     // ********************************************** TEST ********************************************** //
@@ -120,14 +125,35 @@ public class MachineLearningController {
 
 
     /**
-     * Méthode du controller qui envoie la requête du front à chatGpt et Récupère la réponse.
-     * @param prompt : Contenu de la requête.
-     * @return String de la réponse.
+     * Controller qui génère un fichier Excel qui contient les prédictions du modèle de classification des Iris.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
-    @PostMapping("/chat-gpt")
-    public String chat(@RequestBody String prompt){
-        return iaService.chat(prompt);
+    @GetMapping("/generate-excel")
+    public boolean generateExcelFile() {
+        try {
+            return irisModelService.generateExcel();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    /**
+     * Controller qui génère un fichier Csv qui contient les prédictions du modèle de classification des Iris.
+     * @return boolean : succès/échec de l'exécution
+     *
+     */
+    @GetMapping("/generate-csv")
+    public boolean generateCsvFile() {
+        try {
+            return irisModelService.generateCsv();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
