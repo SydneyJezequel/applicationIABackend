@@ -2,7 +2,6 @@ package com.example.CrudTraining.service.serviceIaImpl;
 
 import com.example.CrudTraining.bo.IrisModelRequest;
 import com.example.CrudTraining.bo.IrisModelResponse;
-import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.repository.IrisModelRepository;
 import com.example.CrudTraining.service.iaService.IrisModelService;
 import com.opencsv.CSVReader;
@@ -18,14 +17,11 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -204,20 +200,6 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
     @Override
     public boolean generateExcelForDataset() throws IOException {
         try {
@@ -277,11 +259,7 @@ public class IrisModelServiceImpl implements IrisModelService {
                 }
             }
             // Appelle de l'Api pour charger les données dans le modèle de classification des Iris :
-            // ************* IMPLEMENTER LE MODELE ************** //
-            System.out.println(irisDataSet);
-            String result = "";
-            // String result = loadAndTrainModel(irisDataSet);
-            // ************* IMPLEMENTER LE MODELE ************** //
+            loadAndTrainModel(irisDataSet);
             logger.info("Données Excel intégrées avec succès.");
             return true;
         }
@@ -290,18 +268,9 @@ public class IrisModelServiceImpl implements IrisModelService {
             return false;
         }
     }
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
 
 
 
-
-
-
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
     @Override
     public boolean generateCsvForDataset() throws IOException{
         try {
@@ -348,10 +317,7 @@ public class IrisModelServiceImpl implements IrisModelService {
                 // Ajout de la ligne dans le dataSet :
                 irisDataSet.add(dataLine);
             }
-            // ************* IMPLEMENTER LE MODELE ************** //
-            // String result = loadAndTrainModel(irisDataSet);
-            // ************* IMPLEMENTER LE MODELE ************** //
-            System.out.println(irisDataSet);
+            loadAndTrainModel(irisDataSet);
             logger.info("Données Csv intégrées avec succès.");
             return true;
         } catch (IOException | CsvValidationException e ) {
@@ -359,56 +325,33 @@ public class IrisModelServiceImpl implements IrisModelService {
             return false;
         }
     }
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
 
 
 
-
-
-
-
-
-
-
-
-
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
     @Override
     public String loadAndTrainModel(List<IrisModelResponse> irisDataSet){
-        // Intégration des données dans un ArrayList à 2 niveaux :
-        ArrayList<ArrayList<Object>> loadData = new ArrayList<>();
-        for(IrisModelResponse dataLine : irisDataSet){
-            ArrayList<Object> ligneData = new ArrayList<Object>();
-            ligneData.add(dataLine.getSepalLength());
-            ligneData.add(dataLine.getSepalWidth());
-            ligneData.add(dataLine.getPetalLength());
-            ligneData.add(dataLine.getPetalWidth());
-            ligneData.add(dataLine.getPrediction());
-            loadData.add(ligneData);
+        // Conversion des données en Mapper :
+        List<Map<String, Object>> loadData = new ArrayList<>();
+        for (IrisModelResponse dataLine : irisDataSet) {
+            Map<String, Object> lineData = new HashMap<>();
+            lineData.put("sepalLength", dataLine.getSepalLength());
+            lineData.put("sepalWidth", dataLine.getSepalWidth());
+            lineData.put("petalLength", dataLine.getPetalLength());
+            lineData.put("petalWidth", dataLine.getPetalWidth());
+            lineData.put("prediction", dataLine.getPrediction());
+            loadData.add(lineData);
         }
+        Map<String, Object> modelDataSet = new HashMap<>();
+        modelDataSet.put("data_lines", loadData);
         // Envoi des données dans le modèle de machine Learning Iris :
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> httpEntity = new HttpEntity<>(loadData, headers);
+        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(modelDataSet, headers);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(executeModelIrisApiUrl, httpEntity, String.class);
-
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(loadUserPredictionsInModelIrisApiUrl, httpEntity, String.class);
         // Renvoie du message généré par l'Api :
-        String responseBody = responseEntity.getBody();
-        return responseBody;
+        return responseEntity.getBody();
     }
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
-
-
-
-
-
 
 
 
