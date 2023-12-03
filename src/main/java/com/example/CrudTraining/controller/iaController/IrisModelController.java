@@ -51,7 +51,7 @@ public class IrisModelController {
      *
      */
     @GetMapping("/load-predict-in-model")
-    public String initializeModelPrediction() {
+    public boolean initializeModelPrediction() {
         return irisModelService.initializeModelPrediction();
     }
 

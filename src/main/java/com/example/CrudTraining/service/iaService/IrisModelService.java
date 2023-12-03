@@ -3,7 +3,6 @@ package com.example.CrudTraining.service.iaService;
 import com.example.CrudTraining.bo.IrisModelRequest;
 import com.example.CrudTraining.bo.IrisModelResponse;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public interface IrisModelService {
      * @return String : Message de succès.
      *
      */
-    public String initializeModelPrediction();
+    public boolean initializeModelPrediction();
 
 
 

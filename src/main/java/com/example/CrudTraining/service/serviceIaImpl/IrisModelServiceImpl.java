@@ -40,6 +40,7 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
 
+
     // *************************** Attributs Modèle Iris *************************** //
 
     @Autowired
@@ -57,8 +58,11 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
 
+
     // ************************** Implémentation des logs ************************** //
     private static final Logger logger = Logger.getLogger(IrisModelServiceImpl.class.getName());
+
+
 
 
 
@@ -66,29 +70,31 @@ public class IrisModelServiceImpl implements IrisModelService {
     // ************************** Méthodes ************************** //
 
     @Override
-    public String initializeModelPrediction(){
-        // Attribut :
-        String messageSucces;
-
-        // Création de l'en-tête de la requête Http :
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // Création du contenu de la requête Http :
-        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-
-        // Exécution de la requête vers l'API du modèle de Machine Learning :
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
-                initializeModelIrisApiUrl,
-                HttpMethod.GET,
-                httpEntity,
-                String.class
-        );
-
-        // Récupération et renvoie de la réponse :
-        messageSucces = responseEntity.getBody();
-        return messageSucces;
+    public boolean initializeModelPrediction(){
+        try {
+            // Attribut :
+            String messageSucces;
+            // Création de l'en-tête de la requête Http :
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Création du contenu de la requête Http :
+            HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+            // Exécution de la requête vers l'API du modèle de Machine Learning :
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> responseEntity = restTemplate.exchange(
+                    initializeModelIrisApiUrl,
+                    HttpMethod.GET,
+                    httpEntity,
+                    String.class
+            );
+            // Récupération et renvoie de la réponse :
+            messageSucces = responseEntity.getBody();
+            logger.info(messageSucces);
+            return true;
+        }catch (RuntimeException e){
+            logger.info(e.toString());
+            return false;
+        }
     }
 
 
