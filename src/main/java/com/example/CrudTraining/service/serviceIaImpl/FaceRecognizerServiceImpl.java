@@ -157,7 +157,8 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             }
 
             // Copier la photo à identifier dans le dossier "identifyFace" :
-            String nomDuFichier = StringUtils.cleanPath(Objects.requireNonNull(faceIdentifyFile.getOriginalFilename()));
+            String nomDuFichier = "identifyFace.jpg";
+            // String nomDuFichier = StringUtils.cleanPath(Objects.requireNonNull(faceIdentifyFile.getOriginalFilename()));
             Path cheminFichierDestination = Paths.get(cheminDuDossier, nomDuFichier);
 
             try (OutputStream outputStream = Files.newOutputStream(cheminFichierDestination)) {
@@ -304,9 +305,8 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
         try {
             // Attribut :
             String messageSucces;
-            String emplacementImage = "";
+            String emplacementImage = "identifyFace/identifyFace.jpg";
             String model = "hog";
-            String emplacementImageEncodees = "output/encodings.pkl";
             // Création de l'en-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -314,7 +314,6 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             Map<String, String> requestBodyMap = new HashMap<>();
             requestBodyMap.put("image_location", emplacementImage);
             requestBodyMap.put("model", model);
-            requestBodyMap.put("encodings_location", emplacementImageEncodees);
             // Convertir la map en JSON
             String requestBody = new ObjectMapper().writeValueAsString(requestBodyMap);
             HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
