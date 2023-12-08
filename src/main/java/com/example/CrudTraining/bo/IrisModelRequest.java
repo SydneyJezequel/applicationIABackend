@@ -16,11 +16,11 @@ public class IrisModelRequest {
 
 
     // *************************** Attributs *************************** //
-
     private double sepal_length;
     private double sepal_width;
     private double petal_length;
     private double petal_width;
+
 
 
 

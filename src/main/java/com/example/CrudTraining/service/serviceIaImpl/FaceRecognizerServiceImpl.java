@@ -5,8 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
@@ -15,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -61,8 +58,9 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     @Override
     public boolean loadTrainingSetZip(MultipartFile imageZip) {
         try{
+
             // Nom du dossier de stockage des images :
-            String nomDuDossier = "training2";
+            String nomDuDossier = "training";
 
             // Chemin du dossier de stockage des images :
             String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
@@ -100,7 +98,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     public boolean loadValidationSetZip(MultipartFile imageZip) {
         try {
             // Nom du dossier de stockage des images :
-            String nomDuDossier = "validation2";
+            String nomDuDossier = "validation";
 
             // Chemin du dossier de stockage des images :
             String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
@@ -265,6 +263,8 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
     @Override
     public boolean encodageDesVisages(){
+        // Création du fichier encoding.pkl :
+        createEncodingFile();
         try {
             // Attribut :
             String messageSucces;
@@ -295,6 +295,44 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             return false;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+
+    @Override
+    public void createEncodingFile() {
+        try {
+
+            // Nom du dossier de stockage des images :
+            String nomDuDossier = "output";
+
+            // Chemin du dossier de stockage des images :
+            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
+            Path chemin = Paths.get(cheminDuDossier);
+
+            // Création du dossier :
+            if (!Files.exists(chemin)) {
+                try {
+                    Files.createDirectories(chemin);
+                    logger.info("Dossier " + nomDuDossier + " créé avec succès !");
+                    logger.info("Fichier encodings.pkl créé vide avec succès!");
+                } catch (IOException e) {
+                    logger.info("Échec de la création du dossier et / ou du fichier encodings.pkl : " + e.getMessage());
+                }
+            } else {
+                logger.info("Le dossier existe déjà.");
+            }
+            try {
+                String filePath = chemin + "/encodings.pkl";
+                Path encodingsPath = Paths.get(filePath);
+                // Création du fichier encodings.pkl vide
+                Files.createFile(encodingsPath);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }catch (RuntimeException e){
+            e.printStackTrace();
         }
     }
 
@@ -375,350 +413,6 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // ****************************** URL DE TEST ****************************** //
-    // ****************************** URL DE TEST ****************************** //
-    // ****************************** URL DE TEST ****************************** //
-
-
-
-    // Urls de tests :
-    private final String urlTest1 = "http://localhost:8008/test-1";
-    private final String urlTest3 = "http://localhost:8008/test-3";
-
-
-
-    @Override
-    public String test1(){
-        try {
-            // Attribut :
-            String messageSucces;
-            // Création de l'en-tête de la requête Http :
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            // Création du contenu de la requête Http :
-            HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-            // Exécution de la requête vers l'API du modèle de Machine Learning :
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    urlTest1,
-                    HttpMethod.GET,
-                    httpEntity,
-                    String.class
-            );
-            // Récupération et renvoie de la réponse :
-            messageSucces = responseEntity.getBody();
-            logger.info(messageSucces);
-            return messageSucces;
-        }catch (RuntimeException e){
-            logger.info(e.toString());
-            return e.toString();
-        }
-    }
-
-
-
-    @Override
-    public String test3(String test3){
-        try {
-            // Attribut :
-            String messageSucces;
-            // Création de l'en-tête de la requête Http :
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            // Création du contenu de la requête Http :
-            Map<String, String> requestBodyMap = new HashMap<>();
-            requestBodyMap.put("message_entree", test3);
-            // Convertir la map en JSON
-            String requestBody = new ObjectMapper().writeValueAsString(requestBodyMap);
-            HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
-            // Exécution de la requête vers l'API du modèle de Machine Learning :
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    urlTest3,
-                    HttpMethod.POST,
-                    httpEntity,
-                    String.class
-            );
-            // Récupération et renvoie de la réponse :
-            messageSucces = responseEntity.getBody();
-            logger.info(messageSucces);
-            return messageSucces;
-        }catch (RuntimeException e){
-            logger.info(e.toString());
-            return e.toString();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    // ****************************** URL DE TEST ****************************** //
-    // ****************************** URL DE TEST ****************************** //
-    // ****************************** URL DE TEST ****************************** //
 
 
 

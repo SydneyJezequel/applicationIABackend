@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.CrudTraining.bo.IrisModelRequest;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -79,15 +78,6 @@ public class IrisModelController {
      */
     @PostMapping("/save-predict")
     public IrisModelResponse saveIrisModelPrediction(@RequestBody IrisModelResponse irisModelResponse) throws JsonProcessingException {
-        // ************************ TEST **************************** //
-        System.out.println(
-                        irisModelResponse.getPrediction() + " " +
-                        irisModelResponse.getSepalLength() + " " +
-                        irisModelResponse.getSepalWidth() + " " +
-                        irisModelResponse.getPetalLength() + " " +
-                        irisModelResponse.getPetalWidth()
-        );
-        // ************************ TEST **************************** //
         return irisModelService.saveIrisModelPrediction(irisModelResponse);
     }
 
@@ -139,17 +129,6 @@ public class IrisModelController {
 
 
 
-
-
-
-
-
-
-
-
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
     /**
      * Controller qui génère un fichier Excel pour intégrer le jeu de données qui entraine
      * le modèle de classification des Iris.
@@ -174,22 +153,9 @@ public class IrisModelController {
     public boolean importExcelIrisDataSetFile(MultipartFile file){
         return irisModelService.importExcelIrisDataSetFile(file);
     }
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
 
 
 
-
-
-
-
-
-
-
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
     /**
      * Controller qui génère un fichier Csv pour intégrer le jeu de données qui entraine
      * le modèle de classification des Iris.
@@ -214,17 +180,18 @@ public class IrisModelController {
     public boolean importCsvIrisDataSetFile(MultipartFile file){
         return irisModelService.importCsvIrisDataSetFile(file);
     }
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
 
 
 
-
-
-
-
-
+    /**
+     * Controller qui génère un fichier Excel qui
+     * contient les données du DataSet Iris.
+     *
+     */
+    @GetMapping("/generate-iris-dataset-excel")
+    public boolean generateIrisDataSetExcel() {
+        return irisModelService.generateIrisDataSetExcel();
+    }
 
 
 

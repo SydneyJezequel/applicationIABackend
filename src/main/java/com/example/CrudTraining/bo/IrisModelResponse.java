@@ -3,6 +3,12 @@ package com.example.CrudTraining.bo;
 import javax.persistence.*;
 
 
+
+
+
+
+
+
 /**
  * Réponse renvoyée par Modèle de machine Learning qui prédit le type d'Iris.
  * Cette réponse contient la prédiction et les paramètres pour la calculer.

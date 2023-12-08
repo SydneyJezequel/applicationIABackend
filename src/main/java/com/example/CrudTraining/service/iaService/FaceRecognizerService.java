@@ -1,6 +1,5 @@
 package com.example.CrudTraining.service.iaService;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.zip.ZipInputStream;
@@ -119,90 +118,12 @@ public interface FaceRecognizerService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // ****************************** TESTS ****************************** //
-    // ****************************** TESTS ****************************** //
-    // ****************************** TESTS ****************************** //
     /**
-     * Méthode qui XXXXXXXXXX
-     * @return
+     * Méthode créer le fichier encoding.pkl
+     * et le dossier output qui le contient.
      *
      */
-    public String test1();
-
-
-
-    /**
-     * Méthode qui XXXXXXXXXX
-     * @return
-     *
-     */
-    public String test3(String test3);
-    // ****************************** TESTS ****************************** //
-    // ****************************** TESTS ****************************** //
-    // ****************************** TESTS ****************************** //
-
-
-
-
-
+    public void createEncodingFile();
 
 
 

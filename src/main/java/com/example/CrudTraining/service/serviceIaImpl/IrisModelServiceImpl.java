@@ -1,9 +1,12 @@
 package com.example.CrudTraining.service.serviceIaImpl;
 
+import com.example.CrudTraining.bo.IrisModelDataSet;
 import com.example.CrudTraining.bo.IrisModelRequest;
 import com.example.CrudTraining.bo.IrisModelResponse;
 import com.example.CrudTraining.repository.IrisModelRepository;
 import com.example.CrudTraining.service.iaService.IrisModelService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -29,13 +32,13 @@ import java.util.logging.Logger;
 
 
 
+
+
 /**
  * Implémentation mes méthodes pour manipuler le modèle de classification des Iris.
- *
  */
 @Service
 public class IrisModelServiceImpl implements IrisModelService {
-
 
 
 
@@ -49,11 +52,10 @@ public class IrisModelServiceImpl implements IrisModelService {
     private final String initializeModelIrisApiUrl = "http://localhost:8008/initialize-model";
     // Url pour exécuter le modèle Iris :
     private final String executeModelIrisApiUrl = "http://localhost:8008/predict";
-    // ************** TEST ************** //
     // Url pour entrainer le modèle Iris :
     private final String loadUserPredictionsInModelIrisApiUrl = "http://localhost:8008/load-predict-in-model";
-    // ************** TEST ************** //
-
+    // Url pour récupérer le DataSet du modèle Iris :
+    private final String getIrisModelDataSet = "http://localhost:8008/get-iris-dataset";
 
 
 
@@ -70,7 +72,7 @@ public class IrisModelServiceImpl implements IrisModelService {
     // ************************** Méthodes ************************** //
 
     @Override
-    public boolean initializeModelPrediction(){
+    public boolean initializeModelPrediction() {
         try {
             // Attribut :
             String messageSucces;
@@ -91,7 +93,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             messageSucces = responseEntity.getBody();
             logger.info(messageSucces);
             return true;
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             logger.info(e.toString());
             return false;
         }
@@ -100,7 +102,7 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
     @Override
-    public String getIrisModelPrediction(IrisModelRequest request){
+    public String getIrisModelPrediction(IrisModelRequest request) {
         // Attribut :
         String prediction;
         // Création de l'en-tête de la requête Http :
@@ -113,13 +115,13 @@ public class IrisModelServiceImpl implements IrisModelService {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(executeModelIrisApiUrl, httpEntity, String.class);
         // Récupération et renvoie de la réponse :
         prediction = responseEntity.getBody();
-        return prediction ;
+        return prediction;
     }
 
 
 
     @Override
-    public IrisModelResponse saveIrisModelPrediction(IrisModelResponse result){
+    public IrisModelResponse saveIrisModelPrediction(IrisModelResponse result) {
         System.out.println(result.getPrediction());
         System.out.println(result.getPetalLength());
         System.out.println(result.getSepalLength());
@@ -129,7 +131,7 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
     @Override
-    public List<IrisModelResponse> getAllIrisModelPrediction(){
+    public List<IrisModelResponse> getAllIrisModelPrediction() {
         return irisModelRepository.findAll();
     }
 
@@ -148,7 +150,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             String[] entete = {"no_prediction", "sepal_length", "sepal_width", "petal_length", "petal_width", "prediction"};
             writer.writeNext(entete);
             // Injection des données dans le fichier CSV :
-            for(IrisModelResponse irisModelResponse : irisModelResponses){
+            for (IrisModelResponse irisModelResponse : irisModelResponses) {
                 String no_securite_sociale = String.valueOf(irisModelResponse.getNo_prediction());
                 String[] ligne = {String.valueOf(irisModelResponse.getSepalLength()), String.valueOf(irisModelResponse.getSepalWidth()), String.valueOf(irisModelResponse.getPetalLength()), String.valueOf(irisModelResponse.getPetalWidth()), irisModelResponse.getPrediction()};
                 writer.writeNext(ligne);
@@ -179,7 +181,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             headerRow.createCell(3).setCellValue("petal_length");
             headerRow.createCell(4).setCellValue("petal_width");
             headerRow.createCell(5).setCellValue("prediction");
-            // Remplir chaque ligne du fichier Excel avec une Personne :
+            // Remplir chaque ligne du fichier Excel :
             int rowNum = 1;
             for (IrisModelResponse irisModelResponse : irisModelResponses) {
                 Row row = sheet.createRow(rowNum++);
@@ -198,8 +200,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             }
             workbook.close();
             return true;
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             return false;
         }
     }
@@ -228,8 +229,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             workbook.close();
             logger.info("Fichier Excel avec succès.");
             return true;
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             logger.warning("Erreur : " + e);
             return false;
         }
@@ -268,8 +268,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             loadAndTrainModel(irisDataSet);
             logger.info("Données Excel intégrées avec succès.");
             return true;
-        }
-        catch (IOException e) { // Gestion des erreurs :
+        } catch (IOException e) { // Gestion des erreurs :
             logger.warning("Erreur : " + e);
             return false;
         }
@@ -278,7 +277,7 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
     @Override
-    public boolean generateCsvForDataset() throws IOException{
+    public boolean generateCsvForDataset() throws IOException {
         try {
             // Path du fichier template CSV  :
             String filePath = "/Users/sjezequel/Desktop/iris_new_dataset_csv";
@@ -299,7 +298,7 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
     @Override
-    public boolean importCsvIrisDataSetFile(MultipartFile file){
+    public boolean importCsvIrisDataSetFile(MultipartFile file) {
         try {
             // Lecture des données du fichier et stockage en mémoire tampon :
             BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -326,7 +325,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             loadAndTrainModel(irisDataSet);
             logger.info("Données Csv intégrées avec succès.");
             return true;
-        } catch (IOException | CsvValidationException e ) {
+        } catch (IOException | CsvValidationException e) {
             logger.warning("Erreur : " + e);
             return false;
         }
@@ -335,7 +334,7 @@ public class IrisModelServiceImpl implements IrisModelService {
 
 
     @Override
-    public String loadAndTrainModel(List<IrisModelResponse> irisDataSet){
+    public String loadAndTrainModel(List<IrisModelResponse> irisDataSet) {
         // Conversion des données en Mapper :
         List<Map<String, Object>> loadData = new ArrayList<>();
         for (IrisModelResponse dataLine : irisDataSet) {
@@ -357,6 +356,78 @@ public class IrisModelServiceImpl implements IrisModelService {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(loadUserPredictionsInModelIrisApiUrl, httpEntity, String.class);
         // Renvoie du message généré par l'Api :
         return responseEntity.getBody();
+    }
+
+
+
+    @Override
+    public boolean generateIrisDataSetExcel() {
+        try{
+            List<IrisModelResponse> irisDataSet = getIrisDataSet();
+            // Création du fichier Excel et la feuille qui contient les données :
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("DataSet");
+            // Création ligne d'en-tête du fichier Excel :
+            Row headerRow = sheet.createRow(0); // La nouvelle ligne fait partie de la feuille du fichier Excel.
+            headerRow.createCell(0).setCellValue("sepal_length");
+            headerRow.createCell(1).setCellValue("sepal_width");
+            headerRow.createCell(2).setCellValue("petal_length");
+            headerRow.createCell(3).setCellValue("petal_width");
+            headerRow.createCell(4).setCellValue("prediction");
+            // Remplir chaque ligne du fichier Excel :
+            int rowNum = 1;
+            for (IrisModelResponse irisModelResponse : irisDataSet) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(irisModelResponse.getSepalLength());
+                row.createCell(1).setCellValue(irisModelResponse.getSepalWidth());
+                row.createCell(2).setCellValue(irisModelResponse.getPetalLength());
+                row.createCell(3).setCellValue(irisModelResponse.getPetalWidth());
+                row.createCell(4).setCellValue(irisModelResponse.getPrediction());
+            }
+            // Fichier Excel ou sont chargées les données :
+            String filePath = "/Users/sjezequel/Desktop/iris_dataset";
+            // Écriture des données dans le fichier Excel :
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+                workbook.close();
+                return true;
+        } catch (RuntimeException | IOException e) {
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public List<IrisModelResponse> getIrisDataSet() {
+        try {
+            // Création de l'en-tête de la requête Http :
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Création du contenu de la requête Http :
+            HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+            // Exécution de la requête vers l'API du modèle de Machine Learning :
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> responseEntity = restTemplate.exchange(
+                    getIrisModelDataSet,
+                    HttpMethod.GET,
+                    httpEntity,
+                    String.class
+            );
+            // Récupération et renvoie de la réponse :
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<IrisModelResponse> irisDataSet = objectMapper.readValue(responseEntity.getBody(), IrisModelDataSet.class).getDataLines();
+            logger.info("DataSet récupéré avec succès.");
+            return irisDataSet;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+
+
+
+
 
 
 /**
@@ -127,145 +130,6 @@ public class FaceRecognizerController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Méthode qui XXXXXXXXXX
-     * @return
-     *
-     */
-    @GetMapping("/test-1")
-    public String test1() {
-        return faceRecognizerService.test1();
-    }
-
-
-
-    /**
-     * Méthode qui XXXXXXXXXX
-     * @return
-     *
-     */
-    @PostMapping("/test-3")
-    public boolean test3(@RequestBody String test3) {
-        String test = faceRecognizerService.test3(test3);
-        System.out.println(test);
-        return true;
-    }
 
 
 

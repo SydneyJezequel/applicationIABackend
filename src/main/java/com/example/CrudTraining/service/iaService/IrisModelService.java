@@ -11,6 +11,8 @@ import java.util.List;
 
 
 
+
+
 /**
  * Service pour appeler des modèles de Machines Learning
  *
@@ -74,22 +76,6 @@ public interface IrisModelService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
     /**
      * Méthode qui génère un fichier Excel pour intégrer le jeu de données qui entraine
      * le modèle de classification des Iris.
@@ -110,23 +96,7 @@ public interface IrisModelService {
     public boolean importExcelIrisDataSetFile(MultipartFile file);
 
 
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
-    // *********************************** TEST EXCEL *********************************** //
 
-
-
-
-
-
-
-
-
-
-
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
     /**
      * Méthode qui génère un fichier Csv pour intégrer le jeu de données qui entraine
      * le modèle de classification des Iris.
@@ -146,39 +116,32 @@ public interface IrisModelService {
      */
     public boolean importCsvIrisDataSetFile(MultipartFile file);
 
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
-    // *********************************** TEST CSV *********************************** //
 
 
-
-
-
-
-
-
-
-
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
     /**
      * Méthode charge un fichier de données Excel et entraine le modèle
      * de classification des Iris.
      *
      */
     public String loadAndTrainModel(List<IrisModelResponse> irisDataSet);
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
-    // *********************************** INTEGRATION MODELE *********************************** //
 
 
 
+    /**
+     * Méthode pour générer un fichier Excel qui
+     * contient les données du DataSet Iris.
+     *
+     */
+    public boolean generateIrisDataSetExcel();
 
 
 
-
-
+    /**
+     * Méthode pour récupérer les données du DataSet Iris
+     * depuis le modèle.
+     *
+     */
+    public List<IrisModelResponse> getIrisDataSet();
 
 
 
