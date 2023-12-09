@@ -1,11 +1,11 @@
 package com.example.CrudTraining.controller.iaController;
 
-import com.example.CrudTraining.bo.IrisModelResponse;
+import com.example.CrudTraining.bo.ia.irismodele.IrisModelResponse;
 import com.example.CrudTraining.service.iaService.IrisModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.example.CrudTraining.bo.IrisModelRequest;
+import com.example.CrudTraining.bo.ia.irismodele.IrisModelRequest;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;

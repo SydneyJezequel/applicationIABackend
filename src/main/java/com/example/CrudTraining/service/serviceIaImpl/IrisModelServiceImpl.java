@@ -1,8 +1,8 @@
 package com.example.CrudTraining.service.serviceIaImpl;
 
-import com.example.CrudTraining.bo.IrisModelDataSet;
-import com.example.CrudTraining.bo.IrisModelRequest;
-import com.example.CrudTraining.bo.IrisModelResponse;
+import com.example.CrudTraining.bo.ia.irismodele.IrisModelDataSet;
+import com.example.CrudTraining.bo.ia.irismodele.IrisModelRequest;
+import com.example.CrudTraining.bo.ia.irismodele.IrisModelResponse;
 import com.example.CrudTraining.repository.IrisModelRepository;
 import com.example.CrudTraining.service.iaService.IrisModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;

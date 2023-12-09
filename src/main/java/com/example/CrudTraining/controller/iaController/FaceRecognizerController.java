@@ -5,11 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
-
-
-
+import java.util.List;
 
 
 /**
@@ -94,7 +90,6 @@ public class FaceRecognizerController {
      * @return boolean
      *
      */
-    // @PostMapping("/encode-known-faces")
     @GetMapping("/recognize-face-training")
     public boolean encodageDesVisages() {
         return faceRecognizerService.encodageDesVisages();
@@ -108,7 +103,6 @@ public class FaceRecognizerController {
      * @return boolean
      *
      */
-    // @PostMapping("/validate")
     @GetMapping("/recognize-face-test")
     public boolean validationDuModel() {
         return faceRecognizerService.validationDuModel();
@@ -122,10 +116,49 @@ public class FaceRecognizerController {
      * @return boolean
      *
      */
-    //@PostMapping("/recognize-face")
     @GetMapping("/use-recognize-face")
     public boolean reconnaissanceFaciale() {
         return faceRecognizerService.reconnaissanceFaciale();
+    }
+
+
+
+    /**
+     * Méthode qui initialise le modèle de machine learning
+     * "hog" comme modèle par défaut pour la reconnaissance faciale.
+     * @return boolean : Opération réussie ou non.
+     */
+    @GetMapping("/initialize")
+    public boolean initializeFaceRecognizerModel(){
+        return faceRecognizerService.initializeFaceRecognizerModel();
+    }
+
+
+
+    /**
+     * Méthode qui met à jour le modèle de machine learning
+     * en BDD. Ce choix sera utilisé lors de l'exécution du modèle
+     * de Machine Learning.
+     * @return boolean : Opération réussie ou non.
+     *
+     */
+    @PostMapping("/selection-modele")
+    public boolean selectModel(@RequestBody String modeleSelectionne) {
+        System.out.println(modeleSelectionne);
+        return faceRecognizerService.selectModel(modeleSelectionne);
+    }
+
+
+
+    /**
+     * Méthode qui renvoie la liste des modèles de
+     * Machine Learning vers le front
+     * pour le menu déroulant.
+     *
+     */
+    @GetMapping("/liste-modele")
+    public List<String> getListModel() {
+        return faceRecognizerService.getListModele();
     }
 
 

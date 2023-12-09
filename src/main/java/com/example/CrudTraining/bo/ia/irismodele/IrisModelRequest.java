@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo;
+package com.example.CrudTraining.bo.ia.irismodele;
 
 
 

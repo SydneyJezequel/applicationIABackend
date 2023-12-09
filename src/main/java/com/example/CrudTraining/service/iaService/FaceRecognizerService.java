@@ -1,7 +1,9 @@
 package com.example.CrudTraining.service.iaService;
 
+import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModels;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
+import java.util.List;
 import java.util.zip.ZipInputStream;
 
 
@@ -124,6 +126,42 @@ public interface FaceRecognizerService {
      *
      */
     public void createEncodingFile();
+
+
+
+    /**
+     * Méthode qui initialise le modèle de machine learning
+     * "hog" comme modèle par défaut pour la reconnaissance faciale.
+     * @return boolean : Opération réussie ou non.
+     */
+    public boolean initializeFaceRecognizerModel();
+
+
+
+    /**
+     * Méthode qui change le modèle
+     * en BDD.
+     *
+     */
+    public boolean selectModel(String modele);
+
+
+
+    /**
+     * Méthode qui récupère le modèle
+     * en BDD.
+     */
+    public String getModel();
+
+
+
+    /**
+     * Méthode qui renvoie la liste des modèles
+     * vers le front pour le menu déroulant.
+     *
+     */
+    public List<String> getListModele();
+
 
 
 

@@ -1,8 +1,14 @@
 package com.example.CrudTraining.service.serviceIaImpl;
 
+import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModel;
+import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModels;
+import com.example.CrudTraining.repository.FaceRecognizerRepository;
 import com.example.CrudTraining.service.iaService.FaceRecognizerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,8 +17,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -40,6 +45,9 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     private final String urlReconnaissanceFaciale = "http://localhost:8008/recognize-face";
     private final String urlValidationModel = "http://localhost:8008/recognize-face-test";
 
+    // Intégration du repository pour sélectionner le modèle en BDD :
+    @Autowired
+    private FaceRecognizerRepository faceRecognizerRepository;
 
 
 
@@ -268,7 +276,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
         try {
             // Attribut :
             String messageSucces;
-            String model = "hog";
+            String model = getModel();
             // Création de l'en-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -344,7 +352,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             // Attribut :
             String messageSucces;
             String emplacementImage = "identifyFace/identifyFace.jpg";
-            String model = "hog";
+            String model = getModel();
             // Création de l'en-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -381,8 +389,8 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     public boolean validationDuModel(){
         try {
             // Attribut :
-            String model = "hog";
             String messageSucces;
+            String model = getModel();
             // Création de l'en-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -414,6 +422,67 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
 
+    @Override
+    public boolean initializeFaceRecognizerModel(){
+        try {
+            if(!faceRecognizerRepository.findAll().isEmpty()){
+                faceRecognizerRepository.deleteAll();
+            }
+            FaceRecognizerModel model = new FaceRecognizerModel();
+            model.setNo_model(1L);
+            model.setModele(String.valueOf(FaceRecognizerModels.HOG));
+            faceRecognizerRepository.save(model);
+            return true;
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public boolean selectModel(String modele) {
+        try {
+            faceRecognizerRepository.deleteAll();
+            FaceRecognizerModel model = new FaceRecognizerModel();
+            model.setNo_model(1L);
+            switch (modele) {
+                case "HOG" :
+                    model.setModele("hog");
+                    break;
+                case "CNN" :
+                    model.setModele("cnn");
+                    break;
+                default:
+                    logger.info("modèle invalide");
+            }
+            faceRecognizerRepository.save(model);
+            return true;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public String getModel(){
+        return faceRecognizerRepository.getFaceRecognizerModelById(1L);
+    }
+
+
+
+    @Override
+    public List<String> getListModele(){
+        String hog = FaceRecognizerModels.HOG.toString();
+        String cnn = FaceRecognizerModels.CNN.toString();
+        List<String> listeModele = new ArrayList<>();
+        listeModele.add(hog);
+        listeModele.add(cnn);
+        return listeModele;
+    }
 
 
 

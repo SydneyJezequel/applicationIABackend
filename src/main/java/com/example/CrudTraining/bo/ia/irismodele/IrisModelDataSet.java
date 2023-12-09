@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo;
+package com.example.CrudTraining.bo.ia.irismodele;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

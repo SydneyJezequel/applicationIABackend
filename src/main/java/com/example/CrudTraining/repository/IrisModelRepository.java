@@ -1,6 +1,6 @@
 package com.example.CrudTraining.repository;
 
-import com.example.CrudTraining.bo.IrisModelResponse;
+import com.example.CrudTraining.bo.ia.irismodele.IrisModelResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
