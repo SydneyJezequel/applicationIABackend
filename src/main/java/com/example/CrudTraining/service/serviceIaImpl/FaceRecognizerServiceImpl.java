@@ -6,8 +6,6 @@ import com.example.CrudTraining.repository.FaceRecognizerRepository;
 import com.example.CrudTraining.service.iaService.FaceRecognizerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ import java.util.zip.ZipInputStream;
 
 
 /**
- * Implémentation mes méthodes pour manipuler le modèle de Reconnaissance.
+ * Implémentation des méthodes pour manipuler le modèle de Reconnaissance.
  *
  */
 @Service
