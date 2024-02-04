@@ -1,7 +1,6 @@
 package com.example.CrudTraining.service.iaService;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 
 
@@ -13,6 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
  *
  */
 public interface GanModelService {
+
+
+
+    /**
+     * Méthode pour déposer le fichier de paramètres du Générateur
+     * dans le projet du modèle.
+     * @param MultipartFile : parameterGenFile
+     * @return booléen : Action réussie ou non.
+     *
+     */
+    public boolean loadParametersGenFile(MultipartFile parameterGenFile);
 
 
 

@@ -6,6 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -45,6 +51,51 @@ public class GanModelServiceImpl implements GanModelService {
     // ************************************ Méthodes ************************************ //
 
     /**
+     * Méthode qui charge le fichier de paramètres du Générateur dans le projet Python.
+     * Ce fichier de paramètres est ensuite utilisé par le modèle pour générer des images.
+     * @param parameterGenFile : fichier de paramètres du Générateur
+     * @return : Renvoie un booléen.
+     *
+     */
+    public boolean loadParametersGenFile(MultipartFile parameterGenFile){
+        try {
+
+            // Nom du dossier de stockage des paramètres du Générateur :
+            String nomDuDossier = "config";
+            // Chemin du dossier de stockage :
+            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/GanExecution/" + nomDuDossier;
+            Path cheminPath = Paths.get(cheminDuDossier);
+
+            // Création du dossier :
+            if (!Files.exists(cheminPath)) {
+                try {
+                    Files.createDirectories(cheminPath);
+                    logger.info("Dossier './config' créé avec succès à la source du projet !");
+                } catch (IOException e) {
+                    logger.info("Échec de la création du dossier : " + e.getMessage());
+                }
+            } else {
+                logger.info("Le dossier existe déjà.");
+            }
+
+            // Chargement du fichier de paramètres dans le dossier "/config" :
+            String nomDuFichier = "G-latest.pkl";
+            Path cheminFichierDestination = Paths.get(cheminDuDossier, nomDuFichier);
+            try (OutputStream outputStream = Files.newOutputStream(cheminFichierDestination)) {
+                outputStream.write(parameterGenFile.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return true;
+        } catch(RuntimeException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    /**
      * Méthode pour générer des images avec le modèle GAN.
      *
      */
@@ -70,6 +121,7 @@ public class GanModelServiceImpl implements GanModelService {
     }
 
 
+
     /**
      * Méthode pour générer des images avec le modèle GAN.
      *
@@ -77,17 +129,6 @@ public class GanModelServiceImpl implements GanModelService {
     @Override
     public boolean trainGanModel (int nbEpochs, int batchSize, double lr, int zDim, String device, int showStep, int saveStep) {
         try {
-            // ********************** TEST ********************** //
-            /*
-            nbEpochs = 10000;
-            batchSize = 128;
-            lr = 1e-4;
-            zDim = 200;
-            device = "cpu";
-            showStep = 35;
-            saveStep = 35;
-            */
-            // ********************** TEST ********************** //
             // Création de l'en-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -100,7 +141,6 @@ public class GanModelServiceImpl implements GanModelService {
             requestBodyMap.put("device", device);
             requestBodyMap.put("show_step", showStep);
             requestBodyMap.put("save_step", saveStep);
-
             // Convertir la map en JSON :
             ObjectMapper objectMapper = new ObjectMapper();
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
@@ -130,20 +170,7 @@ public class GanModelServiceImpl implements GanModelService {
 
 
 
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
 
 
 
