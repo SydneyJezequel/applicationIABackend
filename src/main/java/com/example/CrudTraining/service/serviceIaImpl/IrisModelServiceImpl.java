@@ -1,8 +1,8 @@
 package com.example.CrudTraining.service.serviceIaImpl;
 
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelDataSet;
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelRequest;
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelResponse;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelDataSet;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelRequest;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelResponse;
 import com.example.CrudTraining.repository.IrisModelRepository;
 import com.example.CrudTraining.service.iaService.IrisModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
-
 
 
 
@@ -63,7 +61,6 @@ public class IrisModelServiceImpl implements IrisModelService {
 
     // ************************** Implémentation des logs ************************** //
     private static final Logger logger = Logger.getLogger(IrisModelServiceImpl.class.getName());
-
 
 
 
@@ -417,7 +414,7 @@ public class IrisModelServiceImpl implements IrisModelService {
                     httpEntity,
                     String.class
             );
-            // Récupération et renvoie de la réponse :
+            // Récupération de la réponse :
             ObjectMapper objectMapper = new ObjectMapper();
             List<IrisModelResponse> irisDataSet = objectMapper.readValue(responseEntity.getBody(), IrisModelDataSet.class).getDataLines();
             logger.info("DataSet récupéré avec succès.");
@@ -429,6 +426,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             return null;
         }
     }
+
 
 
 

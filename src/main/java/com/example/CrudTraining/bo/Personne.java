@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 /**
- * Entité Personne
+ * Classe pour manipuler une Personne.
  *
  */
 @Entity
@@ -123,6 +123,7 @@ public class Personne {
     public byte[] getPhoto() { return photo; }
 
     public void setPhoto(byte[] photo) { this.photo = photo; }
+
 
 
 

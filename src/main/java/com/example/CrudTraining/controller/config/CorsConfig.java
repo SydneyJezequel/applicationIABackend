@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Classe de configuration Cors.
  * Cette classe définit :
- * - Les requêtes acceptées (origines, type, etc.)
+ * - Les requêtes acceptées par le Backend (origines, type, etc.)
  * - Le template de requête pour chatGPT
  *
  */
@@ -34,10 +34,10 @@ public class CorsConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // chemin de l'API
-                .allowedOrigins("http://localhost:4200", "https://api.openai.com", "http://localhost:8008")// Origine autorisée (http://localhost:8081)
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Méthodes HTTP autorisées
-                .allowedHeaders("Origin", "Content-Type", "Authorization", "Accept"); // En-têtes autorisés
+        registry.addMapping("/api/**")
+                .allowedOrigins("http://localhost:4200", "https://api.openai.com", "http://localhost:8008")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("Origin", "Content-Type", "Authorization", "Accept");
     }
 
 
@@ -46,14 +46,19 @@ public class CorsConfig implements WebMvcConfigurer {
 
     // *************************** Attributs *************************** //
 
-    // Url Api ChatGpt :
+    // Url et Key de l'Api ChatGpt :
     @Value("${openai.api.key}")
     private String openApiKey;
 
 
+
+
+
+    // *************************** Méthodes *************************** //
+
     /**
-     * Méthode qui définit le template utilisée par les requêtes pour chatGpt.
-     * @return
+     * Méthode qui définit le template utilisé par les requêtes pour chatGpt.
+     * @return Template Rest des requêtes HTTP.
      *
      */
     @Bean
@@ -65,6 +70,7 @@ public class CorsConfig implements WebMvcConfigurer {
         });
         return restTemplate;
     }
+
 
 
 

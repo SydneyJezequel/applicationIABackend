@@ -1,7 +1,7 @@
 package com.example.CrudTraining.service.serviceIaImpl;
 
-import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModel;
-import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModels;
+import com.example.CrudTraining.bo.ia.faceRecognizerModel.FaceRecognizerModel;
+import com.example.CrudTraining.bo.ia.faceRecognizerModel.FaceRecognizerModels;
 import com.example.CrudTraining.repository.FaceRecognizerRepository;
 import com.example.CrudTraining.service.iaService.FaceRecognizerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -268,7 +268,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     // ************************** Méthodes de manipulation du modèle ************************** //
 
     @Override
-    public boolean encodageDesVisages(){
+    public boolean trainFaceRecognizer(){
         // Création du fichier encoding.pkl :
         createEncodingFile();
         try {
@@ -345,7 +345,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public boolean reconnaissanceFaciale(){
+    public boolean executeFaceRecognizer(){
         try {
             // Attribut :
             String messageSucces;
@@ -384,7 +384,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public boolean validationDuModel(){
+    public boolean validateFaceRecognizer(){
         try {
             // Attribut :
             String messageSucces;
@@ -440,12 +440,12 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public boolean selectModel(String modele) {
+    public boolean selectModel(String selectedModel) {
         try {
             faceRecognizerRepository.deleteAll();
             FaceRecognizerModel model = new FaceRecognizerModel();
             model.setNo_model(1L);
-            switch (modele) {
+            switch (selectedModel) {
                 case "HOG" :
                     model.setModele("hog");
                     break;

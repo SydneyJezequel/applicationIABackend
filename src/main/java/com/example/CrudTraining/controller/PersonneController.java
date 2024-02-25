@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * Controller pour la gestion des Personnes.
+ * Controller pour gérer des Personnes.
  *
  */
 @RestController
@@ -58,7 +58,7 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui renvoie une personne en fonction de son Id.
+     * Méthode qui renvoie une personne.
      * @param id de la personne.
      * @return personne
      *
@@ -84,8 +84,8 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui supprime une Personne en fonction de son Id.
-     * @param id de la personne à supprimer.
+     * Méthode qui supprime une Personne.
+     * @param id de la personne supprimée.
      *
      */
     @DeleteMapping("/delete/{id}")
@@ -97,8 +97,8 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui intègre en BDD un fichier Excel contenant une liste de personne.
-     * @param MultipartFile qui contient la liste des personnes à intégrer.
+     * Méthode qui intègre le fichier Excel d'une liste de personne.
+     * @param MultipartFile : Contient la liste des personnes au format Excel.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -110,7 +110,7 @@ public class PersonneController {
 
 
     /**
-     * Controller qui génère un fichier Excel contenant la liste des personnes en BDD.
+     * Méthode qui génère un fichier Excel contenant la liste des personnes en BDD.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -127,8 +127,8 @@ public class PersonneController {
 
 
     /**
-     * Méthode qui intègre en BDD un fichier Csv contenant une liste de personne.
-     * @param MultipartFile qui contient la liste des personnes à intégrer.
+     * Méthode qui intègre le fichier Csv d'une liste de personne.
+     * @param MultipartFile : Contient la liste des personnes au format csv.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -140,7 +140,7 @@ public class PersonneController {
 
 
     /**
-     * Controller qui génère un fichier Csv contenant la liste des personnes en BDD.
+     * Méthode qui génère un fichier Csv contenant la liste des personnes en BDD.
      * @return boolean : succès/échec de l'exécution
      *
      */
@@ -157,10 +157,8 @@ public class PersonneController {
 
 
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
     /**
-     * Controller qui génère une String à partir d'un byte[] récupéré en BDD.
+     * Méthode qui génère une String à partir d'un byte[].
      * @return String qui contient l'image.
      *
      */
@@ -169,8 +167,7 @@ public class PersonneController {
         return personneService.convertToBase64();
     }
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+
 
 
 

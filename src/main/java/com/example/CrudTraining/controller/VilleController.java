@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * Controller pour la gestion des Villes.
+ * Controller pour gérer des Villes.
  *
  */
 @RestController
@@ -43,7 +43,7 @@ public class VilleController {
     // *************************** Méthodes *************************** //
 
     /**
-     * Méthode qui charge les villes de l'Api en BD et les renvoie.
+     * Méthode qui charge les villes de l'Api en BD et les affiche.
      * @return Ville[]
      *
      */
@@ -67,8 +67,8 @@ public class VilleController {
 
 
     /**
-     * Méthode qui renvoie une Ville en fonction de son Id.
-     * @return
+     * Méthode qui renvoie une Ville.
+     * @return Ville
      *
      */
     @GetMapping("/{id}")
@@ -80,8 +80,8 @@ public class VilleController {
 
     /**
      * Méthode qui enregistre une Ville.
-     * @param ville enregistrée
-     * @return
+     * @param Ville enregistrée
+     * @return Ville
      *
      */
     @PostMapping("/add-ville/")
@@ -92,8 +92,8 @@ public class VilleController {
 
 
     /**
-     * Méthode qui supprime une Ville en fonction de son Id.
-     * @param id de la personne à supprimer.
+     * Méthode qui supprime une Ville.
+     * @param id de la ville supprimée.
      *
      */
     @DeleteMapping("/delete/{id}")
@@ -101,6 +101,8 @@ public class VilleController {
     {
         villeService.delete(id);
     }
+
+
 
 
 

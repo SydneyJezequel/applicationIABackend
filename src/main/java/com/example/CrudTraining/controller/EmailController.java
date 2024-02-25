@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Controller pour la gestion des mails via service SMTP.
+ * Controller pour gérer des mails via service SMTP.
  *
  */
 @RestController
@@ -45,7 +45,7 @@ public class EmailController {
     // *************************** Méthodes *************************** //
 
     /**
-     * Méthode qui gère l'envoie des mails.
+     * Méthode qui gère l'envoi des mails.
      * @param emailRequest emailRequest.
      * @return Message de succès.
      *
@@ -54,6 +54,7 @@ public class EmailController {
     public String envoyerEmail(@RequestBody EmailRequest emailRequest) {
         return emailService.envoyerEmail(emailRequest);
     }
+
 
 
 

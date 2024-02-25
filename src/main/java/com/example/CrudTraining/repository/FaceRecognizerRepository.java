@@ -1,8 +1,7 @@
 package com.example.CrudTraining.repository;
 
-import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModel;
+import com.example.CrudTraining.bo.ia.faceRecognizerModel.FaceRecognizerModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,8 +12,7 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * Repository pour manipuler le modèle de Machine Learning
- * de reconnaissance faciale.
+ * Repository pour manipuler les modèles de reconnaissance faciale en BDD.
  *
  */
 @Repository
@@ -23,11 +21,12 @@ public interface FaceRecognizerRepository extends JpaRepository<FaceRecognizerMo
 
 
     /**
-     * Récupérer le modèle via son Id.
+     * Requête qui renvoie un Modèle de reconnaissance faciale à partir de son Id.
      *
      */
     @Query("SELECT f.modele FROM FaceRecognizerModel f WHERE f.no_model = :idModel")
     String getFaceRecognizerModelById(@Param("idModel") Long idModel);
+
 
 
 

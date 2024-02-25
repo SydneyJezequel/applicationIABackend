@@ -8,8 +8,9 @@ import com.example.CrudTraining.bo.Personne;
 
 
 /**
- * Classe Dto pour l'objet Personne.
- * Utilisée pour manipuler les objets Personne et leur photo entre le front et le back.
+ * Classe Dto de l'objet Personne.
+ * Elle permet de manipuler les objets de type Personne et leur photo
+ * entre le Frontend et le Backend.
  *
  */
 public class PersonneDTO {
@@ -44,6 +45,7 @@ public class PersonneDTO {
     public void setPhotoBase64String(String photoBase64String) {
         this.photoBase64String = photoBase64String;
     }
+
 
 
 

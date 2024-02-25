@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo.ia.reconaissancefacialemodele;
+package com.example.CrudTraining.bo.ia.faceRecognizerModel;
 
 import lombok.Getter;
 import javax.persistence.*;
@@ -9,8 +9,7 @@ import javax.persistence.*;
 
 
 /**
- * Table qui représente le modèle choisi
- * pour faire de la reconnaissance faciale.
+ * Classe du modèle de Reconnaissance faciale sélectionné.
  *
  */
 @Getter
@@ -64,7 +63,6 @@ public class FaceRecognizerModel {
         public void setModele(String modele) {
                 this.modele = modele;
         }
-
 
 
 

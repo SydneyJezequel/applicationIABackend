@@ -1,7 +1,7 @@
 package com.example.CrudTraining.bo;
 
-import com.example.CrudTraining.bo.convertisseur.StringArrayConverter;
-import com.example.CrudTraining.bo.convertisseur.StringArrayDeserializer;
+import com.example.CrudTraining.bo.converter.StringArrayConverter;
+import com.example.CrudTraining.bo.converter.StringArrayDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 
 /**
- * Entité Personne
+ * Classe pour manipuler une Ville.
  *
  */
 @Entity
@@ -42,7 +42,8 @@ public class Ville {
     private String codeRegion;
 
     @JsonDeserialize(using = StringArrayDeserializer.class)
-    @Convert(converter = StringArrayConverter.class) // Convertit un tableau de chaînes en une seule chaîne pour le stockage en BDD et inversement.
+    // Convertit un tableau de chaînes en une seule chaîne pour le stockage en BDD et inversement :
+    @Convert(converter = StringArrayConverter.class)
     @Column(nullable = true, name ="code_codes")
     private String[] codesPostaux;
 
@@ -137,6 +138,7 @@ public class Ville {
     public void setPopulation(long population) {
         this.population = population;
     }
+
 
 
 

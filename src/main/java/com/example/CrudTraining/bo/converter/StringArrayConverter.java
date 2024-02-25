@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo.convertisseur;
+package com.example.CrudTraining.bo.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -42,7 +42,7 @@ public class StringArrayConverter implements AttributeConverter<String[], String
 
 
     /**
-     * Méthode qui convertit la String récupérée en BDD en l'attribut Array String
+     * Méthode qui convertit la chaine de caractères récupérée en BDD en tableau de chaines de caractères.
      * @param dbData String
      * @return String[]
      *
@@ -56,6 +56,7 @@ public class StringArrayConverter implements AttributeConverter<String[], String
         // Renvoie de l'attribut String[] :
         return dbData.split(",");
     }
+
 
 
 

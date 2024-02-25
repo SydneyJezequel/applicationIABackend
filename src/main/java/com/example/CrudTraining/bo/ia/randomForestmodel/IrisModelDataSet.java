@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo.ia.irismodele;
+package com.example.CrudTraining.bo.ia.randomForestmodel;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,11 +9,8 @@ import java.util.List;
 
 
 
-
-
 /**
- * Réponse renvoyée par le projet du modèle de Machine Learning.
- * Cette classe correspond au DataSet des Iris.
+ * Liste de réponses envoyée par le modèle de Machine Learning.
  *
  */
 public class IrisModelDataSet {
@@ -53,4 +50,8 @@ public class IrisModelDataSet {
 
 
 
+
+
+
 }
+

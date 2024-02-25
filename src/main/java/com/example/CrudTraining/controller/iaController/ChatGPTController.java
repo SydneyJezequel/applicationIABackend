@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/api/ia")
+@RequestMapping("/api/ia/chat-gpt")
 public class ChatGPTController {
 
 
@@ -38,17 +38,21 @@ public class ChatGPTController {
 
 
 
-    // *************************** Méthodes *************************** ///**
+
+    // *************************** Méthodes *************************** //
+
     /**
-     * Méthode du controller qui envoie la requête du front à chatGpt et Récupère la réponse.
-     * @param prompt : Contenu de la requête.
-     * @return String de la réponse.
+     * Méthode qui envoie le prompt à l'Api de chatGpt.
+     * Elle renvoie la réponse.
+     * @param prompt : Contenu du prompt.
+     * @return String : Réponse.
      *
      */
-    @PostMapping("/chat-gpt")
+    @PostMapping("/send-prompt")
     public String chat(@RequestBody String prompt){
         return chatGptService.chat(prompt);
     }
+
 
 
 

@@ -1,6 +1,5 @@
 package com.example.CrudTraining.service.iaService;
 
-import com.example.CrudTraining.bo.ia.reconaissancefacialemodele.FaceRecognizerModels;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.List;
@@ -98,7 +97,7 @@ public interface FaceRecognizerService {
      * @return booléen : Succès / Erreur de l'opération.
      *
      */
-    public boolean encodageDesVisages();
+    public boolean trainFaceRecognizer();
 
 
 
@@ -107,7 +106,7 @@ public interface FaceRecognizerService {
      * @return booléen : Succès / Erreur de l'opération.
      *
      */
-    public boolean reconnaissanceFaciale();
+    public boolean executeFaceRecognizer();
 
 
 
@@ -116,7 +115,7 @@ public interface FaceRecognizerService {
      * @return booléen : Succès / Erreur de l'opération.
      *
      */
-    public boolean validationDuModel();
+    public boolean validateFaceRecognizer();
 
 
 
@@ -143,7 +142,7 @@ public interface FaceRecognizerService {
      * en BDD.
      *
      */
-    public boolean selectModel(String modele);
+    public boolean selectModel(String selectedModel);
 
 
 

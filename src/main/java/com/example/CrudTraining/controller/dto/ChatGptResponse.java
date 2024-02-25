@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * Réponse renvoyée par ChatGpt.
+ * Réponse envoyée par ChatGpt.
  *
  */
 @Data // Getter & Setter
@@ -20,15 +20,17 @@ import java.util.List;
 public class ChatGptResponse {
 
 
+
+
+
+    // *************************** Attributs *************************** //
+
     // Liste des messages de la réponse :
     public List<Choice> choices;
 
 
 
-    /**
-     * Classe qui encapsule le message de la réponse.
-     *
-     */
+    // Classe qui encapsule le message de la réponse :
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -37,6 +39,7 @@ public class ChatGptResponse {
         private int index;
         private Message message;
     }
+
 
 
 

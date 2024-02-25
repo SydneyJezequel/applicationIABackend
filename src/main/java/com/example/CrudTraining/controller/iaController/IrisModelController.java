@@ -1,11 +1,11 @@
 package com.example.CrudTraining.controller.iaController;
 
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelResponse;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelResponse;
 import com.example.CrudTraining.service.iaService.IrisModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelRequest;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelRequest;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
@@ -45,8 +45,9 @@ public class IrisModelController {
     // *************************** Méthodes *************************** //
 
     /**
-     * Méthode qui initialise le modèle de Machine Learning qui classe les Iris
-     * @return String : Message de succès.
+     * Méthode qui initialise le modèle de Machine Learning Random Forest.
+     * Par défaut, ce modèle est utilisé sur le dataset de classification du type d'Iris.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/load-predict-in-model")
@@ -57,8 +58,9 @@ public class IrisModelController {
 
 
     /**
-     * Méthode qui interroge le modèle de machine Learning de prédiction du type d'Iris
-     * @param IrisModelRequest request : Paramètres du modèle de Machine Learning envoyé depuis le Front.
+     * Méthode qui exécute le modèle de machine Learning Random Forest.
+     * Par défaut, ce modèle est utilisé pour prédire du type d'Iris
+     * @param IrisModelRequest request : Paramètres du modèle.
      * @return Message de succès.
      *
      */
@@ -71,9 +73,10 @@ public class IrisModelController {
 
 
     /**
-     * Méthode qui sauvegarde les prédictions du modèle d'Iris
-     * @param IrisModelRequest request : Paramètres du modèle de Machine Learning envoyé depuis le Front.
-     * @return Message de succès.
+     * Méthode qui sauvegarde les prédictions du modèle.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @param IrisModelResponse : Paramètres passés aux modèles et prédiction réalisée.
+     * @return IrisModelResponse : Paramètres passés aux modèles et prédiction réalisée.
      *
      */
     @PostMapping("/save-predict")
@@ -84,8 +87,9 @@ public class IrisModelController {
 
 
     /**
-     * Méthode qui renvoie la liste des prédictions générées par le modèle de Machine Learning Iris.
-     * @return La liste des prédictions calculées par les utilisateurs.
+     * Méthode qui renvoie la liste des prédictions générées par le modèle.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @return List<IrisModelResponse> : La liste des prédictions.
      *
      */
     @GetMapping("/all-predict")
@@ -96,7 +100,8 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui génère un fichier Excel qui contient les prédictions du modèle de classification des Iris.
+     * Méthode qui génère un fichier Excel contenant les prédictions du modèle.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -113,8 +118,9 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui génère un fichier Csv qui contient les prédictions du modèle de classification des Iris.
-     * @return boolean : succès/échec de l'exécution
+     * Méthode qui génère un fichier Csv qui contient les prédictions du modèle.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/generate-csv")
@@ -130,10 +136,9 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui génère un fichier Excel pour intégrer le jeu de données qui entraine
-     * le modèle de classification des Iris.
-     *
-     * @return String : Message de succès et génère le fichier excel pour importer les données.
+     * Méthode qui génère le fichier Excel de chargement du dataSet d'entrainement.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @return boolean : succès/échec de l'exécution.
      */
     @GetMapping("/generate-template-excel-dataset")
     public boolean generateExcelForDataset() throws IOException {
@@ -143,10 +148,10 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui importe un jeu de données pour entrainer
-     * le modèle de classification des Iris.
-     * @param MultipartFile file : Fichier Excel qui contient le jeu de données.
-     * @return String : Message de succès.
+     * Méthode qui charge le dataSet d'entrainement du modèle au format Excel.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @param MultipartFile file : Fichier Excel contenant le dataSet d'entrainement.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @PostMapping("/load-dataset-excel")
@@ -157,9 +162,9 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui génère un fichier Csv pour intégrer le jeu de données qui entraine
-     * le modèle de classification des Iris.
-     * @return String : Message de succès et génère le fichier excel pour importer les données.
+     * Méthode qui génère le fichier csv de chargement du dataSet d'entrainement.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/generate-template-csv-dataset")
@@ -170,10 +175,10 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui importe un jeu de données Csv pour entrainer
-     * le modèle de classification des Iris.
-     * @param MultipartFile file : Fichier Csv qui contient le jeu de données.
-     * @return String : Message de succès.
+     * Méthode qui charge le dataSet d'entrainement du modèle au format Csv.
+     * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
+     * @param MultipartFile file : Fichier Csv contenant le dataSet d'entrainement.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @PostMapping("/load-dataset-csv")
@@ -184,14 +189,15 @@ public class IrisModelController {
 
 
     /**
-     * Controller qui génère un fichier Excel qui
-     * contient les données du DataSet Iris.
+     * Méthode qui génère le fichier Excel contenant les données du DataSet Iris.
      *
      */
     @GetMapping("/generate-iris-dataset-excel")
     public boolean generateIrisDataSetExcel() {
         return irisModelService.generateIrisDataSetExcel();
     }
+
+
 
 
 

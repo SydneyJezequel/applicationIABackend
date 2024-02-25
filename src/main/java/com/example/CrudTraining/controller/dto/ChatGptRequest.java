@@ -19,6 +19,7 @@ public class ChatGptRequest {
 
 
 
+
     // *************************** Attributs *************************** //
     private String model;
     private List<Message> messages;
@@ -26,12 +27,16 @@ public class ChatGptRequest {
 
 
 
+
     // *************************** Constructeur *************************** //
     public ChatGptRequest(String model, String prompt) {
-        this.model = model; // Version de chatGpt.
+        // Version de chatGpt :
+        this.model = model;
         this.messages = new ArrayList<>(); //
-        this.messages.add(new Message("user", prompt)); // Intégration des rôles et messages dans la requête.
+        // Intégration des rôles et messages dans la requête :
+        this.messages.add(new Message("user", prompt));
      }
+
 
 
 

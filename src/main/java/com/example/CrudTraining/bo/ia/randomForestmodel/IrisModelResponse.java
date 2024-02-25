@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo.ia.irismodele;
+package com.example.CrudTraining.bo.ia.randomForestmodel;
 
 import javax.persistence.*;
 
@@ -7,11 +7,9 @@ import javax.persistence.*;
 
 
 
-
-
 /**
- * Réponse renvoyée par Modèle de machine Learning qui prédit le type d'Iris.
- * Cette réponse contient la prédiction et les paramètres pour la calculer.
+ * Réponse envoyée par modèle de Machine Learning Random Forest qui prédit le type d'Iris.
+ * Cette réponse contient la prédiction et les paramètres utilisés pour la calculer.
  *
  */
 @Entity
@@ -47,6 +45,7 @@ public class IrisModelResponse {
 
 
 
+
     // *************************** Constructeur *************************** //
 
     public IrisModelResponse() {}
@@ -67,6 +66,7 @@ public class IrisModelResponse {
         this.petalWidth = petalWidth;
         this.prediction = prediction;
     }
+
 
 
 
@@ -120,6 +120,7 @@ public class IrisModelResponse {
     public void setPrediction(String prediction) {
         this.prediction = prediction;
     }
+
 
 
 

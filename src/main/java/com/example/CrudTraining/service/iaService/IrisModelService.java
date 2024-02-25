@@ -1,7 +1,7 @@
 package com.example.CrudTraining.service.iaService;
 
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelRequest;
-import com.example.CrudTraining.bo.ia.irismodele.IrisModelResponse;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelRequest;
+import com.example.CrudTraining.bo.ia.randomForestmodel.IrisModelResponse;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;

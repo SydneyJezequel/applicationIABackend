@@ -22,10 +22,8 @@ public class GanModelController {
 
 
 
-
     // *************************** Attributs *************************** //
     private final GanModelService ganModelService;
-
 
 
 
@@ -39,14 +37,12 @@ public class GanModelController {
 
 
 
-
     // ************************************ Méthodes ************************************ //
 
     /**
-     * Méthode pour déposer une image à reconnaitre
-     * dans le projet du modèle.
+     * Méthode pour charger le fichier de paramètres du modèle GAN.
      * @param MultipartFile parameterGenFile : Fichier de paramètres du Générateur.
-     * @return booléen : Action réussie ou non.
+     * @return booléen : succès/échec de l'exécution.
      *
      */
     @PostMapping("/process-parameters-gen-file")
@@ -58,6 +54,7 @@ public class GanModelController {
 
     /**
      * Méthode pour générer des images avec le modèle GAN.
+     * @return booléen : succès/échec de l'exécution.
      *
      */
     @GetMapping("/generate-faces")
@@ -68,7 +65,8 @@ public class GanModelController {
 
 
     /**
-     * Méthode pour générer des images avec le modèle GAN.
+     * Méthode pour entrainer le modèle GAN.
+     * @return booléen : succès/échec de l'exécution.
      *
      */
     @PostMapping("/train-gan-model")

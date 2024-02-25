@@ -1,4 +1,4 @@
-package com.example.CrudTraining.bo.convertisseur;
+package com.example.CrudTraining.bo.converter;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 /**
- *  Classe qui déssérialise un String[] JSON en String.
+ *  Classe qui désérialise un tableau de chaînes de caractères au format JSON en une chaîne de caractères.
  *
  */
 public class StringArrayDeserializer extends StdDeserializer<String[]> {
@@ -35,15 +35,18 @@ public class StringArrayDeserializer extends StdDeserializer<String[]> {
 
     @Override
     public String[] deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);  // Récupère l'objet JSON à partir du parser JSON.
-        String[] strings = new String[node.size()];   // Crée un tableau de chaînes de la taille de l'objet JSON.
+        // Récupèrer l'objet JSON :
+        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        String[] strings = new String[node.size()];
         int index = 0;
         node.textValue();
+        // Convertir chaque élément en chaîne de caractères et l'ajouter au tableau :
         for (JsonNode element : node) {
-            strings[index++] = node.textValue(); // Convertit chaque élément en chaîne de caractères et l'ajoute au tableau
+            strings[index++] = node.textValue();
         }
         return strings;
     }
+
 
 
 

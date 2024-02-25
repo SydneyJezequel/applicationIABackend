@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 
 /**
- * Message contenu dans une Requête ou une Réponse chatGpt.
+ * Contenu d'une Requête / Réponse chatGpt.
  *
  */
 @Data
@@ -21,9 +21,11 @@ public class Message {
 
 
 
+
     // *************************** Attributs *************************** //
     private String role;
     private String content;
+
 
 
 

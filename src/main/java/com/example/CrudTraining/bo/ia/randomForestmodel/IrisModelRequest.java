@@ -1,11 +1,12 @@
-package com.example.CrudTraining.bo.ia.irismodele;
+package com.example.CrudTraining.bo.ia.randomForestmodel;
+
 
 
 
 
 
 /**
- * Requête envoyée au Modèle de machine Learning qui prédit le type d'Iris.
+ * Requête envoyée au modèle de Machine Learning qui prédit le type d'Iris.
  * Cette requête contient les paramètres pour calculer la prédiction.
  *
  */
@@ -25,7 +26,6 @@ public class IrisModelRequest {
 
 
 
-
     // *************************** Constructeur *************************** //
 
     public IrisModelRequest() {}
@@ -36,6 +36,7 @@ public class IrisModelRequest {
         this.petal_length = petal_length;
         this.petal_width = petal_width;
     }
+
 
 
 
@@ -73,6 +74,8 @@ public class IrisModelRequest {
     public void setPetal_width(double petal_width) {
         this.petal_width = petal_width;
     }
+
+
 
 
 

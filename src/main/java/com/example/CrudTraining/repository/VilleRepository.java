@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * Repository pour manipuler les Entités Villes en Base de données.
+ * Repository pour manipuler les Villes en Base de données.
  *
  */
 @Repository
@@ -27,6 +27,7 @@ public interface VilleRepository extends JpaRepository<Ville, Long> {
      */
     @Query("SELECT v FROM Ville v WHERE v.no_ville = :id")
     Ville findVilleById(@Param("id") java.lang.Long id);
+
 
 
 

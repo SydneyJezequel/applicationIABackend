@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * Controller pour manipuler le modèle de Reconnaissance.
+ * Controller pour manipuler le modèle de reconnaissance faciale.
  *
  */
 @RestController
@@ -23,10 +23,8 @@ public class FaceRecognizerController {
 
 
 
-
     // *************************** Attributs *************************** //
     private final FaceRecognizerService faceRecognizerService;
-
 
 
 
@@ -40,44 +38,40 @@ public class FaceRecognizerController {
 
 
 
-
-    // *************************** Méthodes de chargement des images *************************** //
+    // *************************** Méthodes pour charger les photos *************************** //
 
     /**
-     * Méthode qui intègre un fichier .zip qui contient les images
-     * d'entrainement du modèle de Machine Learning FaceRecognizer.
-     * @return boolean
+     * Méthode pour charger un fichier .zip contenant les photos d'entrainement du modèle.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @PostMapping("/process-training-set-file-image-zip")
-    public boolean trainingSetController(@RequestParam("file") MultipartFile imageZip) {
+    public boolean loadTrainingDataSetController(@RequestParam("file") MultipartFile imageZip) {
         return faceRecognizerService.loadTrainingSetZip(imageZip);
     }
 
 
 
     /**
-     * Méthode qui intègre un fichier .zip qui contient les images
-     * de validation du modèle de Machine Learning FaceRecognizer.
-     * @return boolean
+     * Méthode pour charger un fichier .zip contenant les photos de validation du modèle.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @PostMapping("/process-validation-set-file-image-zip")
-    public boolean validationSetController(@RequestParam("file") MultipartFile imageZip) {
+    public boolean loadValidationDataSetController(@RequestParam("file") MultipartFile imageZip) {
         return faceRecognizerService.loadValidationSetZip(imageZip);
     }
 
 
 
     /**
-     * Méthode pour déposer une image à reconnaitre
-     * dans le projet du modèle.
+     * Méthode pour charger une photo à identifier.
      * @param MultipartFile : faceIdentifyFile
-     * @return booléen : Action réussie ou non.
+     * @return booléen : succès/échec de l'exécution.
      *
      */
     @PostMapping("/process-identify-face-image")
-    public boolean faceIdentifyFileController(@RequestParam("file") MultipartFile faceIdentifyFile) {
+    public boolean loadFaceIdentifyFileController(@RequestParam("file") MultipartFile faceIdentifyFile) {
         return faceRecognizerService.loadFaceIdentifyFile(faceIdentifyFile);
     }
 
@@ -85,51 +79,48 @@ public class FaceRecognizerController {
 
 
 
-    // *************************** Méthodes de manipulation du modèle *************************** //
+    // *************************** Méthodes pour utiliser le modèle *************************** //
 
     /**
-     * Méthode qui intègre un fichier .zip qui contient les images
-     * de validation du modèle de Machine Learning FaceRecognizer.
-     * @return boolean
+     * Méthode pour encoder les photos.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/recognize-face-training")
-    public boolean encodageDesVisages() {
-        return faceRecognizerService.encodageDesVisages();
+    public boolean trainFaceRecognizer() {
+        return faceRecognizerService.trainFaceRecognizer();
     }
 
 
 
     /**
-     * Méthode qui intègre un fichier .zip qui contient les images
-     * de validation du modèle de Machine Learning FaceRecognizer.
-     * @return boolean
+     * Méthode qui teste le modèle.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/recognize-face-test")
-    public boolean validationDuModel() {
-        return faceRecognizerService.validationDuModel();
+    public boolean validateFaceRecognizer() {
+        return faceRecognizerService.validateFaceRecognizer();
     }
 
 
 
     /**
-     * Méthode qui intègre un fichier .zip qui contient les images
-     * de validation du modèle de Machine Learning FaceRecognizer.
-     * @return boolean
+     * Méthode qui exécute le modèle pour reconnaire un visage.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/use-recognize-face")
-    public boolean reconnaissanceFaciale() {
-        return faceRecognizerService.reconnaissanceFaciale();
+    public boolean executeFaceRecognizer() {
+        return faceRecognizerService.executeFaceRecognizer();
     }
 
 
 
     /**
-     * Méthode qui initialise le modèle de machine learning
-     * "hog" comme modèle par défaut pour la reconnaissance faciale.
-     * @return boolean : Opération réussie ou non.
+     * Méthode qui initialise le modèle.
+     * Le modèle de reconnaissance utilisé par défaut est le modèle "HOG".
+     * @return boolean : succès/échec de l'exécution.
      */
     @GetMapping("/initialize")
     public boolean initializeFaceRecognizerModel(){
@@ -139,31 +130,25 @@ public class FaceRecognizerController {
 
 
     /**
-     * Méthode qui met à jour le modèle de machine learning
-     * en BDD. Ce choix sera utilisé lors de l'exécution du modèle
-     * de Machine Learning.
-     * @return boolean : Opération réussie ou non.
+     * Méthode qui sélectionne le modèle de machine learning.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
-    @PostMapping("/selection-modele")
-    public boolean selectModel(@RequestBody String modeleSelectionne) {
-        System.out.println(modeleSelectionne);
-        return faceRecognizerService.selectModel(modeleSelectionne);
+    @PostMapping("/model-selection")
+    public boolean selectModel(@RequestBody String selectedModel) {
+        return faceRecognizerService.selectModel(selectedModel);
     }
 
 
 
     /**
-     * Méthode qui renvoie la liste des modèles de
-     * Machine Learning vers le front
-     * pour le menu déroulant.
+     * Méthode qui renvoie la liste des modèles (HOG, CNN).
      *
      */
-    @GetMapping("/liste-modele")
+    @GetMapping("/models-list")
     public List<String> getListModel() {
         return faceRecognizerService.getListModele();
     }
-
 
 
 
