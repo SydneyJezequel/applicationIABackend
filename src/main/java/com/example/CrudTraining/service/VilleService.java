@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * Service pour manipuler les entités Ville.
+ * Service pour manipuler les Villes.
  *
  */
 public interface VilleService {
@@ -21,12 +21,12 @@ public interface VilleService {
      * @return Ville[]
      *
      */
-    public Ville[] getVillesromExternalApi();
+    public Ville[] getVillesFromExternalApi();
 
 
 
     /**
-     * Méthode qui sauvegarde les villes de l'Api en BDD.
+     * Méthode qui enregistre les villes de l'Api en BDD.
      * @return Ville[]
      *
      */
@@ -36,7 +36,7 @@ public interface VilleService {
 
     /**
      * Méthode qui renvoie toutes les Villes.
-     * @return Liste de toutes les villes.
+     * @return List<Ville> : Liste de toutes les villes.
      *
      */
     public List<Ville> getAll();
@@ -44,7 +44,8 @@ public interface VilleService {
 
 
     /**
-     * Méthode qui renvoie une Ville en fonction de son Id.
+     * Méthode qui renvoie une Ville.
+     * @param id de la ville récupérée.
      * @return ville
      *
      */
@@ -63,8 +64,8 @@ public interface VilleService {
 
 
     /**
-     * Méthode qui supprime une Ville en fonction de son Id.
-     * @param id de la personne à supprimer.
+     * Méthode qui supprime une Ville.
+     * @param id de la personne supprimée.
      *
      */
     public void delete(Long id);

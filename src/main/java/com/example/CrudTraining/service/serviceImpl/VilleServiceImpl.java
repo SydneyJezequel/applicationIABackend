@@ -1,4 +1,4 @@
-package com.example.CrudTraining.service.serviceimpl;
+package com.example.CrudTraining.service.serviceImpl;
 
 import com.example.CrudTraining.bo.Ville;
 import com.example.CrudTraining.repository.VilleRepository;
@@ -28,7 +28,7 @@ public class VilleServiceImpl implements VilleService {
 
 
 
-    // ************************** Attributs ************************** //
+    // ************************** Injection du Repository ************************** //
     @Autowired
     private VilleRepository villeRepository;
 
@@ -82,7 +82,7 @@ public class VilleServiceImpl implements VilleService {
 
 
     @Override
-    public Ville[] getVillesromExternalApi() {
+    public Ville[] getVillesFromExternalApi() {
         // Définition de l'Api et du RestTemplate :
         String apiUrl = "https://geo.api.gouv.fr/communes";
         RestTemplate restTemplate = new RestTemplate();
@@ -102,7 +102,7 @@ public class VilleServiceImpl implements VilleService {
     @Override
     public Ville[] getVilles(){
         // Chargement des villes de l'Api dans l'Array :
-        Ville[] villes = getVillesromExternalApi();
+        Ville[] villes = getVillesFromExternalApi();
         List<Ville> villesTrie = new ArrayList<>();
         int nbVilleEnBdd = 0;
         // Tri et Enregistrement de chaque ville dans la BDD :
@@ -123,6 +123,7 @@ public class VilleServiceImpl implements VilleService {
         }
         return villes;
     }
+
 
 
 

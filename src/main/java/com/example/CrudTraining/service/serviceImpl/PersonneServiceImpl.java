@@ -1,4 +1,4 @@
-package com.example.CrudTraining.service.serviceimpl;
+package com.example.CrudTraining.service.serviceImpl;
 
 import com.example.CrudTraining.bo.Personne;
 import com.example.CrudTraining.repository.PersonneRepository;
@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Implémentation du service pour manipuler les personnes.
+ * Implémentation du service pour manipuler les Personnes.
  *
  */
 @Service
@@ -40,7 +40,7 @@ public class PersonneServiceImpl implements PersonneService {
 
 
 
-    // ************************** Lien avec le Repository ************************** //
+    // ************************** Injection du Repository ************************** //
     @Autowired
     PersonneRepository personneRepository;
 
@@ -266,46 +266,11 @@ public class PersonneServiceImpl implements PersonneService {
 
 
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
     public String convertToBase64() throws IOException{
         return "A implémenter";
     }
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
 
-
-    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
-    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
-    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
-    /*
-    public byte[] decodeBase64(String base64Polygraphie) {
-        // ************ TEST ********* //
-        System.out.println(base64Polygraphie);
-        // ************ TEST ********* //
-        // Supprime les caractères "\\" de la chaîne :
-        base64Polygraphie = base64Polygraphie.replace("\\", "");
-        // Supprime les caractères "\"" de la chaîne :
-        base64Polygraphie = base64Polygraphie.replace("\"","");
-        // Supprime les caractères "==}" de la chaîne :
-        // base64Polygraphie = base64Polygraphie.replace("==}", "");
-        // Ajout de la fin de String corrigée :
-        // base64Polygraphie = base64Polygraphie.concat("g==}");
-        // ************ TEST ********* //
-        System.out.println(base64Polygraphie);
-        // ************ TEST ********* //
-        byte[] decoder = Base64.getMimeDecoder().decode(base64Polygraphie);
-        // ************ TEST ********* //
-        System.out.println(base64Polygraphie);
-        // ************ TEST ********* //
-        // Retourne le tableau d'octets décodé
-        return decoder;
-    }
-    */
-    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
-    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
-    // ********* VERSION CORRIGE DE LA METHODE : DECODEUR JAVA ********* //
 
 
 

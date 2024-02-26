@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Implémentation des méthodes pour manipuler le modèle de Génération d'image GAN.
+ * Implémentation du Service pour manipuler le modèle de Génération d'image GAN.
  *
  */
 @Service
@@ -47,29 +47,19 @@ public class GanModelServiceImpl implements GanModelService {
 
 
 
-
     // ************************************ Méthodes ************************************ //
 
-    /**
-     * Méthode qui charge le fichier de paramètres du Générateur dans le projet Python.
-     * Ce fichier de paramètres est ensuite utilisé par le modèle pour générer des images.
-     * @param parameterGenFile : fichier de paramètres du Générateur
-     * @return : Renvoie un booléen.
-     *
-     */
     public boolean loadParametersGenFile(MultipartFile parameterGenFile){
         try {
-
-            // Nom du dossier de stockage des paramètres du Générateur :
-            String nomDuDossier = "config";
-            // Chemin du dossier de stockage :
-            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/GanExecution/" + nomDuDossier;
-            Path cheminPath = Paths.get(cheminDuDossier);
-
+            // Dossier ou est stocké le fichier de paramètres du Générateur :
+            String folderName = "config";
+            // Chemin du dossier :
+            String folderPath = "/Users/sjezequel/PycharmProjects/GanExecution/" + folderName;
+            Path path = Paths.get(folderPath);
             // Création du dossier :
-            if (!Files.exists(cheminPath)) {
+            if (!Files.exists(path)) {
                 try {
-                    Files.createDirectories(cheminPath);
+                    Files.createDirectories(path);
                     logger.info("Dossier './config' créé avec succès à la source du projet !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
@@ -77,11 +67,10 @@ public class GanModelServiceImpl implements GanModelService {
             } else {
                 logger.info("Le dossier existe déjà.");
             }
-
             // Chargement du fichier de paramètres dans le dossier "/config" :
-            String nomDuFichier = "G-latest.pkl";
-            Path cheminFichierDestination = Paths.get(cheminDuDossier, nomDuFichier);
-            try (OutputStream outputStream = Files.newOutputStream(cheminFichierDestination)) {
+            String fileName = "G-latest.pkl";
+            Path destinationFilePath = Paths.get(folderPath, fileName);
+            try (OutputStream outputStream = Files.newOutputStream(destinationFilePath)) {
                 outputStream.write(parameterGenFile.getBytes());
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -95,18 +84,16 @@ public class GanModelServiceImpl implements GanModelService {
 
 
 
-    /**
-     * Méthode pour générer des images avec le modèle GAN.
-     *
-     */
     @Override
     public boolean generateImage() {
         try {
+            // Classe pour manipuler la requête Http :
             RestTemplate restTemplate = new RestTemplate();
-            // Création de l'en-tête de la requête Http :
+            // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+            // Exécution de la requête Http :
             ResponseEntity<String> responseEntity = restTemplate.exchange(
                     urlGenerateGanImage,
                     HttpMethod.GET,
@@ -122,17 +109,13 @@ public class GanModelServiceImpl implements GanModelService {
 
 
 
-    /**
-     * Méthode pour générer des images avec le modèle GAN.
-     *
-     */
     @Override
     public boolean trainGanModel (int nbEpochs, int batchSize, double lr, int zDim, String device, int showStep, int saveStep) {
         try {
-            // Création de l'en-tête de la requête Http :
+            // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            // Création du contenu de la requête Http :
+            // Contenu de la requête Http :
             Map<String, Object> requestBodyMap = new HashMap<>();
             requestBodyMap.put("n_epochs", nbEpochs);
             requestBodyMap.put("batch_size", batchSize);
@@ -141,11 +124,11 @@ public class GanModelServiceImpl implements GanModelService {
             requestBodyMap.put("device", device);
             requestBodyMap.put("show_step", showStep);
             requestBodyMap.put("save_step", saveStep);
-            // Convertir la map en JSON :
+            // Conversion du contenu en JSON :
             ObjectMapper objectMapper = new ObjectMapper();
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
             HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
-            // Exécution de la requête vers l'API du modèle de Machine Learning :
+            // Exécution de la requête Http :
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(
                     urlTrainGanImage,
@@ -153,7 +136,7 @@ public class GanModelServiceImpl implements GanModelService {
                     httpEntity,
                     String.class
             );
-            // Récupération et renvoie de la réponse :
+            // Récupération de la réponse :
             logger.info(responseEntity.getBody());
             return true;
         }catch (RuntimeException e){
@@ -171,7 +154,4 @@ public class GanModelServiceImpl implements GanModelService {
 
 
 }
-
-
-
 

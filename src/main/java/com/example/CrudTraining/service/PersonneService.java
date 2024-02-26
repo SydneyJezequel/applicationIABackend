@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * Service pour manipuler les entités Personnes.
+ * Service pour manipuler les Personnes.
  *
  */
 public interface PersonneService {
@@ -20,7 +20,7 @@ public interface PersonneService {
 
     /**
      * Service qui renvoie toutes les Personnes.
-     * @return Liste de toutes les Personnes.
+     * @return List<Personne> : Liste de toutes les Personnes.
      *
      */
     public List<Personne> getAll();
@@ -28,8 +28,8 @@ public interface PersonneService {
 
 
     /**
-     * Service qui renvoie une Personne en fonction de son Id.
-     * @param id de la personne.
+     * Service qui renvoie une Personne.
+     * @param id de la personne renvoyée.
      * @return personne
      *
      */
@@ -39,7 +39,7 @@ public interface PersonneService {
 
     /**
      * Méthode qui enregistre une personne.
-     * @param personne, photoBase64String à enregistrer.
+     * @param personne, photoBase64String enregistrée.
      * @return Personne enregistrée.
      *
      */
@@ -49,7 +49,7 @@ public interface PersonneService {
 
     /**
      * Méthode qui modifie une personne.
-     * @param personne à modifier.
+     * @param personne modifiée.
      * @return personne modifiée.
      *
      */
@@ -59,7 +59,7 @@ public interface PersonneService {
 
     /**
      * Méthode qui supprime une personne.
-     * @param id de la personne à supprimer.
+     * @param id de la personne supprimée.
      *
      */
     public void delete (Long id);
@@ -67,9 +67,8 @@ public interface PersonneService {
 
 
     /**
-     * Méthode qui intègre en base de données un fichier Excel
-     * contenant une liste de personne.
-     * @param MultipartFile file qui contient la liste des personnes.
+     * Méthode qui intègre le fichier Excel d'une liste de personne.
+     * @param MultipartFile : Contient la liste des personnes au format Excel.
      * @return boolean : succès/échec de l'exécution.
      * @throws IOException
      *
@@ -79,7 +78,7 @@ public interface PersonneService {
 
 
     /**
-     * Méthode qui génère un fichier Excel.
+     * Méthode qui génère un fichier Excel contenant la liste des personnes en BDD.
      * @return boolean : succès/échec de l'exécution.
      * @throws IOException
      *
@@ -89,21 +88,21 @@ public interface PersonneService {
 
 
     /**
-     * Méthode qui génère un fichier Csv.
-     * @return boolean : succès/échec de l'exécution.
-     *
-     */
-    public boolean generateCsv();
-
-
-
-    /**
-     * Méthode qui intègre les données d'un fichier Csv en Base de données.
-     * @param MultipartFile file qui contient la liste des personnes.
+     * Méthode qui intègre le fichier Csv d'une liste de personne.
+     * @param MultipartFile : Contient la liste des personnes au format csv.
      * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean importCsvPersonsFile(MultipartFile file);
+
+
+
+    /**
+     * Méthode qui génère un fichier Csv contenant la liste des personnes en BDD.
+     * @return boolean : succès/échec de l'exécution.
+     *
+     */
+    public boolean generateCsv();
 
 
 
@@ -118,8 +117,6 @@ public interface PersonneService {
 
 
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
     /**
      * Méthode pour convertir un byte [] en StringBase64
      * @return String qui contient l'image
@@ -128,8 +125,7 @@ public interface PersonneService {
      */
     public String convertToBase64() throws IOException;
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
-    // *************************** TEST RECUPERER UNE IMAGE *************************** //
+
 
 
 

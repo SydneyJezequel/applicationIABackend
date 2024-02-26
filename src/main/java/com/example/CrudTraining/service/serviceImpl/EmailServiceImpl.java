@@ -1,4 +1,4 @@
-package com.example.CrudTraining.service.serviceimpl;
+package com.example.CrudTraining.service.serviceImpl;
 
 import com.example.CrudTraining.bo.EmailRequest;
 import com.example.CrudTraining.service.EmailService;
@@ -45,9 +45,9 @@ public class EmailServiceImpl implements EmailService {
 
 
 
-    // *************************** Méthodes ***************************
+    // *************************** Méthodes *************************** //
     @Override
-    public String envoyerEmail(EmailRequest emailRequest) {
+    public String sendEmail(EmailRequest emailRequest) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo("destinataire@example.com");
@@ -117,6 +117,7 @@ public class EmailServiceImpl implements EmailService {
             logger.warning("Méthode sendMessageWithAttachment() en erreur : " + e);
         }
     }
+
 
 
 

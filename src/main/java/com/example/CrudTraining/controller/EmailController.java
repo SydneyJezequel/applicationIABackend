@@ -51,8 +51,8 @@ public class EmailController {
      *
      */
     @PostMapping("/envoyer-email")
-    public String envoyerEmail(@RequestBody EmailRequest emailRequest) {
-        return emailService.envoyerEmail(emailRequest);
+    public String sendEmail(@RequestBody EmailRequest emailRequest) {
+        return emailService.sendEmail(emailRequest);
     }
 
 

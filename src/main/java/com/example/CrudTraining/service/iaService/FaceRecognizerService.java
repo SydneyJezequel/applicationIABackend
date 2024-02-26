@@ -11,7 +11,7 @@ import java.util.zip.ZipInputStream;
 
 
 /**
- * Service pour manipuler le modèle de Reconnaissance.
+ * Service pour manipuler le modèle de Reconnaissance Faciale.
  *
  */
 public interface FaceRecognizerService {
@@ -20,14 +20,12 @@ public interface FaceRecognizerService {
 
 
 
-
     // ************************** Méthodes de chargement des images ************************** //
 
     /**
-     * Méthode pour déposer les images d'entrainement
-     * dans le projet du modèle.
-     * @param MultipartFile : liste des images
-     * @return booléen : Action réussie ou non.
+     * Méthode pour charger le dossier contenant les images d'entrainement.
+     * @param MultipartFile : Dossier contenant la liste des images.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean loadTrainingSetZip(MultipartFile imageZip);
@@ -35,10 +33,9 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode pour déposer les images de validation
-     * dans le projet du modèle.
-     * @param MultipartFile : liste des images
-     * @return booléen : Action réussie ou non.
+     * Méthode pour charger le dossier contenant les images de validation.
+     * @param MultipartFile : Dossier contenant la liste des images.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean loadValidationSetZip(MultipartFile imageZip);
@@ -46,10 +43,9 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode pour déposer une image à reconnaitre
-     * dans le projet du modèle.
-     * @param MultipartFile : faceIdentifyFile
-     * @return booléen : Action réussie ou non.
+     * Méthode pour charger une image à identifier.
+     * @param MultipartFile : Image à identifier.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean loadFaceIdentifyFile(MultipartFile faceIdentifyFile);
@@ -57,9 +53,9 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode qui dézip et copie le fichier qui contient les images d'entrainement.
+     * Méthode qui dézipe le fichier contenant les images d'entrainement du modèle.
      * @param inputStream : Dossier à déziper.
-     * @param destDezipFile : Chemin du dossier dézipé
+     * @param destDezipFile : Chemin du dossier dézipé.
      *
      */
     public void unzipTrainingFile(InputStream zipInputStream, String destDezipFile);
@@ -67,9 +63,9 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode qui dézip et copie le fichier qui contient les images de validation.
+     * Méthode qui dézipe le fichier contenant les images de validation du modèle.
      * @param inputStream : Dossier à déziper.
-     * @param destDezipFile : Chemin du dossier dézipé
+     * @param destDezipFile : Chemin du dossier dézipé.
      *
      */
     public void unzipValidationFile(InputStream inputStream, String destDezipFile);
@@ -77,9 +73,9 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode qui extrait et copie de chaque image contenue dans le fichier .zip;
-     * @param zipInputStream
-     * @param filePath
+     * Méthode qui extrait chaque image contenue dans un fichier .zip;
+     * @param zipInputStream : Fichier zip.
+     * @param filePath : Emplacement des images chargées.
      * @throws FileNotFoundException
      *
      */
@@ -93,8 +89,8 @@ public interface FaceRecognizerService {
     // ************************** Méthodes de manipulation du modèle ************************** //
 
     /**
-     * Méthode qui encode les images de visages.
-     * @return booléen : Succès / Erreur de l'opération.
+     * Méthode qui entraine le modèle de Reconnaissance Faciale.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean trainFaceRecognizer();
@@ -102,8 +98,8 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode de reconnaissance faciale.
-     * @return booléen : Succès / Erreur de l'opération.
+     * Méthode qui exécute le modèle de Reconnaissance Faciale.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean executeFaceRecognizer();
@@ -111,8 +107,8 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode qui valide le modèle.
-     * @return booléen : Succès / Erreur de l'opération.
+     * Méthode qui valide le fonctionnement du modèle de Reconnaissance Faciale.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean validateFaceRecognizer();
@@ -120,8 +116,7 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode créer le fichier encoding.pkl
-     * et le dossier output qui le contient.
+     * Méthode créant le fichier d'encodage des visages et le dossier le contenant.
      *
      */
     public void createEncodingFile();
@@ -129,17 +124,19 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode qui initialise le modèle de machine learning
-     * "hog" comme modèle par défaut pour la reconnaissance faciale.
-     * @return boolean : Opération réussie ou non.
+     * Méthode qui initialise le modèle de Reconnaissance Faciale.
+     * Le modèle initialisé par défaut est le modèle "HOG".
+     * @return boolean : succès/échec de l'exécution.
+     *
      */
     public boolean initializeFaceRecognizerModel();
 
 
 
     /**
-     * Méthode qui change le modèle
-     * en BDD.
+     * Méthode qui modifie le modèle en BDD.
+     * @param : String : Modèle sélectionnée.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     public boolean selectModel(String selectedModel);
@@ -147,19 +144,21 @@ public interface FaceRecognizerService {
 
 
     /**
-     * Méthode qui récupère le modèle
-     * en BDD.
+     * Méthode qui récupère le modèle de Reconnaissance Faciale en BDD.
+     * @return boolean : succès/échec de l'exécution.
+     *
      */
     public String getModel();
 
 
 
     /**
-     * Méthode qui renvoie la liste des modèles
-     * vers le front pour le menu déroulant.
+     * Méthode qui renvoie la liste des modèles de Reconnaissance Faciale.
+     * @return List<String> : Liste des modèles.
      *
      */
     public List<String> getListModele();
+
 
 
 

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Implémentation des méthodes pour échanger avec chatGPT.
+ * Implémentation du Service pour communiquer avec l'Api de chatGPT.
  *
  */
 @Service
@@ -54,10 +54,14 @@ public class ChatGptServiceImpl implements ChatGptService {
     // *************************** Méthodes *************************** //
     @Override
     public String chat(@RequestBody String prompt){
-        ChatGptRequest request = new ChatGptRequest(model, prompt); // Création d'une requête contenant le message.
-        ChatGptResponse chatGptResponse = restTemplate.postForObject(apiUrl, request, ChatGptResponse.class); // Récupération de la réponse générée par chatGPT.
-        return chatGptResponse.getChoices().get(0).getMessage().getContent(); // Renvoie de la réponse.
+        // Création d'une requête :
+        ChatGptRequest request = new ChatGptRequest(model, prompt);
+        // Réponse de l'Api de chatGPT :
+        ChatGptResponse chatGptResponse = restTemplate.postForObject(apiUrl, request, ChatGptResponse.class);
+        logger.info(chatGptResponse.getChoices().get(0).getMessage().getContent());
+        return chatGptResponse.getChoices().get(0).getMessage().getContent();
     }
+
 
 
 
