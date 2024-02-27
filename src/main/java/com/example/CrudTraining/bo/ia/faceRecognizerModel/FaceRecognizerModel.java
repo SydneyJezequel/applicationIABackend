@@ -27,7 +27,7 @@ public class FaceRecognizerModel {
         @Column(nullable = true, name ="no_model")
         private Long no_model;
 
-        @Column(nullable = true, name ="modele")
+        @Column(nullable = true, name ="model")
         private String modele;
 
 
@@ -35,6 +35,7 @@ public class FaceRecognizerModel {
 
 
         // *************************** Constructeur *************************** //
+
         public FaceRecognizerModel() {}
 
         public FaceRecognizerModel(Long no_model, String modele) {
@@ -56,11 +57,11 @@ public class FaceRecognizerModel {
                 this.no_model = no_model;
         }
 
-        public String getModele() {
+        public String getModel() {
                 return modele;
         }
 
-        public void setModele(String modele) {
+        public void setModel(String modele) {
                 this.modele = modele;
         }
 

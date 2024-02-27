@@ -33,8 +33,8 @@ public class GanModelServiceImpl implements GanModelService {
 
 
     // *************************** Urls pour manipuler le modèle Gan *************************** //
-    private final String urlGenerateGanImage = "http://localhost:8009/generate-faces";
-    private final String urlTrainGanImage = "http://localhost:8009/train-gan-model";
+    private final String urlGenerateGanImage = "http://localhost:8010/generate-faces";
+    private final String urlTrainGanImage = "http://localhost:8010/train-gan-model";
 
 
 

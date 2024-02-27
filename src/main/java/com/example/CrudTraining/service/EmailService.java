@@ -35,7 +35,7 @@ public interface EmailService {
      * @throws MessagingException
      *
      */
-    public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment) throws MessagingException;
+    public void sendEmailWithAttachment(String to, String subject, String text, String pathToAttachment) throws MessagingException;
 
 
 

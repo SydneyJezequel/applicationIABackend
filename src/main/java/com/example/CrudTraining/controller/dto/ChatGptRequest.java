@@ -21,7 +21,9 @@ public class ChatGptRequest {
 
 
     // *************************** Attributs *************************** //
+
     private String model;
+
     private List<Message> messages;
 
 

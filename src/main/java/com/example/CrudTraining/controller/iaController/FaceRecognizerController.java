@@ -46,8 +46,8 @@ public class FaceRecognizerController {
      *
      */
     @PostMapping("/process-training-set-file-image-zip")
-    public boolean loadTrainingDataSetController(@RequestParam("file") MultipartFile imageZip) {
-        return faceRecognizerService.loadTrainingSetZip(imageZip);
+    public boolean loadTrainingDataSetZip(@RequestParam("file") MultipartFile imageZip) {
+        return faceRecognizerService.loadTrainingDataSetZip(imageZip);
     }
 
 
@@ -58,8 +58,8 @@ public class FaceRecognizerController {
      *
      */
     @PostMapping("/process-validation-set-file-image-zip")
-    public boolean loadValidationDataSetController(@RequestParam("file") MultipartFile imageZip) {
-        return faceRecognizerService.loadValidationSetZip(imageZip);
+    public boolean loadValidationDataSetZip(@RequestParam("file") MultipartFile imageZip) {
+        return faceRecognizerService.loadValidationDataSetZip(imageZip);
     }
 
 
@@ -71,7 +71,7 @@ public class FaceRecognizerController {
      *
      */
     @PostMapping("/process-identify-face-image")
-    public boolean loadFaceIdentifyFileController(@RequestParam("file") MultipartFile faceIdentifyFile) {
+    public boolean loadFaceIdentifyFile(@RequestParam("file") MultipartFile faceIdentifyFile) {
         return faceRecognizerService.loadFaceIdentifyFile(faceIdentifyFile);
     }
 
@@ -87,8 +87,8 @@ public class FaceRecognizerController {
      *
      */
     @GetMapping("/recognize-face-training")
-    public boolean trainFaceRecognizer() {
-        return faceRecognizerService.trainFaceRecognizer();
+    public boolean trainFaceRecognizerModel() {
+        return faceRecognizerService.trainFaceRecognizerModel();
     }
 
 
@@ -99,8 +99,8 @@ public class FaceRecognizerController {
      *
      */
     @GetMapping("/recognize-face-test")
-    public boolean validateFaceRecognizer() {
-        return faceRecognizerService.validateFaceRecognizer();
+    public boolean validateFaceRecognizerModel() {
+        return faceRecognizerService.validateFaceRecognizerModel();
     }
 
 
@@ -111,8 +111,8 @@ public class FaceRecognizerController {
      *
      */
     @GetMapping("/use-recognize-face")
-    public boolean executeFaceRecognizer() {
-        return faceRecognizerService.executeFaceRecognizer();
+    public boolean executeFaceRecognizerModel() {
+        return faceRecognizerService.executeFaceRecognizerModel();
     }
 
 
@@ -147,7 +147,7 @@ public class FaceRecognizerController {
      */
     @GetMapping("/models-list")
     public List<String> getListModel() {
-        return faceRecognizerService.getListModele();
+        return faceRecognizerService.getListModel();
     }
 
 

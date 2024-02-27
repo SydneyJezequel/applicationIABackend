@@ -83,15 +83,15 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     public Ville[] getVillesFromExternalApi() {
-        // Définition de l'Api et du RestTemplate :
+        // Attributs :
         String apiUrl = "https://geo.api.gouv.fr/communes";
         RestTemplate restTemplate = new RestTemplate();
         try {
-            // Vider la BDD :
+            // Suppression des données en BDD :
             villeRepository.deleteAll();
-            // Chargement des données de l'API :
+            // Chargement des données de l'Api :
             return restTemplate.getForObject(apiUrl, Ville[].class);
-        } catch (Exception e) { // Gestion des Erreurs :
+        } catch (Exception e) {
             logger.warning("Erreur : " + e);
         }
         return null;
@@ -101,18 +101,21 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     public Ville[] getVilles(){
-        // Chargement des villes de l'Api dans l'Array :
+        // Récupération des villes de l'Api :
         Ville[] villes = getVillesFromExternalApi();
         List<Ville> villesTrie = new ArrayList<>();
         int nbVilleEnBdd = 0;
-        // Tri et Enregistrement de chaque ville dans la BDD :
+        // Tri et Enregistrement de chaque ville en BDD :
         try {
-            villesTrie = Arrays.stream(villes) // Création d'un flux
-                    .filter(ville -> ville.getPopulation() >= 90000L) // Filtre en fonction du nombre d'habitant.
-                    .sorted((ville1, ville2) -> ville1.getNom().compareTo(ville2.getNom())) // Tri par ordre alphabétique.
-                    .collect(Collectors.toList()); // Stockage dans une liste.
+            villesTrie = Arrays.stream(villes)
+                    // Filtre selon le nombre d'habitants :
+                    .filter(ville -> ville.getPopulation() >= 90000L)
+                    // Tri par ordre alphabétique :
+                    .sorted((ville1, ville2) -> ville1.getNom().compareTo(ville2.getNom()))
+                    // Renvoie d'une liste :
+                    .collect(Collectors.toList());
 
-            // Enregistrement de chaque élément de la liste dans la BDD (sens inverse pour conserver ordre alphabétique.
+            // Enregistrement de chaque ville en BDD (Sens inverse pour conserver ordre alphabétique).
             for(int i = villesTrie.size()-1 ; i>0; i--){
                 villeRepository.save(villesTrie.get(i));
             }

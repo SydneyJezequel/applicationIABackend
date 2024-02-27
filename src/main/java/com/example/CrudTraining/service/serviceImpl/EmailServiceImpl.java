@@ -94,7 +94,7 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment) throws MessagingException {
+    public void sendEmailWithAttachment(String to, String subject, String text, String pathToAttachment) throws MessagingException {
 
         try {
             javax.mail.internet.MimeMessage message = emailSender.createMimeMessage();
@@ -106,8 +106,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setSubject(subject);
             helper.setText(text);
 
-            FileSystemResource file
-                    = new FileSystemResource(new File(pathToAttachment));
+            FileSystemResource file = new FileSystemResource(new File(pathToAttachment));
             helper.addAttachment("Invoice", file);
 
             emailSender.send(message);

@@ -46,7 +46,7 @@ public class GanModelController {
      *
      */
     @PostMapping("/process-parameters-gen-file")
-    public boolean parametersGenFileController(@RequestParam("file") MultipartFile parameterGenFile) {
+    public boolean loadParametersGenFile(@RequestParam("file") MultipartFile parameterGenFile) {
         return ganModelService.loadParametersGenFile(parameterGenFile);
     }
 

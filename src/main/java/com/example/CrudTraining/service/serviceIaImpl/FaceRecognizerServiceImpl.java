@@ -40,9 +40,9 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
     @Autowired
     private FaceRecognizerRepository faceRecognizerRepository;
-    private final String urlEncodageDesVisages = "http://localhost:8008/encode-and-train-dataset";
-    private final String urlReconnaissanceFaciale = "http://localhost:8008/recognize-face";
-    private final String urlValidationModel = "http://localhost:8008/recognize-face-test";
+    private final String urlFaceEncoding = "http://localhost:8009/encode-and-train-dataset";
+    private final String urlFaceRecognizing = "http://localhost:8009/recognize-face";
+    private final String urlModelValidation = "http://localhost:8009/recognize-face-test";
 
 
 
@@ -58,18 +58,18 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     // ************************** Méthodes de chargement des images ************************** //
 
     @Override
-    public boolean loadTrainingSetZip(MultipartFile imageZip) {
+    public boolean loadTrainingDataSetZip(MultipartFile imageZip) {
         try{
             // Nom du dossier de stockage des images :
-            String nomDuDossier = "training";
+            String folderName = "training";
             // Chemin du dossier :
-            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
-            Path cheminPath = Paths.get(cheminDuDossier);
+            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            Path path = Paths.get(folderPath);
             // Création du dossier :
-            if (!Files.exists(cheminPath)) {
+            if (!Files.exists(path)) {
                 try {
-                    Files.createDirectories(cheminPath);
-                    logger.info("Dossier " + nomDuDossier + " créé avec succès !");
+                    Files.createDirectories(path);
+                    logger.info("Dossier " + folderName + " créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -78,7 +78,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             }
             // Dézippe et charge les images dans le dossier :
             try {
-                unzipTrainingFile(imageZip.getInputStream(), cheminDuDossier);
+                unzipTrainingFile(imageZip.getInputStream(), folderPath);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur lors de la décompression du fichier imageZip", e);
             }
@@ -92,18 +92,18 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public boolean loadValidationSetZip(MultipartFile imageZip) {
+    public boolean loadValidationDataSetZip(MultipartFile imageZip) {
         try {
             // Nom du dossier de stockage des images :
-            String nomDuDossier = "validation";
+            String folderName = "validation";
             // Chemin du dossier :
-            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
-            Path cheminPath = Paths.get(cheminDuDossier);
+            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            Path path = Paths.get(folderPath);
             // Création du dossier :
-            if (!Files.exists(cheminPath)) {
+            if (!Files.exists(path)) {
                 try {
-                    Files.createDirectories(cheminPath);
-                    logger.info("Dossier " + nomDuDossier + " créé avec succès !");
+                    Files.createDirectories(path);
+                    logger.info("Dossier " + folderName + " créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -112,7 +112,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             }
             // Dézippe et charge les images dans le dossier :
             try {
-                unzipValidationFile(imageZip.getInputStream(), cheminDuDossier);
+                unzipValidationFile(imageZip.getInputStream(), folderPath);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur lors de la décompression du fichier imageZip", e);
             }
@@ -129,15 +129,15 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     public boolean loadFaceIdentifyFile(MultipartFile faceIdentifyFile){
         try {
             // Nom du dossier de stockage de l'image :
-            String nomDuDossier = "identifyFace";
+            String folderName = "identifyFace";
             // Chemin du dossier :
-            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
-            Path cheminPath = Paths.get(cheminDuDossier);
+            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            Path path = Paths.get(folderPath);
             // Création du dossier :
-            if (!Files.exists(cheminPath)) {
+            if (!Files.exists(path)) {
                 try {
-                    Files.createDirectories(cheminPath);
-                    logger.info("Dossier " + nomDuDossier + " créé avec succès !");
+                    Files.createDirectories(path);
+                    logger.info("Dossier " + folderName + " créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -145,9 +145,9 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
                 logger.info("Le dossier existe déjà.");
             }
             // Charge la photo à identifier dans le dossier :
-            String nomDuFichier = "identifyFace.jpg";
-            Path cheminFichierDestination = Paths.get(cheminDuDossier, nomDuFichier);
-            try (OutputStream outputStream = Files.newOutputStream(cheminFichierDestination)) {
+            String fileName = "identifyFace.jpg";
+            Path destinationFilePath = Paths.get(folderPath, fileName);
+            try (OutputStream outputStream = Files.newOutputStream(destinationFilePath)) {
                 outputStream.write(faceIdentifyFile.getBytes());
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -242,12 +242,12 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     // ************************** Méthodes pour manipuler le modèle ************************** //
 
     @Override
-    public boolean trainFaceRecognizer(){
+    public boolean trainFaceRecognizerModel(){
         // Création du fichier encoding.pkl :
         createEncodingFile();
         try {
             // Attributs :
-            String messageSucces;
+            String successMessage;
             String model = getModel();
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
@@ -261,14 +261,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             // Exécution de la requête :
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    urlEncodageDesVisages,
+                    urlFaceEncoding,
                     HttpMethod.POST,
                     httpEntity,
                     String.class
             );
             // Récupération de la réponse :
-            messageSucces = responseEntity.getBody();
-            logger.info(messageSucces);
+            successMessage = responseEntity.getBody();
+            logger.info(successMessage);
             return true;
         }catch (RuntimeException e){
             logger.info(e.toString());
@@ -284,15 +284,15 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     public void createEncodingFile() {
         try {
             // Nom du dossier de stockage des images :
-            String nomDuDossier = "output";
+            String folderName = "output";
             // Chemin du dossier :
-            String cheminDuDossier = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + nomDuDossier;
-            Path chemin = Paths.get(cheminDuDossier);
+            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            Path path = Paths.get(folderPath);
             // Création du dossier :
-            if (!Files.exists(chemin)) {
+            if (!Files.exists(path)) {
                 try {
-                    Files.createDirectories(chemin);
-                    logger.info("Dossier " + nomDuDossier + " créé avec succès !");
+                    Files.createDirectories(path);
+                    logger.info("Dossier " + folderName + " créé avec succès !");
                     logger.info("Fichier encodings.pkl créé vide avec succès!");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier et / ou du fichier encodings.pkl : " + e.getMessage());
@@ -302,7 +302,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             }
             // Création du fichier encodings.pkl vide :
             try {
-                String filePath = chemin + "/encodings.pkl";
+                String filePath = path + "/encodings.pkl";
                 Path encodingsPath = Paths.get(filePath);
                 Files.createFile(encodingsPath);
             }catch (IOException e){
@@ -316,18 +316,18 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public boolean executeFaceRecognizer(){
+    public boolean executeFaceRecognizerModel(){
         try {
             // Attributs :
-            String messageSucces;
-            String emplacementImage = "identifyFace/identifyFace.jpg";
+            String successMessage;
+            String imageLocation = "identifyFace/identifyFace.jpg";
             String model = getModel();
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             // Contenu de la requête Http :
             Map<String, String> requestBodyMap = new HashMap<>();
-            requestBodyMap.put("image_location", emplacementImage);
+            requestBodyMap.put("image_location", imageLocation);
             requestBodyMap.put("model", model);
             // Conversion du contenu en JSON :
             String requestBody = new ObjectMapper().writeValueAsString(requestBodyMap);
@@ -335,14 +335,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             // Exécution de la requête :
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    urlReconnaissanceFaciale,
+                    urlFaceRecognizing,
                     HttpMethod.POST,
                     httpEntity,
                     String.class
             );
             // Récupération de la réponse :
-            messageSucces = responseEntity.getBody();
-            logger.info(messageSucces);
+            successMessage = responseEntity.getBody();
+            logger.info(successMessage);
             return true;
         }catch (RuntimeException e){
             logger.info(e.toString());
@@ -355,10 +355,10 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public boolean validateFaceRecognizer(){
+    public boolean validateFaceRecognizerModel(){
         try {
             // Attributs :
-            String messageSucces;
+            String successMessage;
             String model = getModel();
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
@@ -372,14 +372,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             // Exécution de la requête :
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    urlValidationModel,
+                    urlModelValidation,
                     HttpMethod.POST,
                     httpEntity,
                     String.class
             );
             // Récupération de la réponse :
-            messageSucces = responseEntity.getBody();
-            logger.info(messageSucces);
+            successMessage = responseEntity.getBody();
+            logger.info(successMessage);
             return true;
         }catch (RuntimeException e){
             logger.info(e.toString());
@@ -401,7 +401,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             // Enregistrement du modèle par défaut en BDD :
             FaceRecognizerModel model = new FaceRecognizerModel();
             model.setNo_model(1L);
-            model.setModele(String.valueOf(FaceRecognizerModels.HOG));
+            model.setModel(String.valueOf(FaceRecognizerModels.HOG));
             faceRecognizerRepository.save(model);
             return true;
         }catch (RuntimeException e){
@@ -422,10 +422,10 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             model.setNo_model(1L);
             switch (selectedModel) {
                 case "HOG" :
-                    model.setModele("hog");
+                    model.setModel("hog");
                     break;
                 case "CNN" :
-                    model.setModele("cnn");
+                    model.setModel("cnn");
                     break;
                 default:
                     logger.info("modèle invalide");
@@ -448,13 +448,13 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
 
     @Override
-    public List<String> getListModele(){
+    public List<String> getListModel(){
         String hog = FaceRecognizerModels.HOG.toString();
         String cnn = FaceRecognizerModels.CNN.toString();
-        List<String> listeModele = new ArrayList<>();
-        listeModele.add(hog);
-        listeModele.add(cnn);
-        return listeModele;
+        List<String> modelsList = new ArrayList<>();
+        modelsList.add(hog);
+        modelsList.add(cnn);
+        return modelsList;
     }
 
 

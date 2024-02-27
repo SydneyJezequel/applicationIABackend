@@ -187,21 +187,21 @@ public class PersonneServiceImpl implements PersonneService {
             // Objet pour lire les données csv du Buffer :
             CSVReader csvReader = new CSVReader(reader);
             // Ligne du fichier CSV :
-            String[] ligne;
+            String[] line;
             // Liste des personnes à sauvegarder en BDD :
             List<Personne> personnes = new ArrayList<>();
             // Instance pour formater la date :
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             // Lecture du fichier ligne par ligne :
-            while ((ligne = csvReader.readNext()) != null) { // S'il y a une ligne dans le fichier, on l'affecte à ligne.
+            while ((line = csvReader.readNext()) != null) {
                 // Création d'un objet Personne :
                 Personne personne = new Personne();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date parsedDate = dateFormat.parse(ligne[0]);
+                Date parsedDate = dateFormat.parse(line[0]);
                 personne.setDate_naissance(parsedDate);
-                personne.setNo_securite_sociale(Long.parseLong(ligne[1]));
-                personne.setNom(ligne[2]);
-                personne.setPrenom(ligne[3]);
+                personne.setNo_securite_sociale(Long.parseLong(line[1]));
+                personne.setNom(line[2]);
+                personne.setPrenom(line[3]);
                 // Ajout de l'objet Personne à la liste :
                 personnes.add(personne);
             }
@@ -228,8 +228,8 @@ public class PersonneServiceImpl implements PersonneService {
             // Création du fichier Csv :
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));
             // Injection de l'en-tête dans le fichier CSV :
-            String[] entete = {"no personne", "date naissance", "no securite sociale", "nom", "prenom"};
-            writer.writeNext(entete);
+            String[] header = {"no personne", "date naissance", "no securite sociale", "nom", "prenom"};
+            writer.writeNext(header);
             // Injection des données dans le fichier CSV :
             for(Personne personne : personnes){
                 String no_securite_sociale = String.valueOf(personne.getNo_securite_sociale());

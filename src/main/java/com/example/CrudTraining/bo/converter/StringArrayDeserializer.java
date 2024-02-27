@@ -40,7 +40,7 @@ public class StringArrayDeserializer extends StdDeserializer<String[]> {
         String[] strings = new String[node.size()];
         int index = 0;
         node.textValue();
-        // Convertir chaque élément en chaîne de caractères et l'ajouter au tableau :
+        // Conversion de chaque élément en chaîne de caractères :
         for (JsonNode element : node) {
             strings[index++] = node.textValue();
         }

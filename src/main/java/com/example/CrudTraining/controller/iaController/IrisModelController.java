@@ -61,13 +61,12 @@ public class IrisModelController {
      * Méthode qui exécute le modèle de machine Learning Random Forest.
      * Par défaut, ce modèle est utilisé pour prédire du type d'Iris
      * @param IrisModelRequest request : Paramètres du modèle.
-     * @return Message de succès.
+     * @return String : Prédiction générée.
      *
      */
     @PostMapping("/predict")
     public String getIrisModelPrediction(@RequestBody IrisModelRequest request) {
-        String prediction = irisModelService.getIrisModelPrediction(request);
-        return prediction;
+        return irisModelService.getIrisModelPrediction(request);
     }
 
 
@@ -93,8 +92,8 @@ public class IrisModelController {
      *
      */
     @GetMapping("/all-predict")
-    public List<IrisModelResponse> getAllIrisModelPrediction() {
-        return irisModelService.getAllIrisModelPrediction();
+    public List<IrisModelResponse> getAllIrisModelPredictions() {
+        return irisModelService.getAllIrisModelPredictions();
     }
 
 
@@ -106,9 +105,9 @@ public class IrisModelController {
      *
      */
     @GetMapping("/generate-excel")
-    public boolean generateExcelFile() {
+    public boolean generateExcelFileForPredictions() {
         try {
-            return irisModelService.generateExcel();
+            return irisModelService.generateExcelFileForPredictions();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -124,9 +123,9 @@ public class IrisModelController {
      *
      */
     @GetMapping("/generate-csv")
-    public boolean generateCsvFile() {
+    public boolean generateCsvFileForPredictions() {
         try {
-            return irisModelService.generateCsv();
+            return irisModelService.generateCsvFileForPredictions();
         } catch (RuntimeException e) {
             e.printStackTrace();
             return false;
@@ -141,8 +140,8 @@ public class IrisModelController {
      * @return boolean : succès/échec de l'exécution.
      */
     @GetMapping("/generate-template-excel-dataset")
-    public boolean generateExcelForDataset() throws IOException {
-        return irisModelService.generateExcelForDataset();
+    public boolean generateExcelFileTemplateForDataset() throws IOException {
+        return irisModelService.generateExcelFileTemplateForDataset();
     }
 
 
@@ -155,8 +154,8 @@ public class IrisModelController {
      *
      */
     @PostMapping("/load-dataset-excel")
-    public boolean importExcelIrisDataSetFile(MultipartFile file){
-        return irisModelService.importExcelIrisDataSetFile(file);
+    public boolean importExcelTemplateDataSetFile(MultipartFile file){
+        return irisModelService.importExcelTemplateDataSetFile(file);
     }
 
 
@@ -168,8 +167,8 @@ public class IrisModelController {
      *
      */
     @GetMapping("/generate-template-csv-dataset")
-    public boolean generateCsvForDataset()  throws IOException {
-        return irisModelService.generateCsvForDataset();
+    public boolean generateCsvFileTemplateForDataset()  throws IOException {
+        return irisModelService.generateCsvFileTemplateForDataset();
     }
 
 
@@ -182,8 +181,8 @@ public class IrisModelController {
      *
      */
     @PostMapping("/load-dataset-csv")
-    public boolean importCsvIrisDataSetFile(MultipartFile file){
-        return irisModelService.importCsvIrisDataSetFile(file);
+    public boolean importCsvTemplateDataSetFile(MultipartFile file){
+        return irisModelService.importCsvTemplateDataSetFile(file);
     }
 
 
@@ -193,8 +192,8 @@ public class IrisModelController {
      *
      */
     @GetMapping("/generate-iris-dataset-excel")
-    public boolean generateIrisDataSetExcel() {
-        return irisModelService.generateIrisDataSetExcel();
+    public boolean generateExcelFileForIrisDataSet() {
+        return irisModelService.generateExcelFileForIrisDataSet();
     }
 
 

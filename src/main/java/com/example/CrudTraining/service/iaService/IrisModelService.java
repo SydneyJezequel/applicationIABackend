@@ -55,7 +55,7 @@ public interface IrisModelService {
      * @return List<IrisModelResponse> : Liste des prédictions.
      *
      */
-    public List<IrisModelResponse> getAllIrisModelPrediction();
+    public List<IrisModelResponse> getAllIrisModelPredictions();
 
 
 
@@ -66,7 +66,7 @@ public interface IrisModelService {
      * @throws IOException
      *
      */
-    public boolean generateExcel() throws IOException;
+    public boolean generateExcelFileForPredictions() throws IOException;
 
 
 
@@ -76,7 +76,7 @@ public interface IrisModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean generateCsv();
+    public boolean generateCsvFileForPredictions();
 
 
 
@@ -85,7 +85,7 @@ public interface IrisModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean generateExcelForDataset() throws IOException;
+    public boolean generateExcelFileTemplateForDataset() throws IOException;
 
 
 
@@ -95,7 +95,7 @@ public interface IrisModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean importExcelIrisDataSetFile(MultipartFile file);
+    public boolean importExcelTemplateDataSetFile(MultipartFile file);
 
 
 
@@ -104,7 +104,7 @@ public interface IrisModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean generateCsvForDataset() throws IOException;
+    public boolean generateCsvFileTemplateForDataset() throws IOException;
 
 
 
@@ -114,7 +114,7 @@ public interface IrisModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean importCsvIrisDataSetFile(MultipartFile file);
+    public boolean importCsvTemplateDataSetFile(MultipartFile file);
 
 
 
@@ -124,7 +124,7 @@ public interface IrisModelService {
      * @return String : Message de succès/échec de l'exécution.
      *
      */
-    public String loadAndTrainModel(List<IrisModelResponse> irisDataSet);
+    public String loadDataSetAndTrainModel(List<IrisModelResponse> irisDataSet);
 
 
 
@@ -133,7 +133,7 @@ public interface IrisModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean generateIrisDataSetExcel();
+    public boolean generateExcelFileForIrisDataSet();
 
 
 

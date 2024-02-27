@@ -28,7 +28,7 @@ public interface FaceRecognizerService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean loadTrainingSetZip(MultipartFile imageZip);
+    public boolean loadTrainingDataSetZip(MultipartFile imageZip);
 
 
 
@@ -38,7 +38,7 @@ public interface FaceRecognizerService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean loadValidationSetZip(MultipartFile imageZip);
+    public boolean loadValidationDataSetZip(MultipartFile imageZip);
 
 
 
@@ -93,7 +93,7 @@ public interface FaceRecognizerService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean trainFaceRecognizer();
+    public boolean trainFaceRecognizerModel();
 
 
 
@@ -102,7 +102,7 @@ public interface FaceRecognizerService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean executeFaceRecognizer();
+    public boolean executeFaceRecognizerModel();
 
 
 
@@ -111,7 +111,7 @@ public interface FaceRecognizerService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean validateFaceRecognizer();
+    public boolean validateFaceRecognizerModel();
 
 
 
@@ -157,7 +157,7 @@ public interface FaceRecognizerService {
      * @return List<String> : Liste des modèles.
      *
      */
-    public List<String> getListModele();
+    public List<String> getListModel();
 
 
 

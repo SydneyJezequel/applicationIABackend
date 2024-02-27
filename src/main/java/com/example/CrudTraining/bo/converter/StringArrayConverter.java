@@ -30,12 +30,11 @@ public class StringArrayConverter implements AttributeConverter<String[], String
      */
     @Override
     public String convertToDatabaseColumn(String[] attribute) {
-        // S'il n'y a pas de données :
+        // Si pas de données :
         if (attribute == null || attribute.length == 0) {
             return null;
         }
-
-        // Renvoie de l'attribut String :
+        // Envoi de l'attribut String :
         return String.join(",", attribute);
     }
 
@@ -49,7 +48,7 @@ public class StringArrayConverter implements AttributeConverter<String[], String
      */
     @Override
     public String[] convertToEntityAttribute(String dbData) {
-        // S'il n'y a pas de données :
+        // Si pas de données :
         if (dbData == null || dbData.trim().isEmpty()) {
             return new String[0];
         }
