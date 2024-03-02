@@ -23,7 +23,7 @@ public interface PersonneService {
      * @return List<Personne> : Liste de toutes les Personnes.
      *
      */
-    public List<Personne> getAll();
+    public List<Personne> getAllPersonnes();
 
 
 
@@ -33,7 +33,7 @@ public interface PersonneService {
      * @return personne
      *
      */
-    public Personne getById(Long id);
+    public Personne getPersonneById(Long id);
 
 
 
@@ -43,7 +43,7 @@ public interface PersonneService {
      * @return Personne enregistrée.
      *
      */
-    public Personne create(Personne personne, String photoBase64String);
+    public Personne createPersonne(Personne personne, String photoBase64String);
 
 
 

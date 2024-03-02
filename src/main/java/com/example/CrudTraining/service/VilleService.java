@@ -39,7 +39,7 @@ public interface VilleService {
      * @return List<Ville> : Liste de toutes les villes.
      *
      */
-    public List<Ville> getAll();
+    public List<Ville> getAllVilles();
 
 
 
@@ -49,7 +49,7 @@ public interface VilleService {
      * @return ville
      *
      */
-    public Ville getById(Long id);
+    public Ville getVilleById(Long id);
 
 
 
@@ -59,7 +59,7 @@ public interface VilleService {
      * @return ville
      *
      */
-    public Ville create(Ville ville);
+    public Ville createVille(Ville ville);
 
 
 
@@ -68,7 +68,7 @@ public interface VilleService {
      * @param id de la personne supprimée.
      *
      */
-    public void delete(Long id);
+    public void deleteVille(Long id);
 
 
 

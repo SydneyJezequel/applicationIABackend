@@ -54,28 +54,28 @@ public class VilleServiceImpl implements VilleService {
 
     // ************************** Méthodes ************************** //
     @Override
-    public List<Ville> getAll(){
+    public List<Ville> getAllVilles(){
         return villeRepository.findAll();
     }
 
 
 
     @Override
-    public Ville getById(Long id){
+    public Ville getVilleById(Long id){
         return villeRepository.findVilleById(id);
     }
 
 
 
     @Override
-    public Ville create(Ville ville){
+    public Ville createVille(Ville ville){
         return villeRepository.save(ville);
     }
 
 
 
     @Override
-    public void delete(Long id){
+    public void deleteVille(Long id){
         villeRepository.deleteById(id);
     }
 

@@ -60,8 +60,8 @@ public class VilleController {
      *
      */
     @GetMapping("/all")
-    public List<Ville> getAll(){
-        return villeService.getAll();
+    public List<Ville> getAllVilles(){
+        return villeService.getAllVilles();
     }
 
 
@@ -72,8 +72,8 @@ public class VilleController {
      *
      */
     @GetMapping("/{id}")
-    public Ville getById(@PathVariable("id") Long id){
-        return villeService.getById(id);
+    public Ville getVilleById(@PathVariable("id") Long id){
+        return villeService.getVilleById(id);
     }
 
 
@@ -86,7 +86,7 @@ public class VilleController {
      */
     @PostMapping("/add-ville/")
     public Ville createVille(@RequestBody Ville ville){
-        return villeService.create(ville);
+        return villeService.createVille(ville);
     }
 
 
@@ -99,7 +99,7 @@ public class VilleController {
     @DeleteMapping("/delete/{id}")
     public void deleteVille(@PathVariable("id") Long id)
     {
-        villeService.delete(id);
+        villeService.deleteVille(id);
     }
 
 

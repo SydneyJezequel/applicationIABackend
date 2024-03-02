@@ -51,8 +51,8 @@ public class PersonneController {
      *
      */
     @GetMapping("/all")
-    public List<Personne> getAll(){
-        return personneService.getAll();
+    public List<Personne> getAllPersonnes(){
+        return personneService.getAllPersonnes();
     }
 
 
@@ -64,8 +64,8 @@ public class PersonneController {
      *
      */
     @GetMapping("/{id}")
-    public Personne getById(@PathVariable("id") Long id){
-        return personneService.getById(id);
+    public Personne getPersonneById(@PathVariable("id") Long id){
+        return personneService.getPersonneById(id);
     }
 
 
@@ -78,7 +78,7 @@ public class PersonneController {
      */
     @PostMapping("/add-personne/")
     public Personne createPersonne(@RequestBody PersonneDTO personneDTO){
-        return personneService.create(personneDTO.getPersonne(), personneDTO.getPhotoBase64String());
+        return personneService.createPersonne(personneDTO.getPersonne(), personneDTO.getPhotoBase64String());
     }
 
 

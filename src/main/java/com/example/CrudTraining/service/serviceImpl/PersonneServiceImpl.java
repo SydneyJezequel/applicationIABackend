@@ -57,21 +57,21 @@ public class PersonneServiceImpl implements PersonneService {
 
     // ************************** Méthodes ************************** //
     @Override
-    public List<Personne> getAll(){
+    public List<Personne> getAllPersonnes(){
         return personneRepository.findAll();
     }
 
 
 
     @Override
-    public Personne getById(Long id){
+    public Personne getPersonneById(Long id){
         return personneRepository.findPersonneById(id);
     }
 
 
 
     @Override
-    public Personne create(Personne personne, String photoBase64String){
+    public Personne createPersonne(Personne personne, String photoBase64String){
         // Ajout de la photo sur l'objet Personne :
         personne.setPhoto(decodeBase64(photoBase64String));
         // Sauvegarde en BDD :
