@@ -117,7 +117,7 @@ public class IrisModelController {
 
 
     /**
-     * Méthode qui génère un fichier Csv qui contient les prédictions du modèle.
+     * Méthode qui génère un fichier Csv contenant les prédictions du modèle.
      * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
      * @return boolean : succès/échec de l'exécution.
      *
@@ -138,6 +138,7 @@ public class IrisModelController {
      * Méthode qui génère le fichier Excel de chargement du dataSet d'entrainement.
      * Par défaut, le modèle Random Forest est utilisé sur le dataset de classification du type d'Iris.
      * @return boolean : succès/échec de l'exécution.
+     *
      */
     @GetMapping("/generate-template-excel-dataset")
     public boolean generateExcelFileTemplateForDataset() throws IOException {
@@ -189,6 +190,7 @@ public class IrisModelController {
 
     /**
      * Méthode qui génère le fichier Excel contenant les données du DataSet Iris.
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/generate-iris-dataset-excel")

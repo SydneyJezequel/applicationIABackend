@@ -41,6 +41,7 @@ public class GanModelController {
 
     /**
      * Méthode pour charger le fichier de paramètres du modèle GAN.
+     * Ce fichier est généré lors de l'entrainement du modèle.
      * @param MultipartFile parameterGenFile : Fichier de paramètres du Générateur.
      * @return booléen : succès/échec de l'exécution.
      *
@@ -53,8 +54,8 @@ public class GanModelController {
 
 
     /**
-     * Méthode pour générer des images avec le modèle GAN.
-     * @return booléen : succès/échec de l'exécution.
+     * Méthode qui exécute le modèle GAN pour générer des images.
+     * @return boolean : Opération réussie ou non.
      *
      */
     @GetMapping("/generate-faces")
@@ -66,6 +67,13 @@ public class GanModelController {
 
     /**
      * Méthode pour entrainer le modèle GAN.
+     * @param nbEpochs : nombre d'itération sur l'ensemble du jeu de test.
+     * @param batchSize : taille des lots d'images.
+     * @param lr : taux d'apprentissage.
+     * @param zDim : dimensions de l'Espace Latent.
+     * @param device : hardware utilisé.
+     * @param showStep : étapes affichées.
+     * @param saveStep : étapes sauvegardées.
      * @return booléen : succès/échec de l'exécution.
      *
      */

@@ -82,7 +82,7 @@ public class FaceRecognizerController {
     // *************************** Méthodes pour utiliser le modèle *************************** //
 
     /**
-     * Méthode pour encoder les photos.
+     * Méthode pour encoder les photos et entrainer le modèle.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -106,7 +106,7 @@ public class FaceRecognizerController {
 
 
     /**
-     * Méthode qui exécute le modèle pour reconnaire un visage.
+     * Méthode qui exécute le modèle pour identifier un visage.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -121,6 +121,7 @@ public class FaceRecognizerController {
      * Méthode qui initialise le modèle.
      * Le modèle de reconnaissance utilisé par défaut est le modèle "HOG".
      * @return boolean : succès/échec de l'exécution.
+     *
      */
     @GetMapping("/initialize")
     public boolean initializeFaceRecognizerModel(){
@@ -143,6 +144,7 @@ public class FaceRecognizerController {
 
     /**
      * Méthode qui renvoie la liste des modèles (HOG, CNN).
+     * @return List<String> : liste des modèles.
      *
      */
     @GetMapping("/models-list")

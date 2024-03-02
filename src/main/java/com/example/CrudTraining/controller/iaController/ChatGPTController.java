@@ -42,8 +42,7 @@ public class ChatGPTController {
     // *************************** Méthodes *************************** //
 
     /**
-     * Méthode qui envoie le prompt à l'Api de chatGpt.
-     * Elle renvoie la réponse.
+     * Méthode qui envoie le prompt à l'Api de chatGpt et renvoie sa réponse.
      * @param prompt : Contenu du prompt.
      * @return String : Réponse.
      *
