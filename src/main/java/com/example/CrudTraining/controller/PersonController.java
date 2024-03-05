@@ -1,8 +1,8 @@
 package com.example.CrudTraining.controller;
 
-import com.example.CrudTraining.bo.Personne;
-import com.example.CrudTraining.controller.dto.PersonneDTO;
-import com.example.CrudTraining.service.PersonneService;
+import com.example.CrudTraining.bo.Person;
+import com.example.CrudTraining.controller.dto.PersonDTO;
+import com.example.CrudTraining.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,15 +19,15 @@ import java.util.List;
  *
  */
 @RestController
-@RequestMapping("/api/personne")
-public class PersonneController {
+@RequestMapping("/api/person")
+public class PersonController {
 
 
 
 
 
     // *************************** Attributs *************************** //
-    private final PersonneService personneService;
+    private final PersonService personService;
 
 
 
@@ -35,8 +35,8 @@ public class PersonneController {
 
     // *************************** Constructeur *************************** //
     @Autowired
-    public PersonneController (PersonneService personneService) {
-        this.personneService = personneService;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
 
@@ -47,38 +47,38 @@ public class PersonneController {
 
     /**
      * Méthode qui renvoie toutes les Personnes.
-     * @return List<Personne>
+     * @return List<Person>
      *
      */
     @GetMapping("/all")
-    public List<Personne> getAllPersonnes(){
-        return personneService.getAllPersonnes();
+    public List<Person> getAllPersons(){
+        return personService.getAllPersons();
     }
 
 
 
     /**
      * Méthode qui renvoie une personne.
-     * @param id de la personne.
-     * @return personne
+     * @param id de la person.
+     * @return person
      *
      */
     @GetMapping("/{id}")
-    public Personne getPersonneById(@PathVariable("id") Long id){
-        return personneService.getPersonneById(id);
+    public Person getPersonById(@PathVariable("id") Long id){
+        return personService.getPersonById(id);
     }
 
 
 
     /**
      * Méthode qui enregistre une personne.
-     * @param personneDTO
-     * @return personne
+     * @param personDTO
+     * @return person
      *
      */
-    @PostMapping("/add-personne/")
-    public Personne createPersonne(@RequestBody PersonneDTO personneDTO){
-        return personneService.createPersonne(personneDTO.getPersonne(), personneDTO.getPhotoBase64String());
+    @PostMapping("/add-person/")
+    public Person createPerson(@RequestBody PersonDTO personDTO){
+        return personService.createPerson(personDTO.getPerson(), personDTO.getPhotoBase64String());
     }
 
 
@@ -89,9 +89,9 @@ public class PersonneController {
      *
      */
     @DeleteMapping("/delete/{id}")
-    public void deletePersonne(@PathVariable("id") Long id)
+    public void deletePerson(@PathVariable("id") Long id)
     {
-        personneService.delete(id);
+        personService.delete(id);
     }
 
 
@@ -104,7 +104,7 @@ public class PersonneController {
      */
     @PostMapping("/import/excel/")
     public boolean importExcelFile(@RequestParam("file") MultipartFile file) throws IOException {
-        return personneService.importExcelPersonsFile(file);
+        return personService.importExcelPersonsFile(file);
     }
 
 
@@ -117,7 +117,7 @@ public class PersonneController {
     @GetMapping("/generateExcel")
     public boolean generateExcelFile() {
         try {
-            return personneService.generateExcel();
+            return personService.generateExcel();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -134,7 +134,7 @@ public class PersonneController {
      */
     @PostMapping("/import/csv/")
     public boolean importCsvFile(@RequestParam("file") MultipartFile file) throws IOException {
-        return personneService.importCsvPersonsFile(file);
+        return personService.importCsvPersonsFile(file);
     }
 
 
@@ -147,7 +147,7 @@ public class PersonneController {
     @GetMapping("/generateCsv")
     public boolean generateCsvFile() {
         try {
-            return personneService.generateCsv();
+            return personService.generateCsv();
         } catch (RuntimeException e) {
             e.printStackTrace();
             return false;
@@ -164,7 +164,7 @@ public class PersonneController {
      */
     @GetMapping("/image-base64")
     public String getImagebase64() throws IOException {
-        return personneService.convertToBase64();
+        return personService.convertToBase64();
     }
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
 

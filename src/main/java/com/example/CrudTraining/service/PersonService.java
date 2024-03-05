@@ -1,6 +1,6 @@
 package com.example.CrudTraining.service;
 
-import com.example.CrudTraining.bo.Personne;
+import com.example.CrudTraining.bo.Person;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
@@ -14,16 +14,16 @@ import java.util.List;
  * Service pour manipuler les Personnes.
  *
  */
-public interface PersonneService {
+public interface PersonService {
 
 
 
     /**
      * Service qui renvoie toutes les Personnes.
-     * @return List<Personne> : Liste de toutes les Personnes.
+     * @return List<Person> : Liste de toutes les Personnes.
      *
      */
-    public List<Personne> getAllPersonnes();
+    public List<Person> getAllPersons();
 
 
 
@@ -33,27 +33,27 @@ public interface PersonneService {
      * @return personne
      *
      */
-    public Personne getPersonneById(Long id);
+    public Person getPersonById(Long id);
 
 
 
     /**
      * Méthode qui enregistre une personne.
-     * @param personne, photoBase64String enregistrée.
+     * @param person, photoBase64String enregistrée.
      * @return Personne enregistrée.
      *
      */
-    public Personne createPersonne(Personne personne, String photoBase64String);
+    public Person createPerson(Person person, String photoBase64String);
 
 
 
     /**
      * Méthode qui modifie une personne.
-     * @param personne modifiée.
+     * @param person modifiée.
      * @return personne modifiée.
      *
      */
-    public Personne update (Personne personne);
+    public Person update (Person person);
 
 
 

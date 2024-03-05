@@ -1,8 +1,8 @@
 package com.example.CrudTraining.service.serviceImpl;
 
-import com.example.CrudTraining.bo.Personne;
-import com.example.CrudTraining.repository.PersonneRepository;
-import com.example.CrudTraining.service.PersonneService;
+import com.example.CrudTraining.bo.Person;
+import com.example.CrudTraining.repository.PersonRepository;
+import com.example.CrudTraining.service.PersonService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  *
  */
 @Service
-public class PersonneServiceImpl implements PersonneService {
+public class PersonServiceImpl implements PersonService {
 
 
 
@@ -42,14 +42,14 @@ public class PersonneServiceImpl implements PersonneService {
 
     // ************************** Injection du Repository ************************** //
     @Autowired
-    PersonneRepository personneRepository;
+    PersonRepository personRepository;
 
 
 
 
 
     // ************************** Implémentation des logs ************************** //
-    private static final Logger logger = Logger.getLogger(PersonneServiceImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(PersonServiceImpl.class.getName());
 
 
 
@@ -57,39 +57,39 @@ public class PersonneServiceImpl implements PersonneService {
 
     // ************************** Méthodes ************************** //
     @Override
-    public List<Personne> getAllPersonnes(){
-        return personneRepository.findAll();
+    public List<Person> getAllPersons(){
+        return personRepository.findAll();
     }
 
 
 
     @Override
-    public Personne getPersonneById(Long id){
-        return personneRepository.findPersonneById(id);
+    public Person getPersonById(Long id){
+        return personRepository.findPersonById(id);
     }
 
 
 
     @Override
-    public Personne createPersonne(Personne personne, String photoBase64String){
-        // Ajout de la photo sur l'objet Personne :
-        personne.setPhoto(decodeBase64(photoBase64String));
+    public Person createPerson(Person person, String photoBase64String){
+        // Ajout de la photo sur l'objet Person :
+        person.setPhoto(decodeBase64(photoBase64String));
         // Sauvegarde en BDD :
-        return personneRepository.save(personne);
+        return personRepository.save(person);
     }
 
 
 
     @Override
-    public Personne update (Personne personne){
-        return personneRepository.save(personne);
+    public Person update (Person person){
+        return personRepository.save(person);
     }
 
 
 
     @Override
     public void delete (Long id){
-        personneRepository.deleteById(id);
+        personRepository.deleteById(id);
     }
 
 
@@ -97,35 +97,39 @@ public class PersonneServiceImpl implements PersonneService {
     @Override
     public boolean importExcelPersonsFile(MultipartFile file) throws IOException {
         // Liste de Personnes à intégrer :
-        List<Personne> personnes = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
         try {
-            Workbook workbook = WorkbookFactory.create(file.getInputStream()); // Conversion du fichier en workbook.
-            Sheet dataSheet = workbook.getSheetAt(0); // Récupération de la feuille 1.
-            for (int rowIndex = 1; rowIndex <= dataSheet.getLastRowNum(); rowIndex++) { // On parcourt le fichier.
+            // Création d'un classeur Excel :
+            Workbook workbook = WorkbookFactory.create(file.getInputStream());
+            // Récupération de la 1ere feuille :
+            Sheet dataSheet = workbook.getSheetAt(0);
+            // On parcourt le fichier :
+            for (int rowIndex = 1; rowIndex <= dataSheet.getLastRowNum(); rowIndex++) {
                 Row row = dataSheet.getRow(rowIndex);
                 if (row != null) {
                     // Récupération des valeurs de la cellule :
-                    String nom = row.getCell(0).getStringCellValue();
-                    String prenom = row.getCell(1).getStringCellValue();
-                    Date dateNaissance = row.getCell(2).getDateCellValue();
-                    long noSecuriteSociale = (long) row.getCell(3).getNumericCellValue();
+                    String name = row.getCell(0).getStringCellValue();
+                    String surname = row.getCell(1).getStringCellValue();
+                    Date birth_date = row.getCell(2).getDateCellValue();
+                    long no_social_safety = (long) row.getCell(3).getNumericCellValue();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    // Création d'un objet personne et attribution des valeurs à l'objet :
-                    Personne personne = new Personne();
-                    personne.setNom(nom);
-                    personne.setPrenom(prenom);
-                    personne.setDate_naissance(dateNaissance);
-                    personne.setNo_securite_sociale(noSecuriteSociale);
-                    // Ajout de la personne dans la liste :
-                    personnes.add(personne);
+                    // Création d'un objet Person et attribution des valeurs à l'objet :
+                    Person person = new Person();
+                    person.setName(name);
+                    person.setSurname(surname);
+                    person.setBirth_date(birth_date);
+                    person.setNo_social_safety(no_social_safety);
+                    // Ajout de la person dans la liste :
+                    persons.add(person);
                 }
             }
-            // Enregistrement de la liste des personnes en BDD :
-            personneRepository.saveAll(personnes);
+            // Enregistrement de la liste des persons en BDD :
+            personRepository.saveAll(persons);
             logger.info("Méthode importExcelPersonsFile() exécutée avec succès.");
             return true;
         }
-        catch (IOException e) { // Gestion des erreurs :
+        // Gestion des erreurs :
+        catch (IOException e) {
             logger.warning("Méthode importExcelPersonsFile() en erreur : " + e);
             return false;
         }
@@ -137,38 +141,33 @@ public class PersonneServiceImpl implements PersonneService {
     public boolean generateExcel() throws IOException {
         try {
             // Récupération des données :
-            List<Personne> personnes = personneRepository.findAll();
-
+            List<Person> persons = personRepository.findAll();
             // Création du fichier Excel et la feuille qui contient les données :
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Personnes");
-
             // Création ligne d'en-tête du fichier Excel :
-            Row headerRow = sheet.createRow(0); // La nouvelle ligne fait partie de la feuille du fichier Excel.
+            Row headerRow = sheet.createRow(0);
             headerRow.createCell(0).setCellValue("ID Personne");
             headerRow.createCell(1).setCellValue("Nom");
             headerRow.createCell(2).setCellValue("Prénom");
             headerRow.createCell(3).setCellValue("Date de Naissance");
             headerRow.createCell(4).setCellValue("Numéro de Sécurité Sociale");
-
             // Remplir chaque ligne du fichier Excel avec une Personne :
             int rowNum = 1;
-            for (Personne personne : personnes) {
+            for (Person person : persons) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(personne.getNo_personne());
-                row.createCell(1).setCellValue(personne.getNom());
-                row.createCell(2).setCellValue(personne.getPrenom());
-                row.createCell(3).setCellValue(personne.getDate_naissance().toString());
-                row.createCell(4).setCellValue(personne.getNo_securite_sociale());
+                row.createCell(0).setCellValue(person.getNo_person());
+                row.createCell(1).setCellValue(person.getName());
+                row.createCell(2).setCellValue(person.getSurname());
+                row.createCell(3).setCellValue(person.getBirth_date().toString());
+                row.createCell(4).setCellValue(person.getNo_social_safety());
             }
-
             // Fichier Excel ou sont chargées les données :
             String filePath = "/Users/sjezequel/Desktop/Liste_personnes";
             // Écriture des données dans le fichier Excel :
             try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
             }
-
             workbook.close();
             return true;
         } catch (RuntimeException e)
@@ -188,25 +187,25 @@ public class PersonneServiceImpl implements PersonneService {
             CSVReader csvReader = new CSVReader(reader);
             // Ligne du fichier CSV :
             String[] line;
-            // Liste des personnes à sauvegarder en BDD :
-            List<Personne> personnes = new ArrayList<>();
+            // Liste des persons à sauvegarder en BDD :
+            List<Person> persons = new ArrayList<>();
             // Instance pour formater la date :
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             // Lecture du fichier ligne par ligne :
             while ((line = csvReader.readNext()) != null) {
                 // Création d'un objet Personne :
-                Personne personne = new Personne();
+                Person person = new Person();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date parsedDate = dateFormat.parse(line[0]);
-                personne.setDate_naissance(parsedDate);
-                personne.setNo_securite_sociale(Long.parseLong(line[1]));
-                personne.setNom(line[2]);
-                personne.setPrenom(line[3]);
+                person.setBirth_date(parsedDate);
+                person.setNo_social_safety(Long.parseLong(line[1]));
+                person.setName(line[2]);
+                person.setSurname(line[3]);
                 // Ajout de l'objet Personne à la liste :
-                personnes.add(personne);
+                persons.add(person);
             }
             // Enregistrement de la liste en BDD :
-            personneRepository.saveAll(personnes);
+            personRepository.saveAll(persons);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -222,7 +221,7 @@ public class PersonneServiceImpl implements PersonneService {
     public boolean generateCsv() {
         try {
             // Récupération des données :
-            List<Personne> personnes = personneRepository.findAll();
+            List<Person> persons = personRepository.findAll();
             // Path du fichier CSV ou sont chargées les données :
             String filePath = "/Users/sjezequel/Desktop/Liste_personnes_csv";
             // Création du fichier Csv :
@@ -231,9 +230,9 @@ public class PersonneServiceImpl implements PersonneService {
             String[] header = {"no personne", "date naissance", "no securite sociale", "nom", "prenom"};
             writer.writeNext(header);
             // Injection des données dans le fichier CSV :
-            for(Personne personne : personnes){
-                String no_securite_sociale = String.valueOf(personne.getNo_securite_sociale());
-                String[] ligne = { personne.getNo_personne().toString(), personne.getDate_naissance().toString(), no_securite_sociale, personne.getNom(), personne.getPrenom() };
+            for(Person person : persons){
+                String no_social_safety = String.valueOf(person.getNo_social_safety());
+                String[] ligne = { person.getNo_person().toString(), person.getBirth_date().toString(), no_social_safety, person.getName(), person.getSurname() };
                 writer.writeNext(ligne);
             }
             writer.close();

@@ -1,6 +1,6 @@
 package com.example.CrudTraining.controller.dto;
 
-import com.example.CrudTraining.bo.Personne;
+import com.example.CrudTraining.bo.Person;
 
 
 
@@ -13,7 +13,7 @@ import com.example.CrudTraining.bo.Personne;
  * entre le Frontend et le Backend.
  *
  */
-public class PersonneDTO {
+public class PersonDTO {
 
 
 
@@ -21,7 +21,7 @@ public class PersonneDTO {
 
     // *************************** Attributs *************************** //
 
-    private Personne personne;
+    private Person person;
     private String photoBase64String;
 
 
@@ -30,12 +30,12 @@ public class PersonneDTO {
 
     // *************************** Getter / Setter *************************** //
 
-    public Personne getPersonne() {
-        return personne;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonne(Personne personne) {
-        this.personne = personne;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public String getPhotoBase64String() {

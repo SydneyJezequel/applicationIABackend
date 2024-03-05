@@ -1,6 +1,6 @@
 package com.example.CrudTraining.repository;
 
-import com.example.CrudTraining.bo.Personne;
+import com.example.CrudTraining.bo.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface PersonneRepository extends JpaRepository <Personne, Long> {
+public interface PersonRepository extends JpaRepository <Person, Long> {
 
 
 
@@ -26,8 +26,8 @@ public interface PersonneRepository extends JpaRepository <Personne, Long> {
      * @return Personne.
      *
      */
-    @Query("SELECT p FROM Personne p WHERE p.no_personne = :id")
-    Personne findPersonneById(@Param("id") Long id);
+    @Query("SELECT p FROM Person p WHERE p.no_person = :id")
+    Person findPersonById(@Param("id") Long id);
 
 
 
