@@ -6,7 +6,7 @@ package com.example.CrudTraining.controller.dto;
 
 
 /**
- * DTO utilisé pour mapper la Classe City du Backend avec la classe City du Frontend.
+ * DTO de la Classe City.
  *
  */
 public class CityDTO {

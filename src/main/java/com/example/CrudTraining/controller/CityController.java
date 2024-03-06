@@ -56,8 +56,8 @@ public class CityController {
 
 
     /**
-     * Méthode qui renvoie toutes les Villes.
-     * @return List<City> : liste de toutes les villes.
+     * Méthode qui récupère toutes les Villes.
+     * @return List<CityDTO> : liste de toutes les villes.
      *
      */
     @GetMapping("/all")
@@ -68,7 +68,7 @@ public class CityController {
 
 
     /**
-     * Méthode qui renvoie une Ville.
+     * Méthode qui récupère une Ville.
      * @param Long : id de la ville récupérée.
      * @return City : ville récupérée.
      *
@@ -83,7 +83,7 @@ public class CityController {
     /**
      * Méthode qui enregistre une Ville.
      * @param City : ville enregistrée.
-     * @return City : ville crée.
+     * @return City : ville enregistrée.
      *
      */
     @PostMapping("/add-city/")

@@ -19,8 +19,8 @@ public interface PersonService {
 
 
     /**
-     * Service qui renvoie toutes les Personnes.
-     * @return List<Person> : Liste de toutes les Personnes.
+     * Méthode qui récupère toutes les Personnes.
+     * @return List<Person> : liste des personnes.
      *
      */
     public List<Person> getAllPersons();
@@ -28,9 +28,9 @@ public interface PersonService {
 
 
     /**
-     * Service qui renvoie une Personne.
-     * @param id de la personne renvoyée.
-     * @return personne
+     * Méthode qui récupère une personne.
+     * @param Long : id de la persone récupérée.
+     * @return Person : personne récupérée.
      *
      */
     public Person getPersonById(Long id);
@@ -39,7 +39,8 @@ public interface PersonService {
 
     /**
      * Méthode qui enregistre une personne.
-     * @param person, photoBase64String enregistrée.
+     * @param Person : personne enregistrée.
+     * @param String : photo de la personne enregistrée.
      * @return Personne enregistrée.
      *
      */
@@ -49,8 +50,8 @@ public interface PersonService {
 
     /**
      * Méthode qui modifie une personne.
-     * @param person modifiée.
-     * @return personne modifiée.
+     * @param Person : personne modifiée.
+     * @return Person : personne modifiée.
      *
      */
     public Person update (Person person);
@@ -58,8 +59,8 @@ public interface PersonService {
 
 
     /**
-     * Méthode qui supprime une personne.
-     * @param id de la personne supprimée.
+     * Méthode qui supprime une Personne.
+     * @param Long : id de la personne supprimée.
      *
      */
     public void delete (Long id);
@@ -70,7 +71,7 @@ public interface PersonService {
      * Méthode qui intègre le fichier Excel d'une liste de personne.
      * @param MultipartFile : Contient la liste des personnes au format Excel.
      * @return boolean : succès/échec de l'exécution.
-     * @throws IOException
+     * @throws IOException : Erreur d'intégration du fichier.
      *
      */
     public boolean importExcelPersonsFile(MultipartFile file) throws IOException;
@@ -80,7 +81,7 @@ public interface PersonService {
     /**
      * Méthode qui génère un fichier Excel contenant la liste des personnes en BDD.
      * @return boolean : succès/échec de l'exécution.
-     * @throws IOException
+     * @throws IOException : Erreur de génération du fichier.
      *
      */
     public boolean generateExcel() throws IOException;
@@ -89,7 +90,7 @@ public interface PersonService {
 
     /**
      * Méthode qui intègre le fichier Csv d'une liste de personne.
-     * @param MultipartFile : Contient la liste des personnes au format csv.
+     * @param MultipartFile : Contient la liste des personnes au format Csv.
      * @return boolean : succès/échec de l'exécution.
      *
      */
@@ -108,8 +109,8 @@ public interface PersonService {
 
     /**
      * Méthode pour convertir une String en byte[].
-     * @param image en base64
-     * @return byte[]
+     * @param String : image en base64.
+     * @return byte[] : tableau de byte.
      *
      */
     public byte[] decodeBase64(String base64String);
@@ -118,9 +119,9 @@ public interface PersonService {
 
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     /**
-     * Méthode pour convertir un byte [] en StringBase64
-     * @return String qui contient l'image
-     * @throws IOException
+     * Méthode pour convertir un byte [] en String.
+     * @return String qui contenant l'image.
+     * @throws IOException : Erreur de conversion.
      *
      */
     public String convertToBase64() throws IOException;

@@ -2,7 +2,6 @@ package com.example.CrudTraining.service;
 
 import com.example.CrudTraining.bo.City;
 import com.example.CrudTraining.controller.dto.CityDTO;
-
 import java.util.List;
 
 
@@ -37,7 +36,7 @@ public interface CityService {
 
 
     /**
-     * Méthode qui renvoie toutes les Villes.
+     * Méthode qui récupère toutes les Villes.
      * @return List<City> : liste de toutes les villes.
      *
      */
@@ -46,7 +45,7 @@ public interface CityService {
 
 
     /**
-     * Méthode qui renvoie une Ville.
+     * Méthode qui récupère une Ville.
      * @param Long : id de la ville récupérée.
      * @return City : ville récupérée.
      *
@@ -58,7 +57,7 @@ public interface CityService {
     /**
      * Méthode qui enregistre une Ville.
      * @param City : ville enregistrée.
-     * @return City : ville crée.
+     * @return City : ville enregistrée.
      *
      */
     public City createCity(CityDTO cityDto);
@@ -87,6 +86,7 @@ public interface CityService {
      *
      */
     public City mapCityDTOToCity(CityDTO cityDto);
+
 
 
 

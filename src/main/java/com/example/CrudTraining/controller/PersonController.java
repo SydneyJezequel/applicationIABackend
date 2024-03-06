@@ -46,8 +46,8 @@ public class PersonController {
     // *************************** Méthodes *************************** //
 
     /**
-     * Méthode qui renvoie toutes les Personnes.
-     * @return List<Person>
+     * Méthode qui récupère toutes les Personnes.
+     * @return List<Person> : liste des personnes.
      *
      */
     @GetMapping("/all")
@@ -58,9 +58,9 @@ public class PersonController {
 
 
     /**
-     * Méthode qui renvoie une personne.
-     * @param id de la person.
-     * @return person
+     * Méthode qui récupère une personne.
+     * @param Long : id de la persone récupérée.
+     * @return Person : personne récupérée.
      *
      */
     @GetMapping("/{id}")
@@ -72,8 +72,8 @@ public class PersonController {
 
     /**
      * Méthode qui enregistre une personne.
-     * @param personDTO
-     * @return person
+     * @param personDTO : personne récupérée depuis le front.
+     * @return Person : personne enregistrée.
      *
      */
     @PostMapping("/add-person/")
@@ -85,7 +85,7 @@ public class PersonController {
 
     /**
      * Méthode qui supprime une Personne.
-     * @param id de la personne supprimée.
+     * @param Long : id de la personne supprimée.
      *
      */
     @DeleteMapping("/delete/{id}")
@@ -100,6 +100,7 @@ public class PersonController {
      * Méthode qui intègre le fichier Excel d'une liste de personne.
      * @param MultipartFile : Contient la liste des personnes au format Excel.
      * @return boolean : succès/échec de l'exécution.
+     * @throws IOException : Erreur d'intégration du fichier.
      *
      */
     @PostMapping("/import/excel/")
@@ -128,8 +129,9 @@ public class PersonController {
 
     /**
      * Méthode qui intègre le fichier Csv d'une liste de personne.
-     * @param MultipartFile : Contient la liste des personnes au format csv.
+     * @param MultipartFile : Contient la liste des personnes au format Csv.
      * @return boolean : succès/échec de l'exécution.
+     * @throws IOException : Erreur d'intégration du fichier.
      *
      */
     @PostMapping("/import/csv/")
@@ -141,7 +143,7 @@ public class PersonController {
 
     /**
      * Méthode qui génère un fichier Csv contenant la liste des personnes en BDD.
-     * @return boolean : succès/échec de l'exécution
+     * @return boolean : succès/échec de l'exécution.
      *
      */
     @GetMapping("/generateCsv")
@@ -158,8 +160,9 @@ public class PersonController {
 
     // *************************** TEST RECUPERER UNE IMAGE *************************** //
     /**
-     * Méthode qui génère une String à partir d'un byte[].
-     * @return String qui contient l'image.
+     * Méthode pour convertir un byte [] en String.
+     * @return String qui contenant l'image.
+     * @throws IOException : Erreur de conversion
      *
      */
     @GetMapping("/image-base64")
