@@ -24,7 +24,7 @@ public interface EmbeddingService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean importJsonlDataSetFile(MultipartFile file);
+    public boolean importJsonlTemplateDataSetFile(MultipartFile file);
 
 
 
@@ -33,7 +33,7 @@ public interface EmbeddingService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean loadDataset(SelectDataSet filePath);
+    public boolean loadDataset(SelectDataSet path);
 
 
 

@@ -49,8 +49,8 @@ public class EmbeddingController {
      *
      */
     @PostMapping("/process-jsonl-dataset")
-    public boolean importExcelTemplateDataSetFile(MultipartFile file){
-        return embeddingService.importJsonlDataSetFile(file);
+    public boolean importJsonlTemplateDataSetFile(@RequestParam("file") MultipartFile file){
+        return embeddingService.importJsonlTemplateDataSetFile(file);
     }
 
 
@@ -62,8 +62,8 @@ public class EmbeddingController {
      *
      */
     @GetMapping("/load-dataset")
-    public boolean loadDataset(@RequestBody SelectDataSet filePath){
-        return embeddingService.loadDataset(filePath);
+    public boolean loadDataset(@RequestBody SelectDataSet path){
+        return embeddingService.loadDataset(path);
     }
 
 

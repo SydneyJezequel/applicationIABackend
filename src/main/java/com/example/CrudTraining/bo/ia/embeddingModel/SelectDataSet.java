@@ -16,7 +16,7 @@ public class SelectDataSet {
 
 
     // *************************** Attributs *************************** //
-    private String file_path;
+    private String path;
 
 
 
@@ -27,8 +27,8 @@ public class SelectDataSet {
     public SelectDataSet() {
     }
 
-    public SelectDataSet(String file_path) {
-        this.file_path = file_path;
+    public SelectDataSet(String path) {
+        this.path = path;
     }
 
 
@@ -37,12 +37,12 @@ public class SelectDataSet {
 
     // *************************** Getter / Setter *************************** //
 
-    public String getFilePath() {
-        return file_path;
+    public String getPath() {
+        return path;
     }
 
-    public void setFilePath(String file_path) {
-        this.file_path = file_path;
+    public void setPath(String path) {
+        this.path = path;
     }
 
 
