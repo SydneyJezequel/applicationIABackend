@@ -137,7 +137,7 @@
     </dependencies>
 
 
-<!-- Configuration pour builder le projet -->
+	<!-- Configuration pour builder le projet -->
 	<build>
 		<plugins>
 			<plugin>

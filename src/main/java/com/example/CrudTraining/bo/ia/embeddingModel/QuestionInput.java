@@ -18,6 +18,8 @@ public class QuestionInput {
     // *************************** Attributs *************************** //
     private String question;
 
+    private String category;
+
 
 
 
@@ -26,8 +28,9 @@ public class QuestionInput {
 
     public QuestionInput() {}
 
-    public QuestionInput(String question) {
+    public QuestionInput(String question, String category) {
         this.question = question;
+        this.category = category;
     }
 
 
@@ -42,6 +45,14 @@ public class QuestionInput {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 
