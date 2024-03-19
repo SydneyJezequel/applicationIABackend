@@ -44,7 +44,7 @@ public interface EmbeddingService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean loadFileIntoDataset(SelectDataSet path);
+    public boolean loadFileIntoDataset();
 
 
 
@@ -54,7 +54,7 @@ public interface EmbeddingService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean selectCategory(SelectCategoryDataSet selectCategoryDataSet);
+    public boolean selectCategory(String  selectCategoryDataSet);
 
 
 
@@ -64,7 +64,7 @@ public interface EmbeddingService {
      * @return String : réponse.
      *
      */
-    public String getLlmEmbeddingAnswer(QuestionInput question);
+    public String getLlmEmbeddingAnswer(String question);
 
 
 

@@ -41,7 +41,6 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
     // *************************** Attributs *************************** //
 
-    // ==> REVOIR LES URL (NON : coucou_cest_moi --> OUI : coucou-cest-moi) :
     private final String loadDataSetFileUrl = "http://localhost:8011/process-jsonl-dataset";
     private final String loadDataSetInVectorDbUrl = "http://localhost:8011/load-dataset";
     private final String selectDataByCategoryUrl = "http://localhost:8011/select-category";
@@ -115,7 +114,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
                 logger.info("Le dossier existe déjà.");
             }
             // Charge la photo à identifier dans le dossier :
-            String fileName = "camelia_yvon_jezequel_dataset.jsonl";
+            String fileName = "embedded_file.jsonl";
             Path destinationFilePath = Paths.get(folderPath, fileName);
             try (OutputStream outputStream = Files.newOutputStream(destinationFilePath)) {
                 outputStream.write(file.getBytes());
@@ -132,8 +131,11 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
 
     @Override
-    public boolean loadFileIntoDataset(SelectDataSet path) {
+    public boolean loadFileIntoDataset() {
         try {
+            // Définition du chemin du fichier chargé :
+            SelectDataSet path = new SelectDataSet();
+            path.setPath("/Users/sjezequel/PycharmProjects/EmbeddingDocuments/embedded_file/embedded_file.jsonl");
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -161,15 +163,16 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
 
     @Override
-    public boolean selectCategory(SelectCategoryDataSet selectCategoryDataSet) {
+    public boolean selectCategory(String selectCategoryDataSet) {
         try {
+            // Création de la catégorie :
+            SelectCategoryDataSet selectedCategoryDataSet = new SelectCategoryDataSet();
+            selectedCategoryDataSet.setCategory(selectCategoryDataSet);
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             // Contenu de la requête Http :
-            ObjectMapper objectMapper = new ObjectMapper();
-            String requestBody = objectMapper.writeValueAsString(selectCategoryDataSet);
-            HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
+            HttpEntity<SelectCategoryDataSet> httpEntity = new HttpEntity<>(selectedCategoryDataSet, headers);
             // Exécution de la requête :
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(
@@ -182,7 +185,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
             logger.info("Catégorie sélectionnée.");
             String response = responseEntity.getBody();
             return Boolean.parseBoolean(response);
-        } catch (RuntimeException | JsonProcessingException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
@@ -190,28 +193,23 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
 
     @Override
-    public String
-    getLlmEmbeddingAnswer(QuestionInput question) {
+    public String getLlmEmbeddingAnswer(String question) {
         try {
+            // Création du paramètre envoyé
+            QuestionInput questionInput = new QuestionInput();
+            questionInput.setQuestion(question);
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             // Contenu de la requête Http :
-            ObjectMapper objectMapper = new ObjectMapper();
-            String requestBody = objectMapper.writeValueAsString(question);
-            HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
+            HttpEntity<QuestionInput> httpEntity = new HttpEntity<>(questionInput, headers);
             // Exécution de la requête :
             RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    getLlmEmbeddingAnswerUrl,
-                    HttpMethod.POST,
-                    httpEntity,
-                    String.class
-            );
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(getLlmEmbeddingAnswerUrl, httpEntity, String.class);
             // Récupération de la réponse :
             logger.info("Réponse récupérée.");
             return responseEntity.getBody();
-        } catch (RuntimeException | JsonProcessingException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }

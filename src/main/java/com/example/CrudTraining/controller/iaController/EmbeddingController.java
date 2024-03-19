@@ -77,8 +77,8 @@ public class EmbeddingController {
      *
      */
     @GetMapping("/load-dataset")
-    public boolean loadFileIntoDataset(@RequestBody SelectDataSet path){
-        return embeddingService.loadFileIntoDataset(path);
+    public boolean loadFileIntoDataset(){
+        return embeddingService.loadFileIntoDataset();
     }
 
 
@@ -90,7 +90,7 @@ public class EmbeddingController {
      *
      */
     @PostMapping("/select-category")
-    public boolean selectCategory(@RequestBody SelectCategoryDataSet selectCategoryDataSet){
+    public boolean selectCategory(@RequestBody String selectCategoryDataSet){
         return embeddingService.selectCategory(selectCategoryDataSet);
     }
 
@@ -115,8 +115,8 @@ public class EmbeddingController {
      * @return String : réponse.
      *
      */
-    @GetMapping("/get-llm-embedding-answer")
-    public String getLlmEmbeddingAnswer(@RequestBody QuestionInput question){
+    @PostMapping("/get-llm-embedding-answer")
+    public String getLlmEmbeddingAnswer(@RequestBody String question){
         return embeddingService.getLlmEmbeddingAnswer(question);
     }
 
