@@ -71,6 +71,32 @@ public class EmbeddingController {
 
 
     /**
+     * Méthode qui initialise le dataset par défaut dans la BDD Vectorielle.
+     * Le DataSet par défaut est le DataSet : "camelia_yvon_jezequel_dataset.jsonl".
+     * @return boolean : succès/échec de l'exécution.
+     *
+     */
+    @GetMapping("/load-default-dataset")
+    public boolean initializeDefaultDataset(){
+        return embeddingService.initializeDefaultDataset();
+    }
+
+
+
+    /**
+     * Méthode qui génère un fichier ".jsonl" contenant le dataset par défaut.
+     * Le DataSet par défaut est le DataSet : "camelia_yvon_jezequel_dataset.jsonl".
+     * @return boolean : succès/échec de l'exécution.
+     *
+     */
+    @GetMapping("/generate-jsonl-default-dataset")
+    public boolean generateJsonlFileDefaultDataset(){
+        return embeddingService.generateJsonlFileDefaultDataset();
+    }
+
+
+
+    /**
      * Méthode qui charge le dataset dans la BDD Vectorielle à partir du fichier .jsonl.
      * @param SelectDataSet : filePath
      * @return boolean : succès/échec de l'exécution.

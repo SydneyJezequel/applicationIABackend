@@ -3,6 +3,7 @@ package com.example.CrudTraining.service.iaService;
 import com.example.CrudTraining.bo.ia.embeddingModel.QuestionInput;
 import com.example.CrudTraining.bo.ia.embeddingModel.SelectCategoryDataSet;
 import com.example.CrudTraining.bo.ia.embeddingModel.SelectDataSet;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
@@ -45,6 +46,26 @@ public interface EmbeddingService {
      *
      */
     public boolean loadFileIntoDataset();
+
+
+
+    /**
+     * Méthode qui initialise le dataset par défaut dans la BDD Vectorielle.
+     * Le DataSet par défaut est le DataSet : "camelia_yvon_jezequel_dataset.jsonl".
+     * @return boolean : succès/échec de l'exécution.
+     *
+     */
+    public boolean initializeDefaultDataset();
+
+
+
+    /**
+     * Méthode qui génère un fichier ".jsonl" contenant le dataset par défaut.
+     * Le DataSet par défaut est le DataSet : "camelia_yvon_jezequel_dataset.jsonl".
+     * @return boolean : succès/échec de l'exécution.
+     *
+     */
+    public boolean generateJsonlFileDefaultDataset();
 
 
 

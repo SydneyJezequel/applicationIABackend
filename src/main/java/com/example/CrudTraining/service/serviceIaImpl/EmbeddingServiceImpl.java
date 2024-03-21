@@ -98,9 +98,9 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     public boolean importJsonlTemplateDataSetFile(MultipartFile file) {
         try {
             // Nom du dossier de stockage de l'image :
-            String folderName = "embedded_file";
+            String folderName = "loaded_embedded_file";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/EmbeddingDocuments/" + folderName + "/";
+            String folderPath = "/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/" + folderName + "/";
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
@@ -131,11 +131,11 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
 
     @Override
-    public boolean loadFileIntoDataset() {
+    public boolean initializeDefaultDataset(){
         try {
             // Définition du chemin du fichier chargé :
             SelectDataSet path = new SelectDataSet();
-            path.setPath("/Users/sjezequel/PycharmProjects/EmbeddingDocuments/embedded_file/embedded_file.jsonl");
+            path.setPath("/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/default_dataset/camelia_yvon_jezequel_dataset.jsonl");
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -152,7 +152,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
                     String.class
             );
             // Récupération de la réponse :
-            logger.info("Dataset chargé");
+            logger.info("Dataset par défaut chargé.");
             String response = responseEntity.getBody();
             return Boolean.parseBoolean(response);
         } catch (RuntimeException | JsonProcessingException e) {
@@ -163,6 +163,61 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
 
     @Override
+    public boolean generateJsonlFileDefaultDataset(){
+        try {
+            // Chemin d'origine du fichier :
+            String originFileName = "camelia_yvon_jezequel_dataset.jsonl";
+            String sourcePath = "/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/default_dataset/" + originFileName;
+            // Chemin de destination :
+            String destinationFileName = "camelia_yvon_jezequel_dataset.jsonl";
+            String destinationPath = "/Users/sjezequel/Desktop/" + destinationFileName;
+            // Copie du fichier :
+            Path source = Paths.get(sourcePath);
+            Path destination = Paths.get(destinationPath);
+            Files.copy(source, destination);
+            logger.info("Le fichier a été transféré avec succès.");
+            return true;
+        } catch (Exception e) {
+            logger.info("Une erreur s'est produite lors du transfert du fichier : " + e.getMessage());
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public boolean loadFileIntoDataset() {
+        try {
+            // Définition du chemin du fichier chargé :
+            SelectDataSet path = new SelectDataSet();
+            path.setPath("/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/loaded_embedded_file/embedded_file.jsonl");
+            // En-tête de la requête Http :
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Contenu de la requête Http :
+            ObjectMapper objectMapper = new ObjectMapper();
+            String requestBody = objectMapper.writeValueAsString(path);
+            HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
+            // Exécution de la requête :
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> responseEntity = restTemplate.exchange(
+                    loadDataSetInVectorDbUrl,
+                    HttpMethod.POST,
+                    httpEntity,
+                    String.class
+            );
+            // Récupération de la réponse :
+            logger.info("Dataset chargé.");
+            String response = responseEntity.getBody();
+            return Boolean.parseBoolean(response);
+        } catch (RuntimeException | JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+     @Override
     public boolean selectCategory(String selectCategoryDataSet) {
         try {
             // Création de la catégorie :
