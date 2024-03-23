@@ -42,7 +42,6 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
     // *************************** Attributs *************************** //
 
-
     // Chemins :
     @Value("${embedding.project.new.dataset.template}")
     private String pathGenerateJsonlFileTemplateForDataset;

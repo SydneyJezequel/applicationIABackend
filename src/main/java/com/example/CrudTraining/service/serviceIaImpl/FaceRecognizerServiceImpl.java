@@ -7,6 +7,7 @@ import com.example.CrudTraining.service.iaService.FaceRecognizerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -40,6 +41,29 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
 
     @Autowired
     private FaceRecognizerRepository faceRecognizerRepository;
+
+
+    // Chemins :
+    @Value("${face.recognizer.path.training.dataset.folder}")
+    private String pathLoadTrainingDataSetZip;
+
+    @Value("${face.recognizer.path.validation.dataset.folder}")
+    private String pathLoadValidationDataSetZip;
+
+    @Value("${face.recognizer.path.image.to.identify.folder}")
+    private String pathIdentifyFaceFolder;
+
+    @Value("${face.recognizer.path.image.to.identify}")
+    private String pathIdentifyFace;
+
+    @Value("${face.recognizer.path.output.folder}")
+    private String pathOutputFolder;
+
+    @Value("${face.recognizer.encoding.file.name}")
+    private String encodingFileName;
+
+
+    // Urls :
     private final String urlFaceEncoding = "http://localhost:8009/encode-and-train-dataset";
     private final String urlFaceRecognizing = "http://localhost:8009/recognize-face";
     private final String urlModelValidation = "http://localhost:8009/recognize-face-test";
@@ -60,16 +84,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     @Override
     public boolean loadTrainingDataSetZip(MultipartFile imageZip) {
         try{
-            // Nom du dossier de stockage des images :
-            String folderName = "training";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            String folderPath = pathLoadTrainingDataSetZip;
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
                 try {
                     Files.createDirectories(path);
-                    logger.info("Dossier " + folderName + " créé avec succès !");
+                    logger.info("Dossier 'training' créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -94,16 +116,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     @Override
     public boolean loadValidationDataSetZip(MultipartFile imageZip) {
         try {
-            // Nom du dossier de stockage des images :
-            String folderName = "validation";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            String folderPath = pathLoadValidationDataSetZip;
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
                 try {
                     Files.createDirectories(path);
-                    logger.info("Dossier " + folderName + " créé avec succès !");
+                    logger.info("Dossier 'validation' créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -128,16 +148,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     @Override
     public boolean loadFaceIdentifyFile(MultipartFile faceIdentifyFile){
         try {
-            // Nom du dossier de stockage de l'image :
-            String folderName = "identifyFace";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            String folderPath = pathIdentifyFaceFolder;
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
                 try {
                     Files.createDirectories(path);
-                    logger.info("Dossier " + folderName + " créé avec succès !");
+                    logger.info("Dossier 'identifyFace' créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -283,17 +301,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
     @Override
     public void createEncodingFile() {
         try {
-            // Nom du dossier de stockage des images :
-            String folderName = "output";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/FaceRecognizer/" + folderName;
+            String folderPath = pathOutputFolder;
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
                 try {
                     Files.createDirectories(path);
-                    logger.info("Dossier " + folderName + " créé avec succès !");
-                    logger.info("Fichier encodings.pkl créé vide avec succès!");
+                    logger.info("Dossier 'output' créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier et / ou du fichier encodings.pkl : " + e.getMessage());
                 }
@@ -302,9 +317,14 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
             }
             // Création du fichier encodings.pkl vide :
             try {
-                String filePath = path + "/encodings.pkl";
+                String filePath = path + encodingFileName;
                 Path encodingsPath = Paths.get(filePath);
+                if (Files.exists(encodingsPath)) {
+                    Files.delete(encodingsPath);
+                    logger.info("Fichier 'encodings.pkl' supprimé.");
+                }
                 Files.createFile(encodingsPath);
+                logger.info("Fichier 'encodings.pkl' créé vide avec succès!");
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -320,7 +340,7 @@ public class FaceRecognizerServiceImpl implements FaceRecognizerService {
         try {
             // Attributs :
             String successMessage;
-            String imageLocation = "identifyFace/identifyFace.jpg";
+            String imageLocation = pathIdentifyFace;
             String model = getModel();
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
