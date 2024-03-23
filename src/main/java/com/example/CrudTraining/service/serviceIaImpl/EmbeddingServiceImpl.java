@@ -8,6 +8,7 @@ import com.example.CrudTraining.service.iaService.EmbeddingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -41,6 +42,28 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
     // *************************** Attributs *************************** //
 
+
+    // Chemins :
+    @Value("${embedding.project.new.dataset.template}")
+    private String pathGenerateJsonlFileTemplateForDataset;
+
+    @Value("${embedding.project.new.dataset}")
+    private String pathImportJsonlTemplateDataSetFile;
+
+    @Value("${embedding.project.initialize.default.dataset}")
+    private String pathInitializeDefaultDataset;
+
+    @Value("${embedding.project.generate.default.dataset.origin}")
+    private String pathGenerateDefaultDatasetOrigin;
+
+    @Value("${embedding.project.generate.default.dataset.destination}")
+    private String pathGenerateDefaultDatasetDestination;
+
+    @Value("${embedding.project.load.new.dataset}")
+    private String pathLoadFileIntoDataset;
+
+
+    // Urls :
     private final String loadDataSetFileUrl = "http://localhost:8011/process-jsonl-dataset";
     private final String loadDataSetInVectorDbUrl = "http://localhost:8011/load-dataset";
     private final String selectDataByCategoryUrl = "http://localhost:8011/select-category";
@@ -74,7 +97,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             // Emplacement du fichier généré :
-            String filePath = "/Users/sjezequel/Desktop/Embedding_dataset";
+            String filePath = pathGenerateJsonlFileTemplateForDataset;
 
             // Création d'un BufferedWriter pour écrire dans le fichier :
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -97,16 +120,14 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     @Override
     public boolean importJsonlTemplateDataSetFile(MultipartFile file) {
         try {
-            // Nom du dossier de stockage de l'image :
-            String folderName = "loaded_embedded_file";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/" + folderName + "/";
+            String folderPath = pathImportJsonlTemplateDataSetFile;
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
                 try {
                     Files.createDirectories(path);
-                    logger.info("Dossier " + folderName + " créé avec succès !");
+                    logger.info("Dossier 'loaded_embedded_file' créé avec succès !");
                 } catch (IOException e) {
                     logger.info("Échec de la création du dossier : " + e.getMessage());
                 }
@@ -135,7 +156,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
         try {
             // Définition du chemin du fichier chargé :
             SelectDataSet path = new SelectDataSet();
-            path.setPath("/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/default_dataset/camelia_yvon_jezequel_dataset.jsonl");
+            path.setPath(pathInitializeDefaultDataset);
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -166,11 +187,9 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     public boolean generateJsonlFileDefaultDataset(){
         try {
             // Chemin d'origine du fichier :
-            String originFileName = "camelia_yvon_jezequel_dataset.jsonl";
-            String sourcePath = "/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/default_dataset/" + originFileName;
+            String sourcePath = pathGenerateDefaultDatasetOrigin;
             // Chemin de destination :
-            String destinationFileName = "camelia_yvon_jezequel_dataset.jsonl";
-            String destinationPath = "/Users/sjezequel/Desktop/" + destinationFileName;
+            String destinationPath = pathGenerateDefaultDatasetDestination;
             // Copie du fichier :
             Path source = Paths.get(sourcePath);
             Path destination = Paths.get(destinationPath);
@@ -190,7 +209,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
         try {
             // Définition du chemin du fichier chargé :
             SelectDataSet path = new SelectDataSet();
-            path.setPath("/Users/sjezequel/PycharmProjects/EmbeddingDocuments/resources/loaded_embedded_file/embedded_file.jsonl");
+            path.setPath(pathLoadFileIntoDataset);
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
