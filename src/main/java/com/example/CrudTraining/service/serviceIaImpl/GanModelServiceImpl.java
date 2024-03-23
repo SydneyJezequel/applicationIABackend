@@ -3,6 +3,7 @@ package com.example.CrudTraining.service.serviceIaImpl;
 import com.example.CrudTraining.service.iaService.GanModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,6 +34,17 @@ public class GanModelServiceImpl implements GanModelService {
 
 
     // *************************** Urls pour manipuler le modèle Gan *************************** //
+
+
+    // Chemin :
+    @Value("${gan.model.path.parameters.folder}")
+    private String pathParametersGenFolder;
+
+    @Value("${gan.model.path.parameters.file.name}")
+    private String parametersGenFileName;
+
+
+    // Urls :
     private final String urlGenerateGanImage = "http://localhost:8010/generate-faces";
     private final String urlTrainGanImage = "http://localhost:8010/train-gan-model";
 
@@ -51,10 +63,8 @@ public class GanModelServiceImpl implements GanModelService {
 
     public boolean loadParametersGenFile(MultipartFile parameterGenFile){
         try {
-            // Dossier ou est stocké le fichier de paramètres du Générateur :
-            String folderName = "config";
             // Chemin du dossier :
-            String folderPath = "/Users/sjezequel/PycharmProjects/GanExecution/" + folderName;
+            String folderPath = pathParametersGenFolder;
             Path path = Paths.get(folderPath);
             // Création du dossier :
             if (!Files.exists(path)) {
@@ -68,7 +78,7 @@ public class GanModelServiceImpl implements GanModelService {
                 logger.info("Le dossier existe déjà.");
             }
             // Chargement du fichier de paramètres dans le dossier "/config" :
-            String fileName = "G-latest.pkl";
+            String fileName = parametersGenFileName;
             Path destinationFilePath = Paths.get(folderPath, fileName);
             try (OutputStream outputStream = Files.newOutputStream(destinationFilePath)) {
                 outputStream.write(parameterGenFile.getBytes());
