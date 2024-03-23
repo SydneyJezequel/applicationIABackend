@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -48,6 +49,26 @@ public class IrisModelServiceImpl implements IrisModelService {
 
     @Autowired
     private IrisModelRepository irisModelRepository;
+
+
+    // Chemins :
+    @Value("${iris.model.predictions.path.csv.file}")
+    private String pathIrisModelPredictionsInCsvFile;
+
+    @Value("${iris.model.predictions.path.excel.file}")
+    private String pathIrisModelPredictionsInExcelFile;
+
+    @Value("${iris.model.path.csv.template.to.load.data}")
+    private String pathCsvTemplateToLoadData;
+
+    @Value("${iris.model.path.excel.template.to.load.data}")
+    private String pathExcelTemplateToLoadData;
+
+    @Value("${iris.model.path.initial.dataset.file}")
+    private String pathInitialDatasetFile;
+
+
+    // Urls :
     private final String initializeModelIrisApiUrl = "http://localhost:8008/initialize-model";
     private final String executeModelIrisApiUrl = "http://localhost:8008/predict";
     private final String loadUserPredictionsInModelIrisApiUrl = "http://localhost:8008/load-predict-in-model";
@@ -135,7 +156,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             // Récupération des données en BDD :
             List<IrisModelResponse> irisModelResponses = getAllIrisModelPredictions();
             // Path du fichier Csv :
-            String filePath = "/Users/sjezequel/Desktop/Predictions_classification_iris_csv";
+            String filePath = pathIrisModelPredictionsInCsvFile;
             // Création du fichier Csv :
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));
             // Injection de l'en-tête dans le fichier Csv :
@@ -184,7 +205,7 @@ public class IrisModelServiceImpl implements IrisModelService {
                 row.createCell(5).setCellValue(irisModelResponse.getPrediction());
             }
             // Chemin du Fichier Excel :
-            String filePath = "/Users/sjezequel/Desktop/Predictions_classification_iris";
+            String filePath = pathIrisModelPredictionsInExcelFile;
             // Écriture des données dans le fichier :
             try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
@@ -212,7 +233,7 @@ public class IrisModelServiceImpl implements IrisModelService {
             headerRow.createCell(3).setCellValue("petal width");
             headerRow.createCell(4).setCellValue("prediction");
             // Chemin du Fichier Excel :
-            String filePath = "/Users/sjezequel/Desktop/Iris_new_dataset_excel";
+            String filePath = pathExcelTemplateToLoadData;
             // Écriture de la ligne d'en-tête dans le fichier :
             try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
@@ -274,7 +295,7 @@ public class IrisModelServiceImpl implements IrisModelService {
     public boolean generateCsvFileTemplateForDataset() throws IOException {
         try {
             // Chemin du fichier de template Csv  :
-            String filePath = "/Users/sjezequel/Desktop/iris_new_dataset_csv";
+            String filePath = pathCsvTemplateToLoadData;
             // Création du fichier de template Csv :
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));
             // Injection de la ligne d'en-tête dans le fichier :
@@ -380,7 +401,7 @@ public class IrisModelServiceImpl implements IrisModelService {
                 row.createCell(4).setCellValue(irisModelResponse.getPrediction());
             }
             // Chemin du fichier :
-            String filePath = "/Users/sjezequel/Desktop/iris_dataset";
+            String filePath = pathInitialDatasetFile;
             // Écriture des données dans le fichier :
             try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
