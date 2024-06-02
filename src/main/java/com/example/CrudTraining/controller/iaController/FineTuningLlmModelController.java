@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  *
  */
 @RestController
-@RequestMapping("/api/llm")
+@RequestMapping("/api/ia/llm")
 public class FineTuningLlmModelController {
 
 
