@@ -1,11 +1,12 @@
 package com.example.CrudTraining.controller.iaController;
 
-import com.example.CrudTraining.bo.City;
-import com.example.CrudTraining.controller.dto.CityDTO;
-import com.example.CrudTraining.service.CityService;
 import com.example.CrudTraining.service.iaService.FineTuningModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+
+
+
 
 
 /**
