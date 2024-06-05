@@ -45,25 +45,38 @@ public class FineTuningModelServiceImpl implements FineTuningModelService {
     // ************************** Méthodes ************************** //
 
     @Override
-    public boolean fineTuneModel() {
+    public boolean fineTuneModel(int numEpochs, int trainDatasetSize, int validationDatasetSize, int trainBatchSize, int evalBatchSize) {
         try {
-            // Classe pour manipuler la requête Http :
-            RestTemplate restTemplate = new RestTemplate();
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+            // Contenu de la requête Http :
+            Map<String, Object> requestBodyMap = new HashMap<>();
+            requestBodyMap.put("num_epochs", numEpochs);
+            requestBodyMap.put("train_dataset_size", trainBatchSize);
+            requestBodyMap.put("validation_dataset_size", validationDatasetSize);
+            requestBodyMap.put("train_batch_size", trainBatchSize);
+            requestBodyMap.put("eval_batch_size", evalBatchSize);
+            // Conversion du contenu en JSON :
+            ObjectMapper objectMapper = new ObjectMapper();
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
             // Exécution de la requête Http :
+            RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(
                     urlFineTuneLlm,
-                    HttpMethod.GET,
+                    HttpMethod.POST,
                     httpEntity,
                     String.class
             );
+            // Récupération de la réponse :
+            logger.info(responseEntity.getBody());
             return true;
         } catch (RuntimeException e) {
             logger.info(e.toString());
             return false;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -108,4 +121,43 @@ public class FineTuningModelServiceImpl implements FineTuningModelService {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    public boolean fineTuneModel() {
+        try {
+            // Classe pour manipuler la requête Http :
+            RestTemplate restTemplate = new RestTemplate();
+            // En-tête de la requête Http :
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+            // Exécution de la requête Http :
+            ResponseEntity<String> responseEntity = restTemplate.exchange(
+                    urlFineTuneLlm,
+                    HttpMethod.GET,
+                    httpEntity,
+                    String.class
+            );
+            return true;
+        } catch (RuntimeException e) {
+            logger.info(e.toString());
+            return false;
+        }
+    }
+*/
+
+
 
