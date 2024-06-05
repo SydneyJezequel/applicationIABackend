@@ -45,14 +45,14 @@ public class FineTuningModelServiceImpl implements FineTuningModelService {
     // ************************** Méthodes ************************** //
 
     @Override
-    public boolean fineTuneModel(int numEpochs, int trainDatasetSize, int validationDatasetSize, int trainBatchSize, int evalBatchSize) {
+    public boolean fineTuneModel(int nbEpochs, int trainDatasetSize, int validationDatasetSize, int trainBatchSize, int evalBatchSize) {
         try {
             // En-tête de la requête Http :
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             // Contenu de la requête Http :
             Map<String, Object> requestBodyMap = new HashMap<>();
-            requestBodyMap.put("num_epochs", numEpochs);
+            requestBodyMap.put("num_epochs", nbEpochs);
             requestBodyMap.put("train_dataset_size", trainBatchSize);
             requestBodyMap.put("validation_dataset_size", validationDatasetSize);
             requestBodyMap.put("train_batch_size", trainBatchSize);

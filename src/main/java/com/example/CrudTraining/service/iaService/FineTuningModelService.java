@@ -20,7 +20,7 @@ public interface FineTuningModelService {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    public boolean fineTuneModel(int numEpochs, int trainDatasetSize, int validationDatasetSize, int trainBatchSize, int evalBatchSize);
+    public boolean fineTuneModel(int nbEpochs, int trainDatasetSize, int validationDatasetSize, int trainBatchSize, int evalBatchSize);
 
 
 

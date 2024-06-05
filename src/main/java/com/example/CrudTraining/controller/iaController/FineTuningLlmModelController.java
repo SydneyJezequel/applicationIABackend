@@ -47,13 +47,8 @@ public class FineTuningLlmModelController {
      *
      */
     @GetMapping("/fine-tune-model")
-    public boolean fineTuneModel(){
-        int numEpochs = 5;
-        int trainDatasetSize = 16000;
-        int validationDatasetSize = 4000;
-        int trainBatchSize = 16;
-        int evalBatchSize = 16;
-        return fineTuningModelService.fineTuneModel(numEpochs, trainDatasetSize, validationDatasetSize, trainBatchSize, evalBatchSize);
+    public boolean fineTuneModel(@RequestParam int nbEpochs, @RequestParam int trainDatasetSize, @RequestParam int validationDatasetSize, @RequestParam int trainBatchSize, @RequestParam int evalBatchSize){
+        return fineTuningModelService.fineTuneModel(nbEpochs, trainDatasetSize, validationDatasetSize, trainBatchSize, evalBatchSize);
     }
 
 
