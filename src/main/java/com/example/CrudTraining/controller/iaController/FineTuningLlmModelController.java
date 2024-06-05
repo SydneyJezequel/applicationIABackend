@@ -46,7 +46,7 @@ public class FineTuningLlmModelController {
      * @return boolean : succès/échec de l'exécution.
      *
      */
-    @GetMapping("/fine-tune-model")
+    @PostMapping("/fine-tune-model")
     public boolean fineTuneModel(@RequestParam int nbEpochs, @RequestParam int trainDatasetSize, @RequestParam int validationDatasetSize, @RequestParam int trainBatchSize, @RequestParam int evalBatchSize){
         return fineTuningModelService.fineTuneModel(nbEpochs, trainDatasetSize, validationDatasetSize, trainBatchSize, evalBatchSize);
     }
